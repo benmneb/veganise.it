@@ -7727,7 +7727,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.1.0, hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
+"hoist-non-react-statics@npm:^3.0.0, hoist-non-react-statics@npm:^3.1.0, hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -12539,6 +12539,18 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"react-in-viewport@npm:^1.0.0-alpha.19":
+  version: 1.0.0-alpha.19
+  resolution: "react-in-viewport@npm:1.0.0-alpha.19"
+  dependencies:
+    hoist-non-react-statics: ^3.0.0
+  peerDependencies:
+    react: ^16.8.3 || ^17.0.0
+    react-dom: ^16.8.3 || ^17.0.0
+  checksum: daad57374a4d35a0fd03a4058b6c35081947ac6ff729244998d5ce46ab57855b877fd4105f6d71a29b60d262e1a81c5760f01421952ffd820aa45be3d4417615
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.6.0, react-is@npm:^16.7.0, react-is@npm:^16.8.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -15252,6 +15264,7 @@ resolve@1.18.1:
     eslint-config-react-app: ^6.0.0
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-in-viewport: ^1.0.0-alpha.19
     react-router-dom: ^5.2.0
     react-scripts: 4.0.3
     typed.js: ^2.0.12
