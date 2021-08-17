@@ -38,6 +38,14 @@ export function useTheme() {
 							textTransform: 'none',
 						},
 					},
+					breakpoints: {
+						values: {
+							mobile: 0,
+							tablet: 750,
+							desktop: 1280,
+							hd: 1920,
+						},
+					},
 					shape: {
 						borderRadius: 16,
 					},
@@ -48,7 +56,8 @@ export function useTheme() {
 							},
 						},
 					},
-				})
+				}),
+				{ breakpoints: ['tablet', 'desktop', 'hd'] }
 			),
 		[prefersDarkMode]
 	);
