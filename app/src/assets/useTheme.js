@@ -30,6 +30,12 @@ export function useTheme() {
 						h4: {
 							fontWeight: 800,
 						},
+						h5: {
+							fontWeight: 800,
+						},
+						h6: {
+							fontWeight: 800,
+						},
 						body1: {
 							fontWeight: 600,
 						},
