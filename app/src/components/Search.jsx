@@ -24,10 +24,11 @@ const FormController = styled(FormControl)(({ theme }) => ({
 	},
 	justifyContent: 'center',
 	alignItems: 'center',
-	margin: theme.spacing(-4, 4, 4),
+	margin: theme.spacing(-10, 4, 4),
 }));
 
 const TextField = styled(OutlinedInput)(({ theme }) => ({
+	width: 458,
 	height: 80,
 	fontSize: theme.typography.h3.fontSize,
 	fontWeight: theme.typography.h3.fontWeight,
@@ -70,7 +71,7 @@ const SearchButton = styled(Button)(({ theme }) => ({
 function HideOnScroll(props) {
 	const { children } = props;
 
-	const threshold = (60 / 100) * window.innerHeight;
+	const threshold = (55 / 100) * window.innerHeight;
 
 	const trigger = useScrollTrigger({ threshold });
 
