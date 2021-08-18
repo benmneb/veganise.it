@@ -1,6 +1,6 @@
 import { forwardRef, useState } from 'react';
 
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { Dialog, Fade } from '@material-ui/core';
 
@@ -23,8 +23,6 @@ const Transition = forwardRef((props, ref) => {
 export default function Modal(props) {
 	const [open, setOpen] = useState(props.open);
 
-	const { id } = useParams();
-
 	function handleClose() {
 		setOpen(false);
 	}
@@ -35,8 +33,10 @@ export default function Modal(props) {
 			onClose={handleClose}
 			TransitionComponent={Transition}
 			scroll="body"
+			maxWidth="tablet"
+			fullWidth
 		>
-			<Recipe id={id} />
+			<Recipe />
 		</Dialog>
 	);
 }
