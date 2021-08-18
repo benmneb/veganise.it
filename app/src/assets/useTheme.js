@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useMediaQuery } from '@material-ui/core';
 import { createTheme, responsiveFontSizes } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
+import { green, pink } from '@material-ui/core/colors';
 
 export function useTheme() {
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -13,6 +13,7 @@ export function useTheme() {
 					palette: {
 						mode: prefersDarkMode ? 'dark' : 'light',
 						primary: green,
+						favourite: { main: pink[400] },
 					},
 					typography: {
 						fontFamily: ['Nunito', 'sans-serif'].join(','),
