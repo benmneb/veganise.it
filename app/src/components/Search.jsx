@@ -42,7 +42,7 @@ const TextField = styled(OutlinedInput)(({ theme }) => ({
 	},
 }));
 
-const Box = styled('div')(({ theme }) => ({
+const TextBox = styled('div')(({ theme }) => ({
 	[theme.breakpoints.down('tablet')]: {
 		width: '100%',
 		maxWidth: 458,
@@ -50,6 +50,10 @@ const Box = styled('div')(({ theme }) => ({
 		justifyContent: 'center',
 	},
 }));
+
+const SearchBox = styled(TextBox)({
+	flexShrink: 0,
+});
 
 const SearchButton = styled(Button)(({ theme }) => ({
 	height: 80,
@@ -66,7 +70,9 @@ const SearchButton = styled(Button)(({ theme }) => ({
 function HideOnScroll(props) {
 	const { children } = props;
 
-	const trigger = useScrollTrigger({ threshold: '500' });
+	const threshold = (60 / 100) * window.innerHeight;
+
+	const trigger = useScrollTrigger({ threshold });
 
 	return (
 		<Grow appear={false} direction="down" in={!trigger}>
@@ -127,10 +133,10 @@ function TypedInputs() {
 
 	return (
 		<>
-			<Box>
+			<TextBox>
 				<TextField placeholder={placeholder} inputRef={inputRef} />
-			</Box>
-			<Box>
+			</TextBox>
+			<SearchBox>
 				<SearchButton
 					disableElevation
 					variant="contained"
@@ -138,7 +144,7 @@ function TypedInputs() {
 				>
 					Veganise It!
 				</SearchButton>
-			</Box>
+			</SearchBox>
 		</>
 	);
 }
