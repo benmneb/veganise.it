@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import {
 	styled,
 	Card as MuiCard,
@@ -6,6 +7,8 @@ import {
 	Typography,
 	CardMedia,
 } from '@material-ui/core';
+import { FavoriteBorderRounded } from '@material-ui/icons';
+
 import { useHistory, useLocation } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -13,11 +16,15 @@ const Card = styled(MuiCard)(({ theme }) => ({
 	width: '100%',
 	height: 400,
 	position: 'relative',
-	boxShadow: '0 8px 24px 0 rgba(0,0,0,0.12)',
+	boxShadow: `0 ${theme.spacing()} ${theme.spacing(3)} 0 ${
+		theme.palette.action.focus
+	}`,
 	transition: `${theme.transitions.duration.complex}ms`,
 	'&:hover': {
 		transform: 'translateY(-2px)',
-		boxShadow: '0 16px 24px 0 rgba(0,0,0,0.12)',
+		boxShadow: `0 ${theme.spacing(2)} ${theme.spacing(3)} 0 ${
+			theme.palette.action.focus
+		}`,
 	},
 }));
 
@@ -55,8 +62,16 @@ export default function ResultCard() {
 				>
 					by Tess Begg
 				</Typography>
-				<Typography variant="h6" color="text.secondary" gutterBottom>
-					🤤 x 4
+				<Typography
+					variant="h6"
+					color="text.secondary"
+					component="div"
+					display="flex"
+					justifyContent="center"
+					alignItems="center"
+					gutterBottom
+				>
+					<FavoriteBorderRounded color="favourite" /> x4
 				</Typography>
 			</Content>
 		</Card>
