@@ -73,20 +73,20 @@ export default function Recipe() {
 					<Typography variant="h6" component="h2">
 						by Tessy Begg
 					</Typography>
-					<Tooltip title="Show some love">
-						<IconButton edge="start">
-							<FavoriteBorderRounded color="error" />
+					<Tooltip title="Compliment the chef">
+						<IconButton edge="start" color="favourite">
+							<FavoriteBorderRounded />
 						</IconButton>
 					</Tooltip>
 					x3
 				</Titles>
 				<IconActions>
-					<Tooltip title="Share the love">
+					<Tooltip title="Don't be greedy">
 						<IconButton>
 							<ShareRounded />
 						</IconButton>
 					</Tooltip>
-					<Tooltip title="View original">
+					<Tooltip title="View source">
 						<IconButton>
 							<OpenInNewRounded />
 						</IconButton>
@@ -130,15 +130,15 @@ export default function Recipe() {
 				<Button
 					size="large"
 					color="inherit"
-					startIcon={<FavoriteBorderRounded color="error" />}
+					startIcon={<FavoriteBorderRounded color="favourite" edge="start" />}
 				>
-					LIKE THIS RECIPE
+					COMPLIMENT THE CHEF
 				</Button>
 				<Button size="large" color="inherit" startIcon={<ShareRounded />}>
-					SHARE
+					DON'T BE GREEDY
 				</Button>
 				<Button size="large" color="inherit" startIcon={<OpenInNewRounded />}>
-					VIEW ORIGINAL
+					VIEW SOURCE
 				</Button>
 			</Actions>
 		</DialogContent>
