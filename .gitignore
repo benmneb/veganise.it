@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+#vercel
+*/.vercel
+
 # yarn zero-installs
 */.yarn/*
 */!.yarn/cache
@@ -18,7 +21,7 @@
 /coverage
 
 # production
-/build
+*/build
 
 # misc
 .DS_Store
