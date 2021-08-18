@@ -64,7 +64,10 @@ const Component = forwardRef((props, ref) => {
 			setOffset(window.pageYOffset);
 		}
 
-		window.addEventListener('scroll', handleScroll);
+		window.addEventListener('scroll', handleScroll, {
+			passive: true,
+			once: true,
+		});
 
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
