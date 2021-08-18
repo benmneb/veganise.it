@@ -21,7 +21,7 @@ const BackgroundImage = styled('div')(({ theme }) => ({
 	left: 0,
 	width: '100%',
 	height: '100%',
-	backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 38%, ${theme.palette.background.default} 100%), url(https://picsum.photos/720/480)`,
+	backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${theme.palette.background.default} 100%), url(https://picsum.photos/720/480)`,
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
