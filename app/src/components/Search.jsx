@@ -24,7 +24,7 @@ const FormController = styled(FormControl)(({ theme }) => ({
 	},
 	justifyContent: 'center',
 	alignItems: 'center',
-	margin: theme.spacing(0, 4, 4),
+	margin: theme.spacing(-4, 4, 4),
 }));
 
 const TextField = styled(OutlinedInput)(({ theme }) => ({
@@ -66,7 +66,7 @@ const SearchButton = styled(Button)(({ theme }) => ({
 function HideOnScroll(props) {
 	const { children } = props;
 
-	const trigger = useScrollTrigger({ threshold: '520' });
+	const trigger = useScrollTrigger({ threshold: '500' });
 
 	return (
 		<Grow appear={false} direction="down" in={!trigger}>

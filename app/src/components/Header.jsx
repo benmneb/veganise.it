@@ -21,7 +21,7 @@ const BackgroundImage = styled('div')(({ theme }) => ({
 	left: 0,
 	width: '100%',
 	height: '100%',
-	backgroundImage: 'url(https://picsum.photos/720/480)',
+	backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 38%, ${theme.palette.background.default} 100%), url(https://picsum.photos/720/480)`,
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
@@ -72,17 +72,12 @@ const Component = forwardRef((props, ref) => {
 	}, [offset, inView]);
 
 	return (
-		<Header
-			ref={ref}
-			style={{
-				clipPath: `ellipse(${126 + offset / 2}% 100% at 50% 0%)`,
-			}}
-		>
+		<Header ref={ref}>
 			<BackgroundImage />
 			<HGroup
 				sx={{
 					transform: `translateY(${offset * 0.55}px)`,
-					opacity: `${1 - offset / 500}`,
+					opacity: `${1 - offset / 400}`,
 				}}
 			>
 				<Typography variant="h1">VEGANISE IT</Typography>
