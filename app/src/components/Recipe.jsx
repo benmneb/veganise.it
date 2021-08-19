@@ -1,6 +1,5 @@
 import {
 	Button,
-	DialogActions,
 	DialogContent,
 	DialogTitle,
 	IconButton,
@@ -57,9 +56,18 @@ const Method = styled('div')({
 	width: '50%',
 });
 
-const Actions = styled(DialogActions)(({ theme }) => ({
-	justifyContent: 'center',
-	marginBottom: theme.spacing(-1),
+const Actions = styled('div')(({ theme }) => ({
+	display: 'flex',
+	justifyContent: 'stretch',
+	margin: theme.spacing(1, -3, -2.5, -3),
+	padding: 0,
+}));
+
+const ActionButton = styled(Button)(({ theme }) => ({
+	flex: '1 1 0',
+	margin: 0,
+	padding: theme.spacing(3, 0),
+	borderRadius: 0,
 }));
 
 export default function Recipe() {
@@ -100,7 +108,9 @@ export default function Recipe() {
 			</Header>
 			<Image />
 			<Overview>
-				<Typography variant="h5">About</Typography>
+				<Typography variant="h5" gutterBottom>
+					About
+				</Typography>
 				Nori grape silver beet broccoli kombu beet greens fava bean potato
 				quandong celery. Bunya nuts black-eyed pea prairie turnip leek lentil
 				turnip greens parsnip. Sea lettuce lettuce water chestnut eggplant
@@ -109,7 +119,9 @@ export default function Recipe() {
 			</Overview>
 			<Details>
 				<Ingredients>
-					<Typography variant="h5">Ingredients</Typography>
+					<Typography variant="h5" gutterBottom>
+						Ingredients
+					</Typography>
 					Lorem ipsum dolor amet mustache knausgaard +1, blue bottle waistcoat
 					tbh semiotics artisan synth stumptown gastropub cornhole celiac swag.
 					Brunch raclette vexillologist post-ironic glossier ennui XOXO mlkshk
@@ -117,7 +129,9 @@ export default function Recipe() {
 					twee prism biodiesel brooklyn. Blue bottle ennui tbh succulents.
 				</Ingredients>
 				<Method>
-					<Typography variant="h5">Method</Typography>
+					<Typography variant="h5" gutterBottom>
+						Method
+					</Typography>
 					Lorem Ipsum is the single greatest threat. We are not - we are not
 					keeping up with other websites. Lorem Ipsum best not make any more
 					threats to your website. It will be met with fire and fury like the
@@ -127,19 +141,23 @@ export default function Recipe() {
 				</Method>
 			</Details>
 			<Actions color="inherit">
-				<Button
+				<ActionButton size="large" color="inherit" startIcon={<ShareRounded />}>
+					DON'T BE GREEDY
+				</ActionButton>
+				<ActionButton
 					size="large"
 					color="inherit"
 					startIcon={<FavoriteBorderRounded color="favourite" edge="start" />}
 				>
 					COMPLIMENT THE CHEF
-				</Button>
-				<Button size="large" color="inherit" startIcon={<ShareRounded />}>
-					DON'T BE GREEDY
-				</Button>
-				<Button size="large" color="inherit" startIcon={<OpenInNewRounded />}>
+				</ActionButton>
+				<ActionButton
+					size="large"
+					color="inherit"
+					startIcon={<OpenInNewRounded />}
+				>
 					VIEW SOURCE
-				</Button>
+				</ActionButton>
 			</Actions>
 		</DialogContent>
 	);
