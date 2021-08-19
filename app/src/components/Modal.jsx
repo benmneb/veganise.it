@@ -2,7 +2,7 @@ import { forwardRef, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Dialog, Fade } from '@material-ui/core';
+import { Dialog, Fade, useMediaQuery } from '@material-ui/core';
 
 import { Recipe } from './index';
 
@@ -23,6 +23,8 @@ const Transition = forwardRef((props, ref) => {
 export default function Modal(props) {
 	const [open, setOpen] = useState(props.open);
 
+	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
+
 	function handleClose() {
 		setOpen(false);
 	}
@@ -35,8 +37,9 @@ export default function Modal(props) {
 			scroll="body"
 			maxWidth="tablet"
 			fullWidth
+			fullScreen={mobile}
 		>
-			<Recipe />
+			<Recipe close={handleClose} />
 		</Dialog>
 	);
 }
