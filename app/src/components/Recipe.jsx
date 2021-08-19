@@ -82,7 +82,6 @@ const ActionButton = styled(Button)(({ theme }) => ({
 	margin: 0,
 	padding: theme.spacing(3, 0),
 	borderRadius: 0,
-	textTransform: 'uppercase',
 }));
 
 export default function Recipe(props) {
@@ -201,7 +200,7 @@ export default function Recipe(props) {
 				>
 					Don't be greedy
 				</ActionButton>
-				<LikeButton>Compliment Tessy</LikeButton>
+				<LikeButton>Compliment Tessy!</LikeButton>
 				<ActionButton
 					size="large"
 					color="inherit"
