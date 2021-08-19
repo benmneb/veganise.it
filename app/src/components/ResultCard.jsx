@@ -32,6 +32,12 @@ const Content = styled(CardContent)({
 	textAlign: 'center',
 });
 
+const LikeIcon = styled((props) => (
+	<FavoriteBorderRounded color="success" {...props} />
+))(({ theme }) => ({
+	marginRight: theme.spacing(1),
+}));
+
 export default function ResultCard() {
 	const history = useHistory();
 	const location = useLocation();
@@ -67,7 +73,7 @@ export default function ResultCard() {
 					alignItems="center"
 					gutterBottom
 				>
-					<FavoriteBorderRounded color="favourite" /> 4
+					<LikeIcon /> 4
 				</Typography>
 			</Content>
 		</Card>
