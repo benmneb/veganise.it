@@ -16,15 +16,11 @@ const Card = styled(MuiCard)(({ theme }) => ({
 	width: '100%',
 	height: 400,
 	position: 'relative',
-	boxShadow: `0 ${theme.spacing()} ${theme.spacing(3)} 0 ${
-		theme.palette.action.focus
-	}`,
+	boxShadow: '0 8px 24px 0 rgba(0, 0, 0, 0.12)',
 	transition: `${theme.transitions.duration.complex}ms`,
 	'&:hover': {
 		transform: 'translateY(-2px)',
-		boxShadow: `0 ${theme.spacing(2)} ${theme.spacing(3)} 0 ${
-			theme.palette.action.focus
-		}`,
+		boxShadow: '0 16px 24px 0 rgba(0, 0, 0, 0.12)',
 	},
 }));
 
@@ -71,7 +67,7 @@ export default function ResultCard() {
 					alignItems="center"
 					gutterBottom
 				>
-					<FavoriteBorderRounded color="favourite" /> x4
+					<FavoriteBorderRounded color="favourite" /> 4
 				</Typography>
 			</Content>
 		</Card>
