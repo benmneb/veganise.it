@@ -13,7 +13,7 @@ export function useTheme() {
 					palette: {
 						mode: prefersDarkMode ? 'dark' : 'light',
 						primary: green,
-						favourite: { main: pink[400] },
+						success: { main: pink[400] },
 					},
 					typography: {
 						fontFamily: ['Nunito', 'sans-serif'].join(','),
