@@ -2,16 +2,19 @@ import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import {
 	Facebook,
 	Twitter,
+	Reddit,
 	Pinterest,
 	LinkedIn,
 	ContentCopy,
 } from '@material-ui/icons';
 
 const url = window.location.href;
+const msg = 'Check%20out%20this%20vegan%20recipe!%20%F0%9F%A4%A4';
 const img = 'todo';
 
 const options = [
 	{ name: 'Facebook', icon: <Facebook sx={{ color: '#4267B2' }} /> },
+	{ name: 'Reddit', icon: <Reddit sx={{ color: '#ff4500' }} /> },
 	{ name: 'Twitter', icon: <Twitter sx={{ color: '#1da1f2' }} /> },
 	{ name: 'Pinterest', icon: <Pinterest sx={{ color: '#bd081c' }} /> },
 	{ name: 'LinkedIn', icon: <LinkedIn sx={{ color: '#2867b2' }} /> },
@@ -39,15 +42,21 @@ function handleShare(site) {
 				'_blank',
 				'noopener noreferrer'
 			);
+		case 'Reddit':
+			return window.open(
+				`https://reddit.com/submit?url=${url}&title=${msg}`,
+				'_blank',
+				'noopener noreferrer'
+			);
 		case 'Twitter':
 			return window.open(
-				`https://twitter.com/intent/tweet?url=${url}&text=Check%20out%20this%20vegan%20recipe!%20%F0%9F%A4%A4`,
+				`https://twitter.com/intent/tweet?url=${url}&text=${msg}`,
 				'_blank',
 				'noopener noreferrer'
 			);
 		case 'Pinterest':
 			return window.open(
-				`https://pinterest.com/pin/create/button/?url=${url}&media=${img}&description=Check%20out%20this%20vegan%20recipe!%20%F0%9F%A4%A4`,
+				`https://pinterest.com/pin/create/button/?url=${url}&media=${img}&description=${msg}`,
 				'_blank',
 				'noopener noreferrer'
 			);
