@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import {
 	Button,
 	DialogContent,
@@ -16,6 +18,7 @@ import {
 
 import LikeIconButton from './LikeIconButton';
 import LikeButton from './LikeButton';
+import ShareMenu from './ShareMenu';
 
 const Content = styled(DialogContent)({
 	cursor: 'auto',
@@ -87,6 +90,16 @@ export default function Recipe(props) {
 
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 
+	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
+
+	function openShareMenu(event) {
+		setShareMenuAnchor(event.currentTarget);
+	}
+
+	function closeShareMenu() {
+		setShareMenuAnchor(null);
+	}
+
 	return (
 		<Content>
 			<Header component="header">
@@ -104,7 +117,10 @@ export default function Recipe(props) {
 						title="Don't be greedy"
 						placement={mobile ? 'left' : 'bottom'}
 					>
-						<IconButton size={mobile ? 'medium' : 'large'}>
+						<IconButton
+							size={mobile ? 'medium' : 'large'}
+							onClick={openShareMenu}
+						>
 							<ShareRounded />
 						</IconButton>
 					</Tooltip>
@@ -162,7 +178,12 @@ export default function Recipe(props) {
 				</Method>
 			</Details>
 			<Actions color="inherit">
-				<ActionButton size="large" color="inherit" startIcon={<ShareRounded />}>
+				<ActionButton
+					size="large"
+					color="inherit"
+					startIcon={<ShareRounded />}
+					onClick={openShareMenu}
+				>
 					Don't be greedy
 				</ActionButton>
 				<LikeButton>Compliment Tessy</LikeButton>
@@ -174,6 +195,11 @@ export default function Recipe(props) {
 					View Source
 				</ActionButton>
 			</Actions>
+			<ShareMenu
+				anchor={shareMenuAnchor}
+				open={Boolean(shareMenuAnchor)}
+				close={closeShareMenu}
+			/>
 		</Content>
 	);
 }
