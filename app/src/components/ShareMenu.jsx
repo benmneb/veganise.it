@@ -22,9 +22,9 @@ async function copyLink() {
 	if (navigator.clipboard) {
 		try {
 			await navigator.clipboard.writeText(url);
-			console.log('copied');
+			console.log('Copied to clipboard:', url);
 		} catch (error) {
-			console.error(error.message);
+			console.error('Error copying to clipboard:', error.message);
 		}
 	} else {
 		console.error('Could not access Clipboard API');
