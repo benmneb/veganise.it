@@ -6,13 +6,16 @@ import {
 	styled,
 	Tooltip,
 	Typography,
+	useMediaQuery,
 } from '@material-ui/core';
 import {
 	ShareRounded,
 	OpenInNewRounded,
-	FavoriteBorderRounded,
 	CancelRounded,
 } from '@material-ui/icons';
+
+import LikeIconButton from './LikeIconButton';
+import LikeButton from './LikeButton';
 
 const Header = styled(DialogTitle)({
 	display: 'flex',
@@ -23,10 +26,14 @@ const Titles = styled('div')({
 	flexGrow: 1,
 });
 
-const IconActions = styled('div')({
+const IconActions = styled('div')(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'flex-start',
-});
+	[theme.breakpoints.only('mobile')]: {
+		flexDirection: 'column-reverse',
+		justifyContent: 'flex-end',
+	},
+}));
 
 const Overview = styled('div')(({ theme }) => ({
 	width: '100%',
@@ -34,33 +41,33 @@ const Overview = styled('div')(({ theme }) => ({
 }));
 
 const Image = styled('div')(({ theme }) => ({
-	backgroundImage: `url(https://picsum.photos/720/480)`,
+	backgroundImage: `linear-gradient(180deg, ${theme.palette.background.default} 0%, rgba(0,0,0,0) 100%), url(https://picsum.photos/720/480)`,
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
-	margin: theme.spacing(2, -3),
-	height: 300,
+	margin: theme.spacing(-16, -3, 2),
+	height: 400,
 }));
 
 const Details = styled('div')(({ theme }) => ({
-	display: 'flex',
+	display: 'grid',
+	gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
 	gap: theme.spacing(3),
 	marginBottom: theme.spacing(2),
 }));
 
-const Ingredients = styled('div')({
-	width: '50%',
-});
+const Ingredients = styled('div')({});
 
-const Method = styled('div')({
-	width: '50%',
-});
+const Method = styled('div')({});
 
 const Actions = styled('div')(({ theme }) => ({
 	display: 'flex',
 	justifyContent: 'stretch',
 	margin: theme.spacing(1, -3, -2.5, -3),
 	padding: 0,
+	[theme.breakpoints.only('mobile')]: {
+		flexDirection: 'column',
+	},
 }));
 
 const ActionButton = styled(Button)(({ theme }) => ({
@@ -70,7 +77,11 @@ const ActionButton = styled(Button)(({ theme }) => ({
 	borderRadius: 0,
 }));
 
-export default function Recipe() {
+export default function Recipe(props) {
+	const { close } = props;
+
+	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
+
 	return (
 		<DialogContent>
 			<Header component="header">
@@ -81,26 +92,31 @@ export default function Recipe() {
 					<Typography variant="h6" component="h2">
 						by Tessy Begg
 					</Typography>
-					<Tooltip title="Compliment the chef">
-						<IconButton edge="start" color="favourite">
-							<FavoriteBorderRounded />
-						</IconButton>
-					</Tooltip>
-					x3
+					<LikeIconButton />
 				</Titles>
 				<IconActions>
-					<Tooltip title="Don't be greedy">
-						<IconButton>
+					<Tooltip
+						title="Don't be greedy"
+						placement={mobile ? 'left' : 'bottom'}
+					>
+						<IconButton size={mobile ? 'medium' : 'large'}>
 							<ShareRounded />
 						</IconButton>
 					</Tooltip>
-					<Tooltip title="View source">
-						<IconButton>
+					<Tooltip title="View source" placement={mobile ? 'left' : 'bottom'}>
+						<IconButton size={mobile ? 'medium' : 'large'}>
 							<OpenInNewRounded />
 						</IconButton>
 					</Tooltip>
-					<Tooltip title="Close recipe">
-						<IconButton edge="end">
+					<Tooltip
+						title="Close recipe"
+						placement={mobile ? 'left' : 'bottom-end'}
+					>
+						<IconButton
+							size={mobile ? 'medium' : 'large'}
+							edge="end"
+							onClick={close}
+						>
 							<CancelRounded />
 						</IconButton>
 					</Tooltip>
@@ -109,7 +125,7 @@ export default function Recipe() {
 			<Image />
 			<Overview>
 				<Typography variant="h5" gutterBottom>
-					About
+					💬 About
 				</Typography>
 				Nori grape silver beet broccoli kombu beet greens fava bean potato
 				quandong celery. Bunya nuts black-eyed pea prairie turnip leek lentil
@@ -120,7 +136,7 @@ export default function Recipe() {
 			<Details>
 				<Ingredients>
 					<Typography variant="h5" gutterBottom>
-						Ingredients
+						🛒 Ingredients
 					</Typography>
 					Lorem ipsum dolor amet mustache knausgaard +1, blue bottle waistcoat
 					tbh semiotics artisan synth stumptown gastropub cornhole celiac swag.
@@ -130,7 +146,7 @@ export default function Recipe() {
 				</Ingredients>
 				<Method>
 					<Typography variant="h5" gutterBottom>
-						Method
+						🧑‍🍳 Method
 					</Typography>
 					Lorem Ipsum is the single greatest threat. We are not - we are not
 					keeping up with other websites. Lorem Ipsum best not make any more
@@ -144,13 +160,7 @@ export default function Recipe() {
 				<ActionButton size="large" color="inherit" startIcon={<ShareRounded />}>
 					DON'T BE GREEDY
 				</ActionButton>
-				<ActionButton
-					size="large"
-					color="inherit"
-					startIcon={<FavoriteBorderRounded color="favourite" edge="start" />}
-				>
-					COMPLIMENT THE CHEF
-				</ActionButton>
+				<LikeButton>COMPLIMENT TESSY</LikeButton>
 				<ActionButton
 					size="large"
 					color="inherit"
