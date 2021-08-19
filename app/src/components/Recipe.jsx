@@ -92,8 +92,23 @@ export default function Recipe(props) {
 
 	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
 
-	function openShareMenu(event) {
-		setShareMenuAnchor(event.currentTarget);
+	async function openShareMenu(event) {
+		if (navigator.share) {
+			try {
+				const response = await navigator.share({
+					title: 'Veganise It!',
+					text: 'Check out this vegan recipe! 🤤',
+					url: window.location.href,
+				});
+				console.log('Shared via Web Share API:', response);
+			} catch (error) {
+				if (error.message !== 'Abort due to cancellation of share.') {
+					console.error('Error sharing via Web Share API:', error.message);
+				}
+			}
+		} else {
+			setShareMenuAnchor(event.currentTarget);
+		}
 	}
 
 	function closeShareMenu() {
