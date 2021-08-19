@@ -17,6 +17,10 @@ import {
 import LikeIconButton from './LikeIconButton';
 import LikeButton from './LikeButton';
 
+const Content = styled(DialogContent)({
+	cursor: 'auto',
+});
+
 const Header = styled(DialogTitle)({
 	display: 'flex',
 	padding: 0,
@@ -83,7 +87,7 @@ export default function Recipe(props) {
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 
 	return (
-		<DialogContent>
+		<Content>
 			<Header component="header">
 				<Titles>
 					<Typography variant="h4" component="h1">
@@ -169,6 +173,6 @@ export default function Recipe(props) {
 					VIEW SOURCE
 				</ActionButton>
 			</Actions>
-		</DialogContent>
+		</Content>
 	);
 }

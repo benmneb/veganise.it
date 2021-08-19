@@ -2,7 +2,7 @@ import { forwardRef, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Dialog, Fade, useMediaQuery } from '@material-ui/core';
+import { Dialog, Fade, styled, useMediaQuery } from '@material-ui/core';
 
 import { Recipe } from './index';
 
@@ -20,6 +20,10 @@ const Transition = forwardRef((props, ref) => {
 	);
 });
 
+const RecipeModal = styled(Dialog)({
+	cursor: 'zoom-out',
+});
+
 export default function Modal(props) {
 	const [open, setOpen] = useState(props.open);
 
@@ -30,7 +34,7 @@ export default function Modal(props) {
 	}
 
 	return (
-		<Dialog
+		<RecipeModal
 			open={open}
 			onClose={handleClose}
 			TransitionComponent={Transition}
@@ -40,6 +44,6 @@ export default function Modal(props) {
 			fullScreen={mobile}
 		>
 			<Recipe close={handleClose} />
-		</Dialog>
+		</RecipeModal>
 	);
 }

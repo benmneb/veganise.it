@@ -12,7 +12,7 @@ import { FavoriteBorderRounded } from '@material-ui/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
-	cursor: 'pointer',
+	cursor: 'zoom-in',
 	width: '100%',
 	height: 400,
 	position: 'relative',
