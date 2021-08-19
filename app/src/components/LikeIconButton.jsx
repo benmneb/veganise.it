@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { IconButton, styled, Tooltip, Typography } from '@material-ui/core';
 import { FavoriteBorderRounded, FavoriteRounded } from '@material-ui/icons';
+
+import { compliments } from '../assets';
 
 const Container = styled('div')({
 	display: 'flex',
@@ -12,18 +14,31 @@ const maxLikes = 7;
 
 export default function LikeIconButton() {
 	const [likes, setLikes] = useState(0);
+	const [compliment, setCompliment] = useState(null);
 
 	function handleClick() {
 		if (likes < maxLikes) {
 			setLikes((prev) => prev + 1);
+			setCompliment((prev) => {
+				const others = compliments.filter((comp) => comp !== prev);
+				return others[Math.floor(Math.random() * compliments.length)];
+			});
 		}
 	}
 
-	const title = likes < maxLikes ? `${maxLikes - likes} remaining` : `Thanks!`;
+	useEffect(() => {
+		const clearCompliment = setTimeout(() => {
+			setCompliment(null);
+		}, 3000);
+
+		return () => {
+			clearTimeout(clearCompliment);
+		};
+	}, [compliment]);
 
 	return (
 		<Container>
-			<Tooltip title={title} placement="bottom-start">
+			<Tooltip title="Compliment Tessy!" placement="bottom-start">
 				<IconButton
 					edge="start"
 					color="success"
@@ -33,7 +48,9 @@ export default function LikeIconButton() {
 					{likes >= maxLikes ? <FavoriteRounded /> : <FavoriteBorderRounded />}
 				</IconButton>
 			</Tooltip>
-			<Typography fontWeight={800}>{likes}</Typography>
+			<Typography fontWeight={800}>
+				{compliment ? compliment : likes}
+			</Typography>
 		</Container>
 	);
 }
