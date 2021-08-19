@@ -79,6 +79,7 @@ const ActionButton = styled(Button)(({ theme }) => ({
 	margin: 0,
 	padding: theme.spacing(3, 0),
 	borderRadius: 0,
+	textTransform: 'uppercase',
 }));
 
 export default function Recipe(props) {
@@ -162,15 +163,15 @@ export default function Recipe(props) {
 			</Details>
 			<Actions color="inherit">
 				<ActionButton size="large" color="inherit" startIcon={<ShareRounded />}>
-					DON'T BE GREEDY
+					Don't be greedy
 				</ActionButton>
-				<LikeButton>COMPLIMENT TESSY</LikeButton>
+				<LikeButton>Compliment Tessy</LikeButton>
 				<ActionButton
 					size="large"
 					color="inherit"
 					startIcon={<OpenInNewRounded />}
 				>
-					VIEW SOURCE
+					View Source
 				</ActionButton>
 			</Actions>
 		</Content>

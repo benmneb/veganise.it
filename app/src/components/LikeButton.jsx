@@ -8,6 +8,7 @@ const ActionButton = styled(Button)(({ theme }) => ({
 	margin: 0,
 	padding: theme.spacing(3, 0),
 	borderRadius: 0,
+	textTransform: 'uppercase',
 }));
 
 const maxLikes = 7;
