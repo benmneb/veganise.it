@@ -38,7 +38,7 @@ export default function LikeIconButton() {
 
 	return (
 		<Container>
-			<Tooltip title="Compliment Tessy!" placement="bottom-start">
+			<Tooltip title="Compliment Tessy" placement="bottom-start">
 				<IconButton
 					edge="start"
 					color="success"

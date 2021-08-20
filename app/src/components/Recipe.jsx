@@ -127,10 +127,7 @@ export default function Recipe(props) {
 					<LikeIconButton />
 				</Titles>
 				<IconActions>
-					<Tooltip
-						title="Don't be greedy"
-						placement={mobile ? 'left' : 'bottom'}
-					>
+					<Tooltip title="Feed a friend" placement={mobile ? 'left' : 'bottom'}>
 						<IconButton
 							size={mobile ? 'medium' : 'large'}
 							onClick={openShareMenu}
@@ -198,9 +195,9 @@ export default function Recipe(props) {
 					startIcon={<ShareRounded />}
 					onClick={openShareMenu}
 				>
-					Don't be greedy
+					Feed a friend
 				</ActionButton>
-				<LikeButton>Compliment Tessy!</LikeButton>
+				<LikeButton>Compliment Tessy</LikeButton>
 				<ActionButton
 					size="large"
 					color="inherit"
