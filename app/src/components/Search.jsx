@@ -1,15 +1,10 @@
 import { useEffect, useRef, useMemo } from 'react';
-import {
-	Button,
-	styled,
-	FormControl,
-	OutlinedInput,
-	useScrollTrigger,
-	Grow,
-} from '@material-ui/core/';
+import { Button, styled, FormControl, OutlinedInput } from '@material-ui/core/';
 import { useFormControl } from '@material-ui/core/FormControl';
 
 import Typed from 'typed.js';
+
+import { HideOnScroll } from '../utils';
 
 const FormController = styled(FormControl)(({ theme }) => ({
 	position: 'sticky',
@@ -73,20 +68,6 @@ const SearchButton = styled(Button)(({ theme }) => ({
 		backgroundColor: theme.palette.action.active,
 	},
 }));
-
-function HideOnScroll(props) {
-	const { children } = props;
-
-	const threshold = (55 / 100) * window.innerHeight;
-
-	const trigger = useScrollTrigger({ threshold });
-
-	return (
-		<Grow appear={false} direction="down" in={!trigger}>
-			{children}
-		</Grow>
-	);
-}
 
 function TypedInputs() {
 	const { focused } = useFormControl() || {};
@@ -158,7 +139,7 @@ function TypedInputs() {
 
 export default function Search() {
 	return (
-		<HideOnScroll>
+		<HideOnScroll threshold={(55 / 100) * window.innerHeight}>
 			<FormController component="form">
 				<TypedInputs />
 			</FormController>
