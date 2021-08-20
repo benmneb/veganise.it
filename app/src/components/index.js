@@ -5,3 +5,6 @@ export { default as Recipe } from './Recipe';
 export { default as Results } from './Results';
 export { default as ResultCard } from './ResultCard';
 export { default as Modal } from './Modal';
+export { default as LikeButton } from './LikeButton';
+export { default as LikeIconButton } from './LikeIconButton';
+export { default as ShareMenu } from './ShareMenu';

@@ -16,9 +16,7 @@ import {
 	CancelRounded,
 } from '@material-ui/icons';
 
-import LikeIconButton from './LikeIconButton';
-import LikeButton from './LikeButton';
-import ShareMenu from './ShareMenu';
+import { LikeIconButton, LikeButton, ShareMenu } from './index';
 
 const Content = styled(DialogContent)({
 	cursor: 'auto',
