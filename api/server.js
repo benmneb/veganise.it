@@ -19,9 +19,9 @@ const path = '/';
 
     const typeDefs = gql`
       type Recipe {
-        name: String
-        chef: String
-        chefNickname: String
+        title: String
+        author: String
+        authorNickname: String
         url: String
         likes: Int
         likedBy: [String]
@@ -41,8 +41,7 @@ const path = '/';
     const resolvers = {
       Query: {
         async recipes() {
-          const response = db.collection('recipes').find().toArray();
-          return response;
+          return db.collection('recipes').find().toArray();
         },
       },
     };
