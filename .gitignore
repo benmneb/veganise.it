@@ -16,8 +16,8 @@ todo.txt
 
 # dependencies
 */node_modules
-/.pnp
-.pnp.js
+*/.pnp
+*/.pnp.js
 
 # testing
 /coverage

@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, gql } from 'apollo-server-express';
 
 import express from 'express';
 import cors from 'cors';
@@ -8,36 +8,70 @@ import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
 
-import initDb from './db/index.js';
-import routes from './routes/index.js';
+import connectDatabase from './connectDatabase.js';
 
 const port = process.env.PORT || 5000;
+const path = '/';
 
 (async function () {
-	try {
-		const server = new ApolloServer({ typeDefs, resolvers });
-		await server.start();
+  try {
+    const db = await connectDatabase();
 
-		const api = express();
+    const typeDefs = gql`
+      type Recipe {
+        name: String
+        chef: String
+        chefNickname: String
+        url: String
+        likes: Int
+        likedBy: [String]
+        image: String
+        images: [String]
+        video: String
+        about: String
+        ingredients: [String]
+        method: [String]
+      }
 
-		const limiter = rateLimit({
-			windowMs: 15 * 60 * 1000,
-			max: 100,
-		});
+      type Query {
+        recipes: [Recipe]
+      }
+    `;
 
-		api.use(cors());
-		api.use(helmet());
-		api.use('/', limiter);
-		api.use(express.urlencoded({ extended: true }));
-		api.use(express.json());
-		api.use(mongoSanitize());
-		api.use(xss());
-		api.use(hpp());
+    const resolvers = {
+      Query: {
+        async recipes() {
+          const response = db.collection('recipes').find().toArray();
+          return response;
+        },
+      },
+    };
 
-		await new Promise((resolve) => api.listen({ port }, resolve));
+    const server = new ApolloServer({ typeDefs, resolvers });
+    await server.start();
 
-		console.log(`🚀 Server live at ${server.graphqlPath}`);
-	} catch (error) {
-		console.error('❌ Server connection error:', error.message);
-	}
+    const app = express();
+
+    server.applyMiddleware({ app, path });
+
+    const limiter = rateLimit({
+      windowMs: 15 * 60 * 1000,
+      max: 100,
+    });
+
+    app.use(cors());
+    app.use(helmet());
+    app.use(path, limiter);
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
+    app.use(mongoSanitize());
+    app.use(xss());
+    app.use(hpp());
+
+    await new Promise((resolve) => app.listen({ port }, resolve));
+
+    console.log(`✅ Server live at ${port}${server.graphqlPath}`);
+  } catch (error) {
+    console.error('❌ Server connection error:', error);
+  }
 })();
