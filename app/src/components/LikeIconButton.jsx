@@ -10,6 +10,12 @@ const Container = styled('div')({
 	alignItems: 'center',
 });
 
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+	'&:active': {
+		backgroundColor: 'transparent',
+	},
+}));
+
 const maxLikes = 7;
 
 export default function LikeIconButton() {
@@ -39,14 +45,14 @@ export default function LikeIconButton() {
 	return (
 		<Container>
 			<Tooltip title="Compliment Tessy" placement="bottom-start">
-				<IconButton
+				<StyledIconButton
 					edge="start"
 					color="success"
 					disableRipple={likes >= maxLikes}
 					onClick={handleClick}
 				>
 					{likes >= maxLikes ? <FavoriteRounded /> : <FavoriteBorderRounded />}
-				</IconButton>
+				</StyledIconButton>
 			</Tooltip>
 			<Typography fontWeight={800}>
 				{compliment ? compliment : likes}

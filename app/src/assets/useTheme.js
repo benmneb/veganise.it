@@ -62,6 +62,24 @@ export function useTheme() {
 								disableRipple: true,
 							},
 						},
+						MuiButton: {
+							styleOverrides: {
+								root: {
+									'&:active': {
+										backgroundColor: 'rgba(0, 0, 0, 0.54)',
+									},
+								},
+							},
+						},
+						MuiIconButton: {
+							styleOverrides: {
+								root: {
+									'&:active': {
+										backgroundColor: 'rgba(0, 0, 0, 0.54)',
+									},
+								},
+							},
+						},
 					},
 				}),
 				{ breakpoints: ['tablet', 'desktop', 'hd'] }

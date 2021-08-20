@@ -10,6 +10,9 @@ const ActionButton = styled(Button)(({ theme }) => ({
 	margin: 0,
 	padding: theme.spacing(3, 0, 3, 3),
 	borderRadius: 0,
+	'&:active': {
+		backgroundColor: 'transparent',
+	},
 }));
 
 const TextWrapper = styled('div')({
