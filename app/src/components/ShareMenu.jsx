@@ -8,7 +8,6 @@ import {
 	ContentCopy,
 } from '@material-ui/icons';
 
-const url = window.location.href;
 const msg = 'Check%20out%20this%20vegan%20recipe!%20%F0%9F%A4%A4';
 const img = 'todo';
 
@@ -21,61 +20,63 @@ const options = [
 	{ name: 'Copy Link', icon: <ContentCopy /> },
 ];
 
-async function copyLink() {
-	if (navigator.clipboard) {
-		try {
-			await navigator.clipboard.writeText(url);
-			console.log('Copied to clipboard:', url);
-		} catch (error) {
-			console.error('Error copying to clipboard:', error.message);
-		}
-	} else {
-		console.error('Could not access Clipboard API');
-	}
-}
-
-function handleShare(site) {
-	switch (site) {
-		case 'Facebook':
-			return window.open(
-				`https://www.facebook.com/sharer/sharer.php?u=${url}`,
-				'_blank',
-				'noopener noreferrer'
-			);
-		case 'Reddit':
-			return window.open(
-				`https://reddit.com/submit?url=${url}&title=${msg}`,
-				'_blank',
-				'noopener noreferrer'
-			);
-		case 'Twitter':
-			return window.open(
-				`https://twitter.com/intent/tweet?url=${url}&text=${msg}`,
-				'_blank',
-				'noopener noreferrer'
-			);
-		case 'Pinterest':
-			return window.open(
-				`https://pinterest.com/pin/create/button/?url=${url}&media=${img}&description=${msg}`,
-				'_blank',
-				'noopener noreferrer'
-			);
-		case 'LinkedIn':
-			return window.open(
-				`https://www.linkedin.com/shareArticle?mini=true&url=${url}`,
-				'_blank',
-				'noopener noreferrer'
-			);
-		case 'Copy Link':
-			copyLink();
-			return;
-		default:
-			return null;
-	}
-}
-
 export default function ShareMenu(props) {
 	const { open, close, anchor } = props;
+
+	const url = window.location.href;
+
+	async function copyLink() {
+		if (navigator.clipboard) {
+			try {
+				await navigator.clipboard.writeText(url);
+				console.log('Copied to clipboard:', url);
+			} catch (error) {
+				console.error('Error copying to clipboard:', error.message);
+			}
+		} else {
+			console.error('Could not access Clipboard API');
+		}
+	}
+
+	function handleShare(site) {
+		switch (site) {
+			case 'Facebook':
+				return window.open(
+					`https://www.facebook.com/sharer/sharer.php?u=${url}`,
+					'_blank',
+					'noopener noreferrer'
+				);
+			case 'Reddit':
+				return window.open(
+					`https://reddit.com/submit?url=${url}&title=${msg}`,
+					'_blank',
+					'noopener noreferrer'
+				);
+			case 'Twitter':
+				return window.open(
+					`https://twitter.com/intent/tweet?url=${url}&text=${msg}`,
+					'_blank',
+					'noopener noreferrer'
+				);
+			case 'Pinterest':
+				return window.open(
+					`https://pinterest.com/pin/create/button/?url=${url}&media=${img}&description=${msg}`,
+					'_blank',
+					'noopener noreferrer'
+				);
+			case 'LinkedIn':
+				return window.open(
+					`https://www.linkedin.com/shareArticle?mini=true&url=${url}`,
+					'_blank',
+					'noopener noreferrer'
+				);
+			case 'Copy Link':
+				copyLink();
+				return;
+			default:
+				return null;
+		}
+	}
 
 	return (
 		<Menu
