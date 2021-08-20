@@ -196,13 +196,24 @@ export default function Recipe(props) {
 					Feed a friend
 				</ActionButton>
 				<LikeButton>Compliment Tessy</LikeButton>
-				<ActionButton
-					size="large"
-					color="inherit"
-					startIcon={<OpenInNewRounded />}
-				>
-					View Source
-				</ActionButton>
+				{mobile ? (
+					<ActionButton
+						size="large"
+						color="inherit"
+						startIcon={<CancelRounded />}
+						onClick={close}
+					>
+						Close
+					</ActionButton>
+				) : (
+					<ActionButton
+						size="large"
+						color="inherit"
+						startIcon={<OpenInNewRounded />}
+					>
+						View source
+					</ActionButton>
+				)}
 			</Actions>
 			<ShareMenu
 				anchor={shareMenuAnchor}
