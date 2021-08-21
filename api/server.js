@@ -14,63 +14,62 @@ const port = process.env.PORT || 5000;
 const path = '/';
 
 (async function () {
-  try {
-    const db = await connectDatabase();
+	try {
+		const db = await connectDatabase();
 
-    const typeDefs = gql`
-      type Recipe {
-        title: String
-        author: String
-        authorNickname: String
-        url: String
-        likes: Int
-        likedBy: [String]
-        image: String
-        images: [String]
-        video: String
-        about: String
-        ingredients: [String]
-        method: [String]
-      }
+		const typeDefs = gql`
+			type Recipe {
+				title: String
+				author: String
+				authorNickname: String
+				url: String
+				likes: Int
+				image: String
+				images: [String]
+				video: String
+				about: String
+				ingredients: [String]
+				method: [String]
+			}
 
-      type Query {
-        recipes: [Recipe]
-      }
-    `;
+			type Query {
+				recipes: [Recipe]
+			}
+		`;
 
-    const resolvers = {
-      Query: {
-        async recipes() {
-          return db.collection('recipes').find().toArray();
-        },
-      },
-    };
+		const resolvers = {
+			Query: {
+				async recipes() {
+					return db.collection('recipes').find().toArray();
+				},
+			},
+		};
 
-    const server = new ApolloServer({ typeDefs, resolvers });
-    await server.start();
+		const server = new ApolloServer({ typeDefs, resolvers });
+		await server.start();
 
-    const app = express();
+		const app = express();
 
-    server.applyMiddleware({ app, path });
+		server.applyMiddleware({ app, path });
 
-    const limiter = rateLimit({
-      windowMs: 15 * 60 * 1000,
-      max: 100,
-    });
+		const limiter = rateLimit({
+			windowMs: 15 * 60 * 1000,
+			max: 100,
+		});
 
-    app.use(cors());
-    app.use(helmet());
-    app.use(path, limiter);
-    app.use(express.urlencoded({ extended: true }));
-    app.use(express.json());
-    app.use(mongoSanitize());
-    app.use(xss());
-    app.use(hpp());
+		app.use(cors());
+		app.use(helmet());
+		app.use(path, limiter);
+		app.use(express.urlencoded({ extended: true }));
+		app.use(express.json());
+		app.use(mongoSanitize());
+		app.use(xss());
+		app.use(hpp());
 
-    await new Promise((resolve) => app.listen({ port }, resolve));
+		await new Promise((resolve) => app.listen({ port }, resolve));
 
-    console.log(`✅ Server live at ${port}${server.graphqlPath}`);
-  } catch (error) {
-    console.error('❌ Server connection error:', error);
-  }
+		console.log(`✅ Server live at ${port}${server.graphqlPath}`);
+	} catch (error) {
+		console.error('❌ Server connection error:', error);
+	}
 })();
