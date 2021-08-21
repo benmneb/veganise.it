@@ -8,3 +8,5 @@ export { default as Modal } from './Modal';
 export { default as LikeButton } from './LikeButton';
 export { default as LikeIconButton } from './LikeIconButton';
 export { default as ShareMenu } from './ShareMenu';
+export { default as Caption } from './Caption';
+export { default as Appbar } from './Appbar';

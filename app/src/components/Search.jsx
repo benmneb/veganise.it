@@ -10,7 +10,7 @@ const FormController = styled(FormControl)(({ theme }) => ({
 	position: 'sticky',
 	top: theme.spacing(4),
 	zIndex: theme.zIndex.appBar,
-	backgroundColor: theme.palette.background.paper,
+	backgroundColor: 'transparent',
 	borderRadius: theme.shape.borderRadius,
 	display: 'flex',
 	flexDirection: 'row',
@@ -19,12 +19,13 @@ const FormController = styled(FormControl)(({ theme }) => ({
 	},
 	justifyContent: 'center',
 	alignItems: 'center',
-	margin: theme.spacing(-10, 4, 4),
+	margin: theme.spacing(-7, 4, 4),
 }));
 
 const TextField = styled(OutlinedInput)(({ theme }) => ({
 	width: 458,
 	height: 80,
+	backgroundColor: theme.palette.background.paper,
 	fontSize: theme.typography.h3.fontSize,
 	fontWeight: theme.typography.h3.fontWeight,
 	borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,

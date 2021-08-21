@@ -16,11 +16,11 @@ import {
 	CancelRounded,
 } from '@material-ui/icons';
 
-import { LikeIconButton, LikeButton, ShareMenu } from './index';
+import { LikeIconButton, LikeButton, ShareMenu, Appbar } from './index';
 
-const Content = styled(DialogContent)({
+const Content = styled(DialogContent)(({ theme }) => ({
 	cursor: 'auto',
-});
+}));
 
 const Header = styled(DialogTitle)({
 	display: 'flex',
@@ -83,7 +83,7 @@ const ActionButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function Recipe(props) {
-	const { close } = props;
+	const { close, isInModal } = props;
 
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 
@@ -113,113 +113,120 @@ export default function Recipe(props) {
 	}
 
 	return (
-		<Content>
-			<Header component="header">
-				<Titles>
-					<Typography variant="h4" component="h1">
-						Spag Bog of Glory
-					</Typography>
-					<Typography variant="h6" component="h2">
-						by Tessy Begg
-					</Typography>
-					<LikeIconButton />
-				</Titles>
-				<IconActions>
-					<Tooltip title="Feed a friend" placement={mobile ? 'left' : 'bottom'}>
-						<IconButton
-							size={mobile ? 'medium' : 'large'}
-							onClick={openShareMenu}
+		<>
+			{!isInModal && <Appbar />}
+			<Content>
+				<Header component="header">
+					<Titles>
+						<Typography variant="h4" component="h1">
+							Spag Bog of Glory
+						</Typography>
+						<Typography variant="h6" component="h2">
+							by Tessy Begg
+						</Typography>
+						<LikeIconButton />
+					</Titles>
+					<IconActions>
+						<Tooltip
+							title="Feed a friend"
+							placement={mobile ? 'left' : 'bottom'}
 						>
-							<ShareRounded />
-						</IconButton>
-					</Tooltip>
-					<Tooltip title="View source" placement={mobile ? 'left' : 'bottom'}>
-						<IconButton size={mobile ? 'medium' : 'large'}>
-							<OpenInNewRounded />
-						</IconButton>
-					</Tooltip>
-					<Tooltip
-						title="Close recipe"
-						placement={mobile ? 'left' : 'bottom-end'}
+							<IconButton
+								size={mobile ? 'medium' : 'large'}
+								onClick={openShareMenu}
+							>
+								<ShareRounded />
+							</IconButton>
+						</Tooltip>
+						<Tooltip title="View source" placement={mobile ? 'left' : 'bottom'}>
+							<IconButton size={mobile ? 'medium' : 'large'}>
+								<OpenInNewRounded />
+							</IconButton>
+						</Tooltip>
+						<Tooltip
+							title="Close recipe"
+							placement={mobile ? 'left' : 'bottom-end'}
+						>
+							<IconButton
+								size={mobile ? 'medium' : 'large'}
+								edge="end"
+								onClick={close}
+							>
+								<CancelRounded />
+							</IconButton>
+						</Tooltip>
+					</IconActions>
+				</Header>
+				<Image />
+				<Overview>
+					<Typography variant="h5" gutterBottom>
+						💬 About
+					</Typography>
+					Nori grape silver beet broccoli kombu beet greens fava bean potato
+					quandong celery. Bunya nuts black-eyed pea prairie turnip leek lentil
+					turnip greens parsnip. Sea lettuce lettuce water chestnut eggplant
+					winter purslane fennel azuki bean earthnut pea sierra leone bologi
+					leek soko chicory celtuce parsley jícama salsify.
+				</Overview>
+				<Details>
+					<Ingredients>
+						<Typography variant="h5" gutterBottom>
+							🛒 Ingredients
+						</Typography>
+						Lorem ipsum dolor amet mustache knausgaard +1, blue bottle waistcoat
+						tbh semiotics artisan synth stumptown gastropub cornhole celiac
+						swag. Brunch raclette vexillologist post-ironic glossier ennui XOXO
+						mlkshk godard pour-over blog tumblr humblebrag. Blue bottle put a
+						bird on it twee prism biodiesel brooklyn. Blue bottle ennui tbh
+						succulents.
+					</Ingredients>
+					<Method>
+						<Typography variant="h5" gutterBottom>
+							🧑‍🍳 Method
+						</Typography>
+						Lorem Ipsum is the single greatest threat. We are not - we are not
+						keeping up with other websites. Lorem Ipsum best not make any more
+						threats to your website. It will be met with fire and fury like the
+						world has never seen. Does everybody know that pig named Lorem
+						Ipsum? An ‘extremely credible source’ has called my office and told
+						me that Barack Obama’s placeholder text is a fraud.
+					</Method>
+				</Details>
+				<Actions color="inherit">
+					<ActionButton
+						size="large"
+						color="inherit"
+						startIcon={<ShareRounded />}
+						onClick={openShareMenu}
 					>
-						<IconButton
-							size={mobile ? 'medium' : 'large'}
-							edge="end"
+						Feed a friend
+					</ActionButton>
+					<LikeButton>Compliment Tessy</LikeButton>
+					{mobile ? (
+						<ActionButton
+							size="large"
+							color="inherit"
+							startIcon={<CancelRounded />}
 							onClick={close}
 						>
-							<CancelRounded />
-						</IconButton>
-					</Tooltip>
-				</IconActions>
-			</Header>
-			<Image />
-			<Overview>
-				<Typography variant="h5" gutterBottom>
-					💬 About
-				</Typography>
-				Nori grape silver beet broccoli kombu beet greens fava bean potato
-				quandong celery. Bunya nuts black-eyed pea prairie turnip leek lentil
-				turnip greens parsnip. Sea lettuce lettuce water chestnut eggplant
-				winter purslane fennel azuki bean earthnut pea sierra leone bologi leek
-				soko chicory celtuce parsley jícama salsify.
-			</Overview>
-			<Details>
-				<Ingredients>
-					<Typography variant="h5" gutterBottom>
-						🛒 Ingredients
-					</Typography>
-					Lorem ipsum dolor amet mustache knausgaard +1, blue bottle waistcoat
-					tbh semiotics artisan synth stumptown gastropub cornhole celiac swag.
-					Brunch raclette vexillologist post-ironic glossier ennui XOXO mlkshk
-					godard pour-over blog tumblr humblebrag. Blue bottle put a bird on it
-					twee prism biodiesel brooklyn. Blue bottle ennui tbh succulents.
-				</Ingredients>
-				<Method>
-					<Typography variant="h5" gutterBottom>
-						🧑‍🍳 Method
-					</Typography>
-					Lorem Ipsum is the single greatest threat. We are not - we are not
-					keeping up with other websites. Lorem Ipsum best not make any more
-					threats to your website. It will be met with fire and fury like the
-					world has never seen. Does everybody know that pig named Lorem Ipsum?
-					An ‘extremely credible source’ has called my office and told me that
-					Barack Obama’s placeholder text is a fraud.
-				</Method>
-			</Details>
-			<Actions color="inherit">
-				<ActionButton
-					size="large"
-					color="inherit"
-					startIcon={<ShareRounded />}
-					onClick={openShareMenu}
-				>
-					Feed a friend
-				</ActionButton>
-				<LikeButton>Compliment Tessy</LikeButton>
-				{mobile ? (
-					<ActionButton
-						size="large"
-						color="inherit"
-						startIcon={<CancelRounded />}
-						onClick={close}
-					>
-						Close
-					</ActionButton>
-				) : (
-					<ActionButton
-						size="large"
-						color="inherit"
-						startIcon={<OpenInNewRounded />}
-					>
-						View source
-					</ActionButton>
-				)}
-			</Actions>
-			<ShareMenu
-				anchor={shareMenuAnchor}
-				open={Boolean(shareMenuAnchor)}
-				close={closeShareMenu}
-			/>
-		</Content>
+							Close
+						</ActionButton>
+					) : (
+						<ActionButton
+							size="large"
+							color="inherit"
+							startIcon={<OpenInNewRounded />}
+						>
+							View source
+						</ActionButton>
+					)}
+				</Actions>
+				<ShareMenu
+					anchor={shareMenuAnchor}
+					open={Boolean(shareMenuAnchor)}
+					close={closeShareMenu}
+				/>
+			</Content>
+		</>
 	);
 }

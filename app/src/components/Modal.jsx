@@ -43,7 +43,7 @@ export default function Modal(props) {
 			fullWidth
 			fullScreen={mobile}
 		>
-			<Recipe close={handleClose} />
+			<Recipe close={handleClose} isInModal />
 		</RecipeModal>
 	);
 }

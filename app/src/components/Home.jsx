@@ -1,5 +1,5 @@
-import { styled, Typography } from '@material-ui/core';
-import { Search, Results } from './index';
+import { styled } from '@material-ui/core';
+import { Search, Results, Header, Caption } from './index';
 
 const Main = styled('main')(({ theme }) => ({
 	margin: theme.spacing(4),
@@ -8,23 +8,18 @@ const Main = styled('main')(({ theme }) => ({
 	alignItems: 'center',
 }));
 
-const Caption = styled('div')(({ theme }) => ({
-	textAlign: 'center',
-	maxWidth: 1000,
-	marginBottom: theme.spacing(5),
-}));
-
 export default function Home() {
 	return (
-		<Main>
+		<>
+			<Header />
 			<Search />
 			<Caption>
-				<Typography variant="h4" component="h3">
-					A curated collection of mouth-watering recipes to help you cook the
-					best plant-based meals easier than ever.
-				</Typography>
+				A curated collection of mouth-watering recipes to help you cook the best
+				plant-based meals easier than ever.
 			</Caption>
-			<Results />
-		</Main>
+			<Main>
+				<Results />
+			</Main>
+		</>
 	);
 }

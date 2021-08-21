@@ -3,7 +3,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 
 import { Switch, Route, useLocation } from 'react-router-dom';
 
-import { Header, Home, Results, Recipe, Modal } from './components';
+import { Home, Results, Recipe, Modal } from './components';
 import { useTheme } from './assets';
 
 export default function App() {
@@ -15,7 +15,6 @@ export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<Header />
 			<Switch location={background || location}>
 				<Route exact path="/" children={<Home />} />
 				<Route exact path="/search/:term" children={<Results />} />
