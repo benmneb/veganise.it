@@ -12,12 +12,12 @@ export default function Home() {
 	return (
 		<>
 			<Header />
-			<Search />
-			<Caption>
-				A curated collection of mouth-watering recipes to help you cook the best
-				plant-based meals easier than ever.
-			</Caption>
 			<Main>
+				<Search />
+				<Caption>
+					A curated collection of mouth-watering recipes to help you cook the
+					best plant-based meals easier than ever.
+				</Caption>
 				<Results />
 			</Main>
 		</>
