@@ -8036,6 +8036,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"idb-keyval@npm:^5.1.3":
+  version: 5.1.3
+  resolution: "idb-keyval@npm:5.1.3"
+  dependencies:
+    safari-14-idb-fix: ^1.0.4
+  checksum: c9934b5f56b81cc0806e7a89ef219b8314ef73dbb6f86c4ae4d891f98fc46f35a980f7b94faae3b4b3b8f3616d575782163e2d8dc74ee09aed47a8334db40917
+  languageName: node
+  linkType: hard
+
 "identity-obj-proxy@npm:3.0.0":
   version: 3.0.0
   resolution: "identity-obj-proxy@npm:3.0.0"
@@ -13340,6 +13349,13 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
+"safari-14-idb-fix@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "safari-14-idb-fix@npm:1.0.4"
+  checksum: a9b9b47a86b072a4b933228fa76a6a2df11cdbe9e4018f827f72b68752e8e16420db4d4770dcf743ddfc823003105aa6ef39190f7c35dfba7201750f11232ab9
+  languageName: node
+  linkType: hard
+
 "safe-buffer@npm:5.1.2, safe-buffer@npm:~5.1.0, safe-buffer@npm:~5.1.1":
   version: 5.1.2
   resolution: "safe-buffer@npm:5.1.2"
@@ -15279,6 +15295,7 @@ resolve@1.18.1:
     "@testing-library/react": ^11.1.0
     "@testing-library/user-event": ^12.1.10
     eslint-config-react-app: ^6.0.0
+    idb-keyval: ^5.1.3
     react: ^17.0.2
     react-dom: ^17.0.2
     react-in-viewport: ^1.0.0-alpha.19

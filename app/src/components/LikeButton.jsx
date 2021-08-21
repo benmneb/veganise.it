@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { useParams } from 'react-router';
+
 import { Button, styled } from '@material-ui/core';
 import { FavoriteBorderRounded, FavoriteRounded } from '@material-ui/icons';
 
 import { compliments } from '../assets';
+import { get, update } from '../utils';
 
 const ActionButton = styled(Button)(({ theme }) => ({
 	flex: '1 1 0',
@@ -27,26 +30,36 @@ export default function LikeButton(props) {
 
 	const [likes, setLikes] = useState(0);
 	const [compliment, setCompliment] = useState(null);
+	const { id } = useParams();
 
 	function handleClick() {
 		if (likes < maxLikes) {
-			setLikes((prev) => prev + 1);
-			setCompliment((prev) => {
-				const others = compliments.filter((comp) => comp !== prev);
-				return others[Math.floor(Math.random() * compliments.length)];
-			});
+			update(id, (val) => (val || 0) + 1)
+				.then(() => console.log('set!'))
+				.catch((err) => console.error('error updating:', err));
+			setCompliment(
+				(prev) =>
+					compliments.filter((comp) => comp !== prev)[
+						Math.floor(Math.random() * compliments.length)
+					]
+			);
 		}
 	}
 
 	useEffect(() => {
-		const timeout = setTimeout(() => {
+		const clearCompliment = setTimeout(() => {
 			setCompliment(null);
 		}, 3000);
 
+		get(id).then((val) => {
+			console.log('got:', val);
+			if (val) setLikes(val);
+		});
+
 		return () => {
-			clearTimeout(timeout);
+			clearTimeout(clearCompliment);
 		};
-	}, [compliment]);
+	}, [compliment, id]);
 
 	return (
 		<ActionButton
