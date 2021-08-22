@@ -11,6 +11,8 @@ import { FavoriteBorderRounded } from '@material-ui/icons';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
+import { sessionLikesVar } from '../cache';
+
 const Card = styled(MuiCard)(({ theme }) => ({
 	cursor: 'zoom-in',
 	width: '100%',
@@ -38,13 +40,15 @@ const LikeIcon = styled((props) => (
 	marginRight: theme.spacing(1),
 }));
 
-export default function ResultCard() {
+export default function ResultCard(props) {
+	const { recipe } = props;
+
 	const history = useHistory();
 	const location = useLocation();
 
 	function handleClick() {
 		return history.push({
-			pathname: '/recipe/123',
+			pathname: `/recipe/${recipe._id}`,
 			state: { background: location },
 		});
 	}
@@ -54,7 +58,7 @@ export default function ResultCard() {
 			<Media image="https://picsum.photos/320/" />
 			<Content>
 				<Typography variant="h5" component="h1" fontWeight="bold" gutterBottom>
-					Spaghetti Bolognese v3
+					{recipe.title}
 				</Typography>
 				<Typography
 					variant="h6"
@@ -62,7 +66,7 @@ export default function ResultCard() {
 					color="text.secondary"
 					gutterBottom
 				>
-					by Tess Begg
+					by {recipe.author}
 				</Typography>
 				<Typography
 					variant="h6"
@@ -73,7 +77,10 @@ export default function ResultCard() {
 					alignItems="center"
 					gutterBottom
 				>
-					<LikeIcon /> 4
+					<LikeIcon />{' '}
+					{sessionLikesVar()[recipe._id] !== undefined
+						? recipe.likes + sessionLikesVar()[recipe._id]
+						: recipe.likes}
 				</Typography>
 			</Content>
 		</Card>

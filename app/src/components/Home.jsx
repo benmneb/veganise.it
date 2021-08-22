@@ -1,4 +1,5 @@
 import { styled } from '@material-ui/core';
+
 import { Search, Results, Header, Caption } from './index';
 
 const Main = styled('main')(({ theme }) => ({

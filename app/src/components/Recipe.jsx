@@ -1,5 +1,9 @@
 import { useState } from 'react';
 
+import { useParams } from 'react-router';
+
+import { gql, useQuery } from '@apollo/client';
+
 import {
 	Button,
 	DialogContent,
@@ -82,14 +86,35 @@ const ActionButton = styled(Button)(({ theme }) => ({
 	borderRadius: 0,
 }));
 
+const GET_RECIPE = gql`
+	query Recipe($id: String!) {
+		recipe(id: $id) {
+			title
+			author
+			authorNickname
+			likes
+			url
+			about
+			ingredients
+			method
+		}
+	}
+`;
+
 export default function Recipe(props) {
 	const { close, isInModal } = props;
 
+	const { id } = useParams();
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
-
 	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
+	const { error, loading, data } = useQuery(GET_RECIPE, {
+		variables: { id },
+	});
 
-	async function openShareMenu(event) {
+	if (loading) return 'Loading...';
+	if (error) return `Error: ${error.message}`;
+
+	async function handleShare(event) {
 		if (navigator.share) {
 			try {
 				const response = await navigator.share({
@@ -112,6 +137,14 @@ export default function Recipe(props) {
 		setShareMenuAnchor(null);
 	}
 
+	function handleViewSource() {
+		return window.open(
+			`${data.recipe.url}?ref=veganise.it`,
+			'_blank',
+			'noopener'
+		);
+	}
+
 	return (
 		<>
 			{!isInModal && <Appbar />}
@@ -119,12 +152,12 @@ export default function Recipe(props) {
 				<Header component="header">
 					<Titles>
 						<Typography variant="h4" component="h1">
-							Spag Bog of Glory
+							{data.recipe.title}
 						</Typography>
 						<Typography variant="h6" component="h2">
-							by Tessy Begg
+							by {data.recipe.author}
 						</Typography>
-						<LikeIconButton />
+						<LikeIconButton initialLikes={data.recipe.likes} />
 					</Titles>
 					<IconActions>
 						<Tooltip
@@ -133,13 +166,16 @@ export default function Recipe(props) {
 						>
 							<IconButton
 								size={mobile ? 'medium' : 'large'}
-								onClick={openShareMenu}
+								onClick={handleShare}
 							>
 								<ShareRounded />
 							</IconButton>
 						</Tooltip>
 						<Tooltip title="View source" placement={mobile ? 'left' : 'bottom'}>
-							<IconButton size={mobile ? 'medium' : 'large'}>
+							<IconButton
+								size={mobile ? 'medium' : 'large'}
+								onClick={handleViewSource}
+							>
 								<OpenInNewRounded />
 							</IconButton>
 						</Tooltip>
@@ -162,34 +198,20 @@ export default function Recipe(props) {
 					<Typography variant="h5" gutterBottom>
 						💬 About
 					</Typography>
-					Nori grape silver beet broccoli kombu beet greens fava bean potato
-					quandong celery. Bunya nuts black-eyed pea prairie turnip leek lentil
-					turnip greens parsnip. Sea lettuce lettuce water chestnut eggplant
-					winter purslane fennel azuki bean earthnut pea sierra leone bologi
-					leek soko chicory celtuce parsley jícama salsify.
+					{data.recipe.about}
 				</Overview>
 				<Details>
 					<Ingredients>
 						<Typography variant="h5" gutterBottom>
 							🛒 Ingredients
 						</Typography>
-						Lorem ipsum dolor amet mustache knausgaard +1, blue bottle waistcoat
-						tbh semiotics artisan synth stumptown gastropub cornhole celiac
-						swag. Brunch raclette vexillologist post-ironic glossier ennui XOXO
-						mlkshk godard pour-over blog tumblr humblebrag. Blue bottle put a
-						bird on it twee prism biodiesel brooklyn. Blue bottle ennui tbh
-						succulents.
+						{data.recipe.ingredients}
 					</Ingredients>
 					<Method>
 						<Typography variant="h5" gutterBottom>
 							🧑‍🍳 Method
 						</Typography>
-						Lorem Ipsum is the single greatest threat. We are not - we are not
-						keeping up with other websites. Lorem Ipsum best not make any more
-						threats to your website. It will be met with fire and fury like the
-						world has never seen. Does everybody know that pig named Lorem
-						Ipsum? An ‘extremely credible source’ has called my office and told
-						me that Barack Obama’s placeholder text is a fraud.
+						{data.recipe.method}
 					</Method>
 				</Details>
 				<Actions color="inherit">
@@ -197,11 +219,11 @@ export default function Recipe(props) {
 						size="large"
 						color="inherit"
 						startIcon={<ShareRounded />}
-						onClick={openShareMenu}
+						onClick={handleShare}
 					>
 						Feed a friend
 					</ActionButton>
-					<LikeButton>Compliment Tessy</LikeButton>
+					<LikeButton>Compliment {data.recipe.authorNickname}</LikeButton>
 					{mobile ? (
 						<ActionButton
 							size="large"
@@ -216,6 +238,7 @@ export default function Recipe(props) {
 							size="large"
 							color="inherit"
 							startIcon={<OpenInNewRounded />}
+							onClick={handleViewSource}
 						>
 							View source
 						</ActionButton>

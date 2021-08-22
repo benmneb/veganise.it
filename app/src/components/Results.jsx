@@ -1,4 +1,7 @@
 import { styled } from '@material-ui/core';
+
+import { gql, useQuery } from '@apollo/client';
+
 import { ResultCard } from './index';
 
 const Grid = styled('section')(({ theme }) => ({
@@ -12,11 +15,27 @@ const Grid = styled('section')(({ theme }) => ({
 	userSelect: 'none',
 }));
 
+const GET_RECIPES = gql`
+	query Recipes {
+		recipes {
+			_id
+			title
+			author
+			likes
+		}
+	}
+`;
+
 export default function Results() {
+	const { loading, error, data } = useQuery(GET_RECIPES);
+
+	if (loading) return 'Loading...';
+	if (error) return `Error: ${error.message}`;
+
 	return (
 		<Grid>
-			{[...Array(8)].map((_, i) => (
-				<ResultCard key={i} />
+			{data?.recipes.map((recipe) => (
+				<ResultCard key={recipe._id} recipe={recipe} />
 			))}
 		</Grid>
 	);

@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { useParams } from 'react-router';
+
+import { gql, useMutation, useReactiveVar } from '@apollo/client';
 
 import { IconButton, styled, Tooltip, Typography } from '@material-ui/core';
 import { FavoriteBorderRounded, FavoriteRounded } from '@material-ui/icons';
 
 import { compliments } from '../assets';
 import { get, update } from '../utils';
+import { sessionLikesVar, indexedDbLikesVar } from '../cache';
 
 const Container = styled('div')({
 	display: 'flex',
@@ -19,18 +22,42 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 	},
 }));
 
-const maxLikes = 7;
+const maxPossibleLikes = 7;
 
-export default function LikeIconButton() {
-	const [likes, setLikes] = useState(0);
-	const [compliment, setCompliment] = useState(null);
+const ADD_LIKE = gql`
+	mutation Like($id: String!) {
+		like(id: $id) {
+			likes
+		}
+	}
+`;
+
+export default function LikeIconButton(props) {
+	const { initialLikes } = props;
+
 	const { id } = useParams();
+	const [like] = useMutation(ADD_LIKE);
+	const [compliment, setCompliment] = useState(null);
+
+	const sessionLikes = useReactiveVar(sessionLikesVar)[id];
+	const indexedDbLikes = useReactiveVar(indexedDbLikesVar)[id];
+	const indexedDbLikesRef = useRef(undefined);
 
 	function handleClick() {
-		if (likes < maxLikes) {
+		if ((indexedDbLikes || 0) < maxPossibleLikes) {
+			// add to mongo via graphQL for long term storage
+			like({ variables: { id } });
+			// add to reactive var to update ui based on like count for this session
+			sessionLikesVar({
+				...sessionLikesVar(),
+				[id]: (sessionLikesVar()[id] = (sessionLikes || 0) + 1),
+			});
+			console.log('sessionLikesVar:', sessionLikesVar());
+			// add to indexedDb to track "temp user" like count long-term
 			update(id, (val) => (val || 0) + 1)
-				.then(() => console.log('set!'))
-				.catch((err) => console.error('error updating:', err));
+				.then(() => console.log('indexedDb set after click'))
+				.catch((err) => console.error('error updating indexedDb:', err));
+			// set a random compliment thats not the one immediately preceeding it
 			setCompliment(
 				(prev) =>
 					compliments.filter((comp) => comp !== prev)[
@@ -45,9 +72,17 @@ export default function LikeIconButton() {
 			setCompliment(null);
 		}, 3000);
 
+		// get latest indexedDb value on each render
+		// for tracking "temp user" like count long-term
 		get(id).then((val) => {
-			console.log('got:', val);
-			if (val) setLikes(val);
+			if (val && val !== indexedDbLikesRef.current) {
+				indexedDbLikesVar({
+					...indexedDbLikesVar(),
+					[id]: (indexedDbLikesVar()[id] = (indexedDbLikesVar()[id] || 0) + 1),
+				});
+				indexedDbLikesRef.current = val;
+				console.log('put indexedDb in reactive var:', val);
+			}
 		});
 
 		return () => {
@@ -61,14 +96,26 @@ export default function LikeIconButton() {
 				<StyledIconButton
 					edge="start"
 					color="success"
-					disableRipple={likes >= maxLikes}
+					disableRipple={
+						indexedDbLikes >= maxPossibleLikes ||
+						sessionLikes >= maxPossibleLikes
+					}
 					onClick={handleClick}
 				>
-					{likes >= maxLikes ? <FavoriteRounded /> : <FavoriteBorderRounded />}
+					{indexedDbLikes >= maxPossibleLikes ||
+					sessionLikes >= maxPossibleLikes ? (
+						<FavoriteRounded />
+					) : (
+						<FavoriteBorderRounded />
+					)}
 				</StyledIconButton>
 			</Tooltip>
 			<Typography fontWeight={800}>
-				{compliment ? compliment : likes}
+				{compliment
+					? compliment
+					: sessionLikes
+					? sessionLikes + initialLikes
+					: initialLikes}
 			</Typography>
 		</Container>
 	);
