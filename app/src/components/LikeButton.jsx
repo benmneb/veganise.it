@@ -56,11 +56,10 @@ export default function LikeButton(props) {
 				...sessionLikesVar(),
 				[id]: (sessionLikesVar()[id] = (sessionLikes || 0) + 1),
 			});
-			console.log('sessionLikesVar:', sessionLikesVar());
-			// add to indexedDb to track "temp user" like count long-term
-			update(id, (val) => (val || 0) + 1)
-				.then(() => console.log('indexedDb set after click'))
-				.catch((err) => console.error('error updating indexedDb:', err));
+			// add to indexedDb to track "temp user" like count long-term (so they can't leave unlimited likes)
+			update(id, (val) => (val || 0) + 1).catch((err) =>
+				console.error('error updating indexedDb:', err)
+			);
 			// set a random compliment thats not the one immediately preceeding it
 			setCompliment(
 				(prev) =>
@@ -76,16 +75,15 @@ export default function LikeButton(props) {
 			setCompliment(null);
 		}, 3000);
 
-		// get latest indexedDb value on each render
+		// update indexedDb value on each render
 		// for tracking "temp user" like count long-term
 		get(id).then((val) => {
 			if (val && val !== indexedDbLikesRef.current) {
 				indexedDbLikesVar({
 					...indexedDbLikesVar(),
-					[id]: (indexedDbLikesVar()[id] = (indexedDbLikesVar()[id] || 0) + 1),
+					[id]: val,
 				});
 				indexedDbLikesRef.current = val;
-				console.log('put indexedDb in reactive var:', val);
 			}
 		});
 
