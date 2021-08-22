@@ -80,6 +80,15 @@ export function useTheme() {
 								},
 							},
 						},
+						MuiMenuItem: {
+							styleOverrides: {
+								root: {
+									'&:active': {
+										backgroundColor: 'rgba(0, 0, 0, 0.54)',
+									},
+								},
+							},
+						},
 					},
 				}),
 				{ breakpoints: ['tablet', 'desktop', 'hd'] }
