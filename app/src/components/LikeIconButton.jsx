@@ -4,10 +4,10 @@ import { useParams } from 'react-router';
 
 import { gql, useMutation, useReactiveVar } from '@apollo/client';
 
-import { IconButton, styled, Tooltip, Typography } from '@material-ui/core';
+import { IconButton, styled, Typography } from '@material-ui/core';
 import { FavoriteBorderRounded, FavoriteRounded } from '@material-ui/icons';
 
-import { compliments } from '../assets';
+import { compliments, maxPossibleLikes } from '../assets';
 import { get, update } from '../utils';
 import { sessionLikesVar, indexedDbLikesVar } from '../cache';
 
@@ -21,8 +21,6 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 		backgroundColor: 'transparent',
 	},
 }));
-
-const maxPossibleLikes = 9;
 
 const ADD_LIKE = gql`
 	mutation Like($id: String!) {
@@ -93,24 +91,21 @@ export default function LikeIconButton(props) {
 
 	return (
 		<Container>
-			<Tooltip title="Compliment Tessy" placement="bottom-start">
-				<StyledIconButton
-					edge="start"
-					color="success"
-					disableRipple={
-						indexedDbLikes >= maxPossibleLikes ||
-						sessionLikes >= maxPossibleLikes
-					}
-					onClick={handleClick}
-				>
-					{indexedDbLikes >= maxPossibleLikes ||
-					sessionLikes >= maxPossibleLikes ? (
-						<FavoriteRounded />
-					) : (
-						<FavoriteBorderRounded />
-					)}
-				</StyledIconButton>
-			</Tooltip>
+			<StyledIconButton
+				edge="start"
+				color="success"
+				disableRipple={
+					indexedDbLikes >= maxPossibleLikes || sessionLikes >= maxPossibleLikes
+				}
+				onClick={handleClick}
+			>
+				{indexedDbLikes >= maxPossibleLikes ||
+				sessionLikes >= maxPossibleLikes ? (
+					<FavoriteRounded />
+				) : (
+					<FavoriteBorderRounded />
+				)}
+			</StyledIconButton>
 			<Typography fontWeight={800}>
 				{compliment
 					? compliment

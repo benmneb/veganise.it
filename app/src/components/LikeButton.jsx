@@ -7,7 +7,7 @@ import { gql, useMutation, useReactiveVar } from '@apollo/client';
 import { Button, styled } from '@material-ui/core';
 import { FavoriteBorderRounded, FavoriteRounded } from '@material-ui/icons';
 
-import { compliments } from '../assets';
+import { compliments, maxPossibleLikes } from '../assets';
 import { get, update } from '../utils';
 import { sessionLikesVar, indexedDbLikesVar } from '../cache';
 
@@ -25,8 +25,6 @@ const TextWrapper = styled('div')({
 	width: 150,
 	textAlign: 'left',
 });
-
-const maxPossibleLikes = 9;
 
 const ADD_LIKE = gql`
 	mutation Like($id: String!) {
