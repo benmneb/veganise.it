@@ -13,7 +13,6 @@ const Wrapper = styled('div')({
 });
 
 const Inner = styled('div')({
-	userSelect: 'none',
 	display: 'flex',
 	alignItems: 'center',
 });

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+
 import { useMediaQuery } from '@material-ui/core';
 import { createTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { green, pink } from '@material-ui/core/colors';
@@ -57,6 +58,13 @@ export function useTheme() {
 						borderRadius: 16,
 					},
 					components: {
+						MuiCssBaseline: {
+							styleOverrides: `
+								body {
+									user-select: none;
+								}
+							`,
+						},
 						MuiButtonBase: {
 							defaultProps: {
 								disableRipple: true,
