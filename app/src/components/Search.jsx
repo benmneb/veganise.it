@@ -1,10 +1,15 @@
-import { useEffect, useRef, useMemo } from 'react';
-import { Button, styled, FormControl, OutlinedInput } from '@material-ui/core/';
+import { useEffect, useRef, useMemo, useState } from 'react';
+
+import { useLazyQuery, gql } from '@apollo/client';
+
+import { styled, FormControl, OutlinedInput } from '@material-ui/core/';
 import { useFormControl } from '@material-ui/core/FormControl';
+import { LoadingButton } from '@material-ui/lab';
 
 import Typed from 'typed.js';
 
 import { HideOnScroll } from '../utils';
+import { searchResultsVar } from '../cache';
 
 const FormController = styled(FormControl)(({ theme }) => ({
 	position: 'sticky',
@@ -52,7 +57,7 @@ const SearchBox = styled(TextBox)({
 	flexShrink: 0,
 });
 
-const SearchButton = styled(Button)(({ theme }) => ({
+const SearchButton = styled(LoadingButton)(({ theme }) => ({
 	height: 80,
 	fontSize: theme.typography.h3.fontSize,
 	fontWeight: theme.typography.h3.fontWeight,
@@ -70,14 +75,34 @@ const SearchButton = styled(Button)(({ theme }) => ({
 	},
 }));
 
+const SEARCH_RECIPES = gql`
+	query Search($term: String!) {
+		search(term: $term) {
+			_id
+			title
+			author
+			likes
+		}
+	}
+`;
+
 function TypedInputs() {
 	const { focused } = useFormControl() || {};
+	const [inputValue, setInputValue] = useState('');
+	const [search, { loading }] = useLazyQuery(SEARCH_RECIPES, {
+		displayName: 'search',
+		onCompleted: (data) => {
+			searchResultsVar(data);
+			console.log(data);
+		},
+		onError: (error) => console.error(error.message),
+	});
 
 	const inputRef = useRef(null);
 	const stringRef = useRef(null);
 	const typedRef = useRef(null);
 
-	// initialise Typed.js on load
+	// initialise Typed.js on load, and destroy it on unmount
 	useEffect(() => {
 		const options = {
 			strings: [
@@ -109,27 +134,56 @@ function TypedInputs() {
 	const placeholder = useMemo(() => {
 		if (focused) {
 			typedRef.current.destroy();
+			stringRef.current = null;
 			return 'Your favourite meal...';
 		}
 
+		if (inputValue) return;
+
 		typedRef.current?.reset();
 		return undefined;
-	}, [focused]);
+	}, [focused, inputValue]);
 
 	function handleSearch() {
-		console.log(stringRef.current);
+		const term = inputValue || stringRef.current;
+
+		if (!term) return;
+
+		search({ variables: { term } });
+	}
+
+	function handleKeyPress(e) {
+		if (e.key !== 'Enter') return;
+
+		e.preventDefault();
+		handleSearch();
+	}
+
+	function handleBlur() {
+		if (inputValue) return;
+
+		searchResultsVar([]);
 	}
 
 	return (
 		<>
 			<TextBox>
-				<TextField placeholder={placeholder} inputRef={inputRef} />
+				<TextField
+					placeholder={placeholder}
+					inputRef={inputRef}
+					value={inputValue}
+					onChange={(e) => setInputValue(e.target.value)}
+					onKeyPress={handleKeyPress}
+					onBlur={handleBlur}
+				/>
 			</TextBox>
 			<SearchBox>
 				<SearchButton
 					disableElevation
 					variant="contained"
 					onClick={handleSearch}
+					loading={loading}
+					loadingIndicator="Preparing..."
 				>
 					Veganise It!
 				</SearchButton>

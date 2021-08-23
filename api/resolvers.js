@@ -13,6 +13,9 @@ export const resolvers = {
 		async recipe(_, { id }) {
 			return recipes.findOne(ObjectId(id));
 		},
+		async search(_, { term }) {
+			return recipes.find({ $text: { $search: term } }).toArray();
+		},
 	},
 	Mutation: {
 		async like(_, { id }) {

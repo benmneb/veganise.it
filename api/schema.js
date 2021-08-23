@@ -19,6 +19,7 @@ export const typeDefs = gql`
 	type Query {
 		recipes: [Recipe!]!
 		recipe(id: String!): Recipe!
+		search(term: String!): [Recipe]
 	}
 
 	type Mutation {
