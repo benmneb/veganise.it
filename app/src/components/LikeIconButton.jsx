@@ -44,7 +44,10 @@ export default function LikeIconButton(props) {
 	const indexedDbLikesRef = useRef(undefined);
 
 	function handleClick() {
-		if ((indexedDbLikes || 0) < maxPossibleLikes) {
+		if (
+			indexedDbLikesRef.current !== undefined &&
+			(indexedDbLikes || 0) < maxPossibleLikes
+		) {
 			// add to mongo via graphQL for long term global storage
 			like({ variables: { id } });
 			// add to reactive var to update ui based on like count for this session
@@ -69,13 +72,11 @@ export default function LikeIconButton(props) {
 	// update indexedDb value to track "temp user" like count long-term
 	useEffect(() => {
 		get(id).then((val) => {
-			if (val && val !== indexedDbLikesRef.current) {
-				indexedDbLikesVar({
-					...indexedDbLikesVar(),
-					[id]: val,
-				});
-				indexedDbLikesRef.current = val;
-			}
+			indexedDbLikesVar({
+				...indexedDbLikesVar(),
+				[id]: val,
+			});
+			indexedDbLikesRef.current = val || 0;
 		});
 	}, [sessionLikes, id]);
 
