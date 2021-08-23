@@ -26,7 +26,7 @@ const TextWrapper = styled('div')({
 	textAlign: 'left',
 });
 
-const maxPossibleLikes = 7;
+const maxPossibleLikes = 9;
 
 const ADD_LIKE = gql`
 	mutation Like($id: String!) {
@@ -70,13 +70,8 @@ export default function LikeButton(props) {
 		}
 	}
 
+	// update indexedDb value to track "temp user" like count long-term
 	useEffect(() => {
-		const clearCompliment = setTimeout(() => {
-			setCompliment(null);
-		}, 3000);
-
-		// update indexedDb value on each render
-		// for tracking "temp user" like count long-term
 		get(id).then((val) => {
 			if (val && val !== indexedDbLikesRef.current) {
 				indexedDbLikesVar({
@@ -86,11 +81,18 @@ export default function LikeButton(props) {
 				indexedDbLikesRef.current = val;
 			}
 		});
+	}, [sessionLikes, id]);
+
+	// clear random compliment
+	useEffect(() => {
+		const clearCompliment = setTimeout(() => {
+			setCompliment(null);
+		}, 3000);
 
 		return () => {
 			clearTimeout(clearCompliment);
 		};
-	}, [compliment, id]);
+	}, [compliment]);
 
 	return (
 		<ActionButton
