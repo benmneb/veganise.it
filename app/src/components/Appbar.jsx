@@ -1,14 +1,11 @@
-import * as React from 'react';
 import { styled, alpha } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
+import { AppBar, InputBase, Toolbar } from '@material-ui/core';
+import { Search } from '@material-ui/icons';
+
+import { AppbarLogo } from './index';
 import { HideOnScroll } from '../utils';
 
-const Search = styled('div')(({ theme }) => ({
+const SearchBox = styled('div')(({ theme }) => ({
 	position: 'relative',
 	borderRadius: theme.shape.borderRadius,
 	backgroundColor: alpha(theme.palette.common.black, 0.15),
@@ -58,25 +55,16 @@ export default function Appbar() {
 		<HideOnScroll threshold={10} transition="slide">
 			<AppBar position="sticky" color="inherit" sx={{ px: 1 }}>
 				<Toolbar>
-					<IconButton size="large" edge="start" color="inherit" sx={{ mr: 1 }}>
-						🧑‍🍳
-					</IconButton>
-					<Typography
-						variant="h4"
-						component="h1"
-						sx={{ flexGrow: 1, display: { mobile: 'none', tablet: 'block' } }}
-					>
-						Veganise it!
-					</Typography>
-					<Search>
+					<AppbarLogo />
+					<SearchBox>
 						<SearchIconWrapper>
-							<SearchIcon />
+							<Search />
 						</SearchIconWrapper>
 						<StyledInputBase
 							placeholder="Search 5000+ vegan recipes..."
 							inputProps={{ 'aria-label': 'search' }}
 						/>
-					</Search>
+					</SearchBox>
 				</Toolbar>
 			</AppBar>
 		</HideOnScroll>

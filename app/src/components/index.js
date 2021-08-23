@@ -10,3 +10,4 @@ export { default as LikeIconButton } from './LikeIconButton';
 export { default as ShareMenu } from './ShareMenu';
 export { default as Caption } from './Caption';
 export { default as Appbar } from './Appbar';
+export { default as AppbarLogo } from './AppbarLogo';
