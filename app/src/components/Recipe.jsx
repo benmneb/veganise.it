@@ -107,6 +107,7 @@ export default function Recipe(props) {
 	const { id } = useParams();
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
+
 	const { error, loading, data } = useQuery(GET_RECIPE, {
 		variables: { id },
 	});

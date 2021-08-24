@@ -2,6 +2,8 @@ import { useEffect, useRef, useMemo, useState } from 'react';
 
 import { useLazyQuery, gql } from '@apollo/client';
 
+import { useHistory } from 'react-router-dom';
+
 import { styled, FormControl, OutlinedInput } from '@material-ui/core/';
 import { useFormControl } from '@material-ui/core/FormControl';
 import { LoadingButton } from '@material-ui/lab';
@@ -88,12 +90,17 @@ const SEARCH_RECIPES = gql`
 
 function TypedInputs() {
 	const { focused } = useFormControl() || {};
+	const history = useHistory();
+
 	const [inputValue, setInputValue] = useState('');
+
 	const [search, { loading }] = useLazyQuery(SEARCH_RECIPES, {
 		displayName: 'search',
 		onCompleted: (data) => {
 			searchResultsVar(data);
-			console.log(data);
+			const rawTerm = inputValue || stringRef.current;
+			const term = rawTerm.replace(/\s+/g, '-').toLowerCase();
+			history.push(`/${term}`);
 		},
 		onError: (error) => console.error(error.message),
 	});
@@ -146,22 +153,19 @@ function TypedInputs() {
 
 	function handleSearch() {
 		const term = inputValue || stringRef.current;
-
 		if (!term) return;
-
 		search({ variables: { term } });
 	}
 
 	function handleKeyPress(e) {
 		if (e.key !== 'Enter') return;
-
 		e.preventDefault();
 		handleSearch();
 	}
 
 	function handleBlur() {
 		if (inputValue) return;
-
+		history.push('/');
 		searchResultsVar([]);
 	}
 
@@ -183,7 +187,7 @@ function TypedInputs() {
 					variant="contained"
 					onClick={handleSearch}
 					loading={loading}
-					loadingIndicator="Preparing..."
+					loadingIndicator="Veganising..."
 				>
 					Veganise It!
 				</SearchButton>

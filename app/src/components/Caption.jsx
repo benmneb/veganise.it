@@ -14,17 +14,20 @@ const Wrapper = styled('div')(({ theme }) => ({
 	},
 }));
 
-export default function Caption(props) {
-	const { children } = props;
+const defaultText =
+	'A curated collection of mouth-watering recipes to help you cook the best plant-based meals easier than ever.';
 
+export default function Caption() {
 	const searchResults = useReactiveVar(searchResultsVar);
+
+	const resultsText = `Found ${searchResults?.search?.length} vegan recipes`;
+
+	const visibleText = searchResults.search ? resultsText : defaultText;
 
 	return (
 		<Wrapper>
 			<Typography variant="h4" component="h3">
-				{searchResults?.search
-					? `Found ${searchResults.search.length} vegan recipes`
-					: children}
+				{visibleText}
 			</Typography>
 		</Wrapper>
 	);

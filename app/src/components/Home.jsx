@@ -1,3 +1,5 @@
+import { Route } from 'react-router';
+
 import { styled } from '@material-ui/core';
 
 import { Search, Results, Header, Caption } from './index';
@@ -15,11 +17,10 @@ export default function Home() {
 			<Header />
 			<Main>
 				<Search />
-				<Caption>
-					A curated collection of mouth-watering recipes to help you cook the
-					best plant-based meals easier than ever.
-				</Caption>
-				<Results />
+				<Caption />
+				<Route exact path="/:term">
+					<Results />
+				</Route>
 			</Main>
 		</>
 	);
