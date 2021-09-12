@@ -16,6 +16,11 @@ export const typeDefs = gql`
 		method: String!
 	}
 
+	type SubmitRecipes {
+		success: Boolean!
+		errorMessage: String
+	}
+
 	type Query {
 		recipes: [Recipe!]!
 		recipe(id: String!): Recipe!
@@ -24,5 +29,6 @@ export const typeDefs = gql`
 
 	type Mutation {
 		like(id: String!): Recipe!
+		submit(url: String!): SubmitRecipes
 	}
 `;

@@ -19,6 +19,7 @@ export default function App() {
 				<Route path="/recipe/:id" children={<Recipe />} />
 				<Route path="/" children={<Home />} />
 			</Switch>
+			<Route path="/submit" children={<Modal open />} />
 			<Route
 				path="/recipe/:id"
 				children={<Modal open={Boolean(background)} />}

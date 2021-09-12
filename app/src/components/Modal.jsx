@@ -1,10 +1,10 @@
 import { forwardRef, useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { Dialog, Fade, styled, useMediaQuery } from '@material-ui/core';
 
-import { Recipe } from './index';
+import { Recipe, Submit } from './index';
 
 const Transition = forwardRef((props, ref) => {
 	const history = useHistory();
@@ -25,6 +25,7 @@ const RecipeModal = styled(Dialog)({
 });
 
 export default function Modal(props) {
+	const location = useLocation();
 	const [open, setOpen] = useState(props.open);
 
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
@@ -43,7 +44,11 @@ export default function Modal(props) {
 			fullWidth
 			fullScreen={mobile}
 		>
-			<Recipe close={handleClose} isInModal />
+			{location.pathname === '/submit' ? (
+				<Submit close={handleClose} />
+			) : (
+				<Recipe close={handleClose} isInModal />
+			)}
 		</RecipeModal>
 	);
 }

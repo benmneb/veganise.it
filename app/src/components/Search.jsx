@@ -154,6 +154,7 @@ function TypedInputs() {
 	function handleSearch() {
 		const term = inputValue || stringRef.current;
 		if (!term) return;
+		if (term === 'submit') return history.push(`/submit`);
 		if (!inputValue) {
 			typedRef.current.destroy();
 			setInputValue(term);
