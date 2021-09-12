@@ -2,8 +2,12 @@ import { useState } from 'react';
 
 import { useMutation, gql } from '@apollo/client';
 
+import { useHistory, useLocation } from 'react-router-dom';
+
 import { styled, Button, OutlinedInput, Typography } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
+
+import { Appbar } from './index';
 
 const Root = styled('section')(({ theme }) => ({
 	height: '100%',
@@ -103,8 +107,13 @@ const SUBMIT_RECIPES = gql`
 
 export default function Submit(props) {
 	const { close } = props;
+
 	const [input, setInput] = useState('');
 	const [isError, setIsError] = useState(false);
+	const location = useLocation();
+	const history = useHistory();
+
+	const background = location.state?.background;
 
 	const [submit, { loading }] = useMutation(SUBMIT_RECIPES, {
 		fetchPolicy: 'no-cache',
@@ -132,39 +141,47 @@ export default function Submit(props) {
 		handleSubmit();
 	}
 
+	function handleCancel() {
+		if (background) return close();
+		history.push('/');
+	}
+
 	return (
-		<Root>
-			<Content>
-				<Typography variant="h2" component="h1">
-					Submit Vegan Recipes
-				</Typography>
-				<Form>
-					<TextBox>
-						<TextField
-							placeholder="Your website..."
-							type="text"
-							error={isError}
-							value={input}
-							onChange={handleChange}
-							onKeyPress={handleKeyPress}
-						/>
-					</TextBox>
-					<SearchBox>
-						<SearchButton
-							disableElevation
-							variant="contained"
-							onClick={handleSubmit}
-							loading={loading}
-							loadingIndicator="Sending..."
-						>
-							Submit It!
-						</SearchButton>
-					</SearchBox>
-				</Form>
-				<CancelButton onClick={close} color="inherit" size="large">
-					🙅 Cancel
-				</CancelButton>
-			</Content>
-		</Root>
+		<>
+			{!background && <Appbar />}
+			<Root>
+				<Content>
+					<Typography variant="h2" component="h1">
+						Submit Vegan Recipes
+					</Typography>
+					<Form>
+						<TextBox>
+							<TextField
+								placeholder="Your website..."
+								type="text"
+								error={isError}
+								value={input}
+								onChange={handleChange}
+								onKeyPress={handleKeyPress}
+							/>
+						</TextBox>
+						<SearchBox>
+							<SearchButton
+								disableElevation
+								variant="contained"
+								onClick={handleSubmit}
+								loading={loading}
+								loadingIndicator="Sending..."
+							>
+								Submit It!
+							</SearchButton>
+						</SearchBox>
+					</Form>
+					<CancelButton onClick={handleCancel} color="inherit" size="large">
+						🙅 Cancel
+					</CancelButton>
+				</Content>
+			</Root>
+		</>
 	);
 }

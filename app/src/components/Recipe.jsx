@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useParams } from 'react-router';
+import { useParams, useLocation, useHistory } from 'react-router';
 
 import { gql, useQuery } from '@apollo/client';
 
@@ -102,11 +102,15 @@ const GET_RECIPE = gql`
 `;
 
 export default function Recipe(props) {
-	const { close, isInModal } = props;
+	const { close } = props;
 
+	const location = useLocation();
+	const history = useHistory();
 	const { id } = useParams();
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
+
+	const background = location.state?.background;
 
 	const { error, loading, data } = useQuery(GET_RECIPE, {
 		variables: { id },
@@ -146,9 +150,14 @@ export default function Recipe(props) {
 		);
 	}
 
+	function handleClose() {
+		if (background) return close();
+		history.push('/');
+	}
+
 	return (
 		<>
-			{!isInModal && <Appbar />}
+			{!background && <Appbar />}
 			<Content>
 				<Header component="header">
 					<Titles>
@@ -187,7 +196,7 @@ export default function Recipe(props) {
 							<IconButton
 								size={mobile ? 'medium' : 'large'}
 								edge="end"
-								onClick={close}
+								onClick={handleClose}
 							>
 								<CancelRounded />
 							</IconButton>
@@ -230,7 +239,7 @@ export default function Recipe(props) {
 							size="large"
 							color="inherit"
 							startIcon={<CancelRounded />}
-							onClick={close}
+							onClick={handleClose}
 						>
 							Close
 						</ActionButton>

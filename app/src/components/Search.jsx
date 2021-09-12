@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo, useState } from 'react';
 
 import { useLazyQuery, gql } from '@apollo/client';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { styled, FormControl, OutlinedInput } from '@material-ui/core/';
 import { useFormControl } from '@material-ui/core/FormControl';
@@ -91,6 +91,7 @@ const SEARCH_RECIPES = gql`
 function TypedInputs() {
 	const { focused } = useFormControl() || {};
 	const history = useHistory();
+	const location = useLocation();
 
 	const [inputValue, setInputValue] = useState('');
 
@@ -154,7 +155,12 @@ function TypedInputs() {
 	function handleSearch() {
 		const term = inputValue || stringRef.current;
 		if (!term) return;
-		if (term === 'submit') return history.push(`/submit`);
+		if (term === 'submit') {
+			return history.push({
+				pathname: '/submit',
+				state: { background: location },
+			});
+		}
 		if (!inputValue) {
 			typedRef.current.destroy();
 			setInputValue(term);

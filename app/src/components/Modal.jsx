@@ -47,7 +47,7 @@ export default function Modal(props) {
 			{location.pathname === '/submit' ? (
 				<Submit close={handleClose} />
 			) : (
-				<Recipe close={handleClose} isInModal />
+				<Recipe close={handleClose} />
 			)}
 		</RecipeModal>
 	);
