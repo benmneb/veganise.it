@@ -148,12 +148,16 @@ function TypedInputs() {
 		if (inputValue) return;
 
 		typedRef.current?.reset();
-		return undefined;
+		return null;
 	}, [focused, inputValue]);
 
 	function handleSearch() {
 		const term = inputValue || stringRef.current;
 		if (!term) return;
+		if (!inputValue) {
+			typedRef.current.destroy();
+			setInputValue(term);
+		}
 		search({ variables: { term } });
 	}
 
