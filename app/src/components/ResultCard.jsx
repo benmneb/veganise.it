@@ -16,7 +16,9 @@ import { sessionLikesVar } from '../cache';
 const Card = styled(MuiCard)(({ theme }) => ({
 	cursor: 'zoom-in',
 	width: '100%',
-	height: 400,
+	maxWidth: 700,
+	height: 500,
+	placeSelf: 'center',
 	position: 'relative',
 	boxShadow: '0 8px 24px 0 rgba(0, 0, 0, 0.12)',
 	transition: `${theme.transitions.duration.complex}ms`,
@@ -27,7 +29,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const Media = styled(CardMedia)({
-	height: 250,
+	height: 350,
 });
 
 const Content = styled(CardContent)({
