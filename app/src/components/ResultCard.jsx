@@ -37,7 +37,7 @@ const Content = styled(CardContent)({
 });
 
 const LikeIcon = styled((props) => (
-	<FavoriteBorderRounded color="success" {...props} />
+	<FavoriteBorderRounded color="favorite" {...props} />
 ))(({ theme }) => ({
 	marginRight: theme.spacing(1),
 }));

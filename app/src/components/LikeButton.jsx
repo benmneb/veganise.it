@@ -104,9 +104,9 @@ export default function LikeButton(props) {
 			startIcon={
 				indexedDbLikes >= maxPossibleLikes ||
 				sessionLikes >= maxPossibleLikes ? (
-					<FavoriteRounded color="success" edge="start" />
+					<FavoriteRounded color="favorite" edge="start" />
 				) : (
-					<FavoriteBorderRounded color="success" edge="start" />
+					<FavoriteBorderRounded color="favorite" edge="start" />
 				)
 			}
 		>

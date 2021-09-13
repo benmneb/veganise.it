@@ -93,7 +93,7 @@ export default function LikeIconButton(props) {
 		<Container>
 			<StyledIconButton
 				edge="start"
-				color="success"
+				color="favorite"
 				disableRipple={
 					indexedDbLikes >= maxPossibleLikes || sessionLikes >= maxPossibleLikes
 				}
