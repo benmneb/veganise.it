@@ -176,7 +176,7 @@ function TypedInputs() {
 
 	function handleBlur() {
 		if (inputValue) return;
-		history.push('/');
+		if (history.location.pathname !== '/') history.push('/');
 		searchResultsVar([]);
 	}
 
