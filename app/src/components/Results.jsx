@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { useReactiveVar, useLazyQuery, gql } from '@apollo/client';
 
-import { styled } from '@material-ui/core';
+import { styled } from '@mui/material';
 
 import { ResultCard } from './index';
 import { searchResultsVar } from '../cache';

@@ -4,9 +4,9 @@ import { useLazyQuery, gql } from '@apollo/client';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { styled, FormControl, OutlinedInput } from '@material-ui/core/';
-import { useFormControl } from '@material-ui/core/FormControl';
-import { LoadingButton } from '@material-ui/lab';
+import { styled, FormControl, OutlinedInput } from '@mui/material/';
+import { useFormControl } from '@mui/material/FormControl';
+import { LoadingButton } from '@mui/lab';
 
 import Typed from 'typed.js';
 

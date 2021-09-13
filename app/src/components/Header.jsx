@@ -1,6 +1,6 @@
 import { useState, useEffect, forwardRef } from 'react';
 
-import { styled, Typography } from '@material-ui/core/';
+import { styled, Typography } from '@mui/material/';
 
 import handleViewport from 'react-in-viewport';
 

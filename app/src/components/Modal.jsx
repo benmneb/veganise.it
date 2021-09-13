@@ -2,7 +2,7 @@ import { forwardRef, useState } from 'react';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { Dialog, Fade, styled, useMediaQuery } from '@material-ui/core';
+import { Dialog, Fade, styled, useMediaQuery } from '@mui/material';
 
 import { Recipe, Submit, Advertise } from './index';
 

@@ -4,8 +4,8 @@ import { useParams } from 'react-router';
 
 import { gql, useMutation, useReactiveVar } from '@apollo/client';
 
-import { Button, styled } from '@material-ui/core';
-import { FavoriteBorderRounded, FavoriteRounded } from '@material-ui/icons';
+import { Button, styled } from '@mui/material';
+import { FavoriteBorderRounded, FavoriteRounded } from '@mui/icons-material';
 
 import { compliments, maxPossibleLikes } from '../assets';
 import { get, update } from '../utils';

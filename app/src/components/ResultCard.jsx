@@ -6,8 +6,8 @@ import {
 	CardContent,
 	Typography,
 	CardMedia,
-} from '@material-ui/core';
-import { FavoriteBorderRounded } from '@material-ui/icons';
+} from '@mui/material';
+import { FavoriteBorderRounded } from '@mui/icons-material';
 
 import { useHistory, useLocation } from 'react-router-dom';
 

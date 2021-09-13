@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { useScrollTrigger, Grow, Slide } from '@material-ui/core/';
+import { useScrollTrigger, Grow, Slide } from '@mui/material/';
 
 export default function HideOnScroll(props) {
 	const { children, threshold, disableHysteresis, target, transition } = props;

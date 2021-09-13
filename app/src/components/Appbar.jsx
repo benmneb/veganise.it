@@ -1,6 +1,6 @@
-import { styled, alpha } from '@material-ui/core/styles';
-import { AppBar, InputBase, Toolbar } from '@material-ui/core';
-import { Search } from '@material-ui/icons';
+import { styled, alpha } from '@mui/material/styles';
+import { AppBar, InputBase, Toolbar } from '@mui/material';
+import { Search } from '@mui/icons-material';
 
 import { AppbarLogo } from './index';
 import { HideOnScroll } from '../utils';

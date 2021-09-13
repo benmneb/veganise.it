@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { useReactiveVar } from '@apollo/client';
 
-import { Snackbar, Alert } from '@material-ui/core';
+import { Snackbar, Alert } from '@mui/material';
 
 import { snackPackVar } from '../cache';
 

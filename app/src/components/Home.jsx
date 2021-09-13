@@ -1,6 +1,6 @@
 import { Route } from 'react-router';
 
-import { styled } from '@material-ui/core';
+import { styled } from '@mui/material';
 
 import { Search, Results, Header, Caption } from './index';
 

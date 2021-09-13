@@ -4,8 +4,8 @@ import { useMutation, gql } from '@apollo/client';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { styled, Button, OutlinedInput, Typography } from '@material-ui/core';
-import { LoadingButton } from '@material-ui/lab';
+import { styled, Button, OutlinedInput, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 import { Appbar } from './index';
 import { snackPackVar } from '../cache';

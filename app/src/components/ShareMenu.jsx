@@ -1,4 +1,4 @@
-import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import {
 	Facebook,
 	Twitter,
@@ -6,7 +6,7 @@ import {
 	Pinterest,
 	LinkedIn,
 	ContentCopy,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 
 import { snackPackVar } from '../cache';
 

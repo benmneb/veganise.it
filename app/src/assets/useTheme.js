@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { useMediaQuery } from '@material-ui/core';
-import { createTheme, responsiveFontSizes } from '@material-ui/core/styles';
-import { green, pink } from '@material-ui/core/colors';
+import { useMediaQuery } from '@mui/material';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import { green, pink } from '@mui/material/colors';
 
 export function useTheme() {
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');

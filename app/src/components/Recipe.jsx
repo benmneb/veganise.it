@@ -13,12 +13,12 @@ import {
 	Tooltip,
 	Typography,
 	useMediaQuery,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
 	ShareRounded,
 	OpenInNewRounded,
 	CancelRounded,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 
 import { LikeIconButton, LikeButton, ShareMenu, Appbar } from './index';
 

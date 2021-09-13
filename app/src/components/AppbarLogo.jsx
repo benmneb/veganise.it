@@ -1,4 +1,4 @@
-import { styled, IconButton, Typography } from '@material-ui/core';
+import { styled, IconButton, Typography } from '@mui/material';
 
 import { Link } from 'react-router-dom';
 

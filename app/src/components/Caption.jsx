@@ -1,6 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 
-import { styled, Typography } from '@material-ui/core';
+import { styled, Typography } from '@mui/material';
 
 import { searchResultsVar } from '../cache';
 
