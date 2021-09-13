@@ -91,7 +91,6 @@ const GET_RECIPE = gql`
 		recipe(id: $id) {
 			title
 			author
-			authorNickname
 			likes
 			url
 			about

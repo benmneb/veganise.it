@@ -5,15 +5,22 @@ export const typeDefs = gql`
 		_id: String!
 		title: String!
 		author: String!
-		authorNickname: String
 		url: String!
-		likes: Int!
+		likes: Int
 		image: String!
 		images: [String]
 		video: String
-		about: String!
-		ingredients: String!
-		method: String!
+		about: [String]
+		ingredients: Ingredients
+		method: Method
+	}
+
+	type Ingredients {
+		default: [String]
+	}
+
+	type Method {
+		default: [String]
 	}
 
 	type SubmitRecipes {
