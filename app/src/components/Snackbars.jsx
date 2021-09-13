@@ -47,10 +47,13 @@ export default function Snackbars() {
 				variant="filled"
 				elevation={6}
 				sx={{
-					width: '100%',
+					width: { mobile: '100%', tablet: 'auto' },
 					fontSize: 'h6.fontSize',
 					display: 'flex',
 					alignItems: 'center',
+					'& .MuiAlert-action': {
+						padding: (theme) => theme.spacing(0, 1),
+					},
 				}}
 			>
 				{messageInfo ? messageInfo.message : null}
