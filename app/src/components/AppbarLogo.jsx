@@ -3,18 +3,15 @@ import { styled, IconButton, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 const StyledLink = styled(Link)({
-	flexGrow: 1,
 	textDecoration: 'none',
 	color: 'inherit',
+	display: 'flex',
+	alignItems: 'center',
 });
 
 const Wrapper = styled('div')({
 	display: 'flex',
-});
-
-const Inner = styled('div')({
-	display: 'flex',
-	alignItems: 'center',
+	flexGrow: 1,
 });
 
 const EmojiIcon = styled('div')({
@@ -27,21 +24,19 @@ const EmojiIcon = styled('div')({
 
 export default function AppbarLogo() {
 	return (
-		<StyledLink to="/">
-			<Wrapper>
-				<Inner>
-					<IconButton size="large" edge="start" color="inherit" sx={{ mr: 1 }}>
-						<EmojiIcon>🧑‍🍳</EmojiIcon>
-					</IconButton>
-					<Typography
-						variant="h4"
-						component="h1"
-						sx={{ display: { mobile: 'none', tablet: 'block' } }}
-					>
-						Veganise it!
-					</Typography>
-				</Inner>
-			</Wrapper>
-		</StyledLink>
+		<Wrapper>
+			<StyledLink to="/">
+				<IconButton size="large" edge="start" color="inherit" sx={{ mr: 1 }}>
+					<EmojiIcon>🧑‍🍳</EmojiIcon>
+				</IconButton>
+				<Typography
+					variant="h4"
+					component="h1"
+					sx={{ display: { mobile: 'none', tablet: 'block' } }}
+				>
+					Veganise it!
+				</Typography>
+			</StyledLink>
+		</Wrapper>
 	);
 }
