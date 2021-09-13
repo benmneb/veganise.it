@@ -120,7 +120,7 @@ export default function Recipe(props) {
 	if (error) return `Error: ${error.message}`;
 
 	async function handleShare(event) {
-		if (navigator.share) {
+		if (navigator.share && mobile) {
 			try {
 				const response = await navigator.share({
 					title: 'Veganise It!',
