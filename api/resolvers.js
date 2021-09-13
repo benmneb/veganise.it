@@ -41,5 +41,18 @@ export const resolvers = {
 				return { success: false, errorMessage: error.message };
 			}
 		},
+		async advertise(_, { email }) {
+			try {
+				await transporter.sendMail({
+					from: process.env.GMAIL_USER,
+					to: process.env.GMAIL_USER,
+					subject: '🧑‍🍳 Veganise It! New Potential Advertiser',
+					html: `Get in contact with: <a href="mailto:${email}">${email}</a>`,
+				});
+				return { success: true };
+			} catch (error) {
+				return { success: false, errorMessage: error.message };
+			}
+		},
 	},
 };

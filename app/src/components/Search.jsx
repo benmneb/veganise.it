@@ -155,9 +155,9 @@ function TypedInputs() {
 	function handleSearch() {
 		const term = inputValue || stringRef.current;
 		if (!term) return;
-		if (term === 'submit') {
+		if (term === 'submit' || term === 'advertise') {
 			return history.push({
-				pathname: '/submit',
+				pathname: `/${term}`,
 				state: { background: location },
 			});
 		}

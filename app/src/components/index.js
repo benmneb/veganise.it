@@ -12,3 +12,4 @@ export { default as Caption } from './Caption';
 export { default as Appbar } from './Appbar';
 export { default as AppbarLogo } from './AppbarLogo';
 export { default as Submit } from './Submit';
+export { default as Advertise } from './Advertise';

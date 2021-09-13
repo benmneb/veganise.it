@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { Dialog, Fade, styled, useMediaQuery } from '@material-ui/core';
 
-import { Recipe, Submit } from './index';
+import { Recipe, Submit, Advertise } from './index';
 
 const Transition = forwardRef((props, ref) => {
 	const history = useHistory();
@@ -34,6 +34,12 @@ export default function Modal(props) {
 		setOpen(false);
 	}
 
+	function getContent(pathname) {
+		if (pathname === '/submit') return <Submit close={handleClose} />;
+		if (pathname === '/advertise') return <Advertise close={handleClose} />;
+		return <Recipe close={handleClose} />;
+	}
+
 	return (
 		<RecipeModal
 			open={open}
@@ -44,11 +50,7 @@ export default function Modal(props) {
 			fullWidth
 			fullScreen={mobile}
 		>
-			{location.pathname === '/submit' ? (
-				<Submit close={handleClose} />
-			) : (
-				<Recipe close={handleClose} />
-			)}
+			{getContent(location.pathname)}
 		</RecipeModal>
 	);
 }

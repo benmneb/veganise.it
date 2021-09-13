@@ -21,6 +21,11 @@ export const typeDefs = gql`
 		errorMessage: String
 	}
 
+	type Advertiser {
+		success: Boolean!
+		errorMessage: String
+	}
+
 	type Query {
 		recipes: [Recipe!]!
 		recipe(id: String!): Recipe!
@@ -30,5 +35,6 @@ export const typeDefs = gql`
 	type Mutation {
 		like(id: String!): Recipe!
 		submit(url: String!): SubmitRecipes
+		advertise(email: String!): Advertiser
 	}
 `;

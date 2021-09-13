@@ -3,7 +3,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 
 import { Switch, Route, useLocation } from 'react-router-dom';
 
-import { Home, Recipe, Submit, Modal } from './components';
+import { Home, Recipe, Submit, Modal, Advertise } from './components';
 import { useTheme } from './assets';
 
 export default function App() {
@@ -17,11 +17,16 @@ export default function App() {
 			<CssBaseline />
 			<Switch location={background || location}>
 				<Route path="/recipe/:id" children={<Recipe />} />
+				<Route path="/advertise" children={<Advertise />} />
 				<Route path="/submit" children={<Submit />} />
 				<Route path="/" children={<Home />} />
 			</Switch>
 			<Route
 				path="/recipe/:id"
+				children={<Modal open={Boolean(background)} />}
+			/>
+			<Route
+				path="/advertise"
 				children={<Modal open={Boolean(background)} />}
 			/>
 			<Route path="/submit" children={<Modal open={Boolean(background)} />} />
