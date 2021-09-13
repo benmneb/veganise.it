@@ -8,6 +8,7 @@ import { styled, Button, OutlinedInput, Typography } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 
 import { Appbar } from './index';
+import { snackPackVar } from '../cache';
 
 const Root = styled('section')(({ theme }) => ({
 	height: '100%',
@@ -119,8 +120,25 @@ export default function Advertise(props) {
 	const [advertise, { loading }] = useMutation(REQUEST_TO_ADVERTISE, {
 		fetchPolicy: 'no-cache',
 		onCompleted: ({ advertise }) => {
-			if (!advertise.success)
+			if (!advertise.success) {
+				snackPackVar([
+					...snackPackVar(),
+					{
+						message: 'Something went wrong. Try again soon!',
+						severity: 'error',
+						key: new Date().getTime(),
+					},
+				]);
 				return console.error('Error sending email:', advertise.errorMessage);
+			}
+			snackPackVar([
+				...snackPackVar(),
+				{
+					message: 'Email sent. Thanks!',
+					key: new Date().getTime(),
+				},
+			]);
+			close();
 			return console.log('Advertising request sent:', advertise.success);
 		},
 		onError: (error) => console.error('Error submitting:', error),

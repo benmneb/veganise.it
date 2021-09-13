@@ -8,6 +8,7 @@ import { styled, Button, OutlinedInput, Typography } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 
 import { Appbar } from './index';
+import { snackPackVar } from '../cache';
 
 const Root = styled('section')(({ theme }) => ({
 	height: '100%',
@@ -118,8 +119,25 @@ export default function Submit(props) {
 	const [submit, { loading }] = useMutation(SUBMIT_RECIPES, {
 		fetchPolicy: 'no-cache',
 		onCompleted: ({ submit }) => {
-			if (!submit.success)
+			if (!submit.success) {
+				snackPackVar([
+					...snackPackVar(),
+					{
+						message: 'Something went wrong. Try again soon!',
+						severity: 'error',
+						key: new Date().getTime(),
+					},
+				]);
 				return console.error('Error sending email:', submit.errorMessage);
+			}
+			snackPackVar([
+				...snackPackVar(),
+				{
+					message: 'Email sent. Thanks!',
+					key: new Date().getTime(),
+				},
+			]);
+			close();
 			return console.log('Email sent:', submit.success);
 		},
 		onError: (error) => console.error('Error submitting:', error),

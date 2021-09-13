@@ -8,6 +8,8 @@ import {
 	ContentCopy,
 } from '@material-ui/icons';
 
+import { snackPackVar } from '../cache';
+
 const msg = 'Check%20out%20this%20vegan%20recipe!%20%F0%9F%A4%A4';
 const img = 'todo';
 
@@ -30,6 +32,14 @@ export default function ShareMenu(props) {
 			try {
 				await navigator.clipboard.writeText(url);
 				console.log('Copied to clipboard:', url);
+				snackPackVar([
+					...snackPackVar(),
+					{
+						message: 'Link copied to clipboard',
+						severity: 'info',
+						key: new Date().getTime(),
+					},
+				]);
 			} catch (error) {
 				console.error('Error copying to clipboard:', error.message);
 			}

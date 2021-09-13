@@ -3,7 +3,14 @@ import { ThemeProvider } from '@material-ui/core/styles';
 
 import { Switch, Route, useLocation } from 'react-router-dom';
 
-import { Home, Recipe, Submit, Modal, Advertise } from './components';
+import {
+	Home,
+	Recipe,
+	Submit,
+	Modal,
+	Advertise,
+	Snackbars,
+} from './components';
 import { useTheme } from './assets';
 
 export default function App() {
@@ -30,6 +37,7 @@ export default function App() {
 				children={<Modal open={Boolean(background)} />}
 			/>
 			<Route path="/submit" children={<Modal open={Boolean(background)} />} />
+			<Snackbars />
 		</ThemeProvider>
 	);
 }

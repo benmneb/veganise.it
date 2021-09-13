@@ -5,4 +5,6 @@ export const indexedDbLikesVar = makeVar({});
 
 export const searchResultsVar = makeVar([]);
 
+export const snackPackVar = makeVar([]);
+
 export const cache = new InMemoryCache({});
