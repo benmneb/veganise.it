@@ -37,7 +37,7 @@ export default function Snackbars() {
 		<Snackbar
 			key={messageInfo ? messageInfo.key : null}
 			open={open}
-			autoHideDuration={null}
+			autoHideDuration={6000}
 			onClose={handleClose}
 			TransitionProps={{ onExited: handleExited }}
 		>
