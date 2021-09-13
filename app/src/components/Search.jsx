@@ -26,7 +26,7 @@ const FormController = styled(FormControl)(({ theme }) => ({
 	},
 	justifyContent: 'center',
 	alignItems: 'center',
-	margin: theme.spacing(-10, 4, 4),
+	margin: theme.spacing(-10, -3, 4),
 }));
 
 const TextField = styled(OutlinedInput)(({ theme }) => ({

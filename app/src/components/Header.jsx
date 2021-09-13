@@ -1,10 +1,8 @@
-import { useState, useEffect, forwardRef } from 'react';
-
 import { styled, Typography } from '@mui/material/';
 
-import handleViewport from 'react-in-viewport';
+import { HideOnScroll } from '../utils';
 
-const Header = styled('header')(({ theme }) => ({
+const Wrapper = styled('header')(({ theme }) => ({
 	height: '70vh',
 	display: 'flex',
 	flexDirection: 'column',
@@ -31,14 +29,20 @@ const BackgroundImage = styled('div')(({ theme }) => ({
 }));
 
 const HGroup = styled('hgroup')(({ theme }) => ({
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'center',
+	alignItems: 'center',
 	textAlign: 'center',
+	zIndex: '1',
+	padding: theme.spacing(2),
 }));
 
-const Component = forwardRef((props, ref) => {
-	const { inView } = props;
+const InlineBlock = styled('span')({
+	display: 'inline-block',
+});
 
-	const [offset, setOffset] = useState(0);
-
+export default function Header() {
 	// const [imageLoaded, setImageLoaded] = useState(false);
 
 	// load image on pageload
@@ -53,49 +57,43 @@ const Component = forwardRef((props, ref) => {
 	// 	};
 	// }, []);
 
-	// create parallax effect
-	useEffect(() => {
-		if (!inView) {
-			window.removeEventListener('scroll', handleScroll);
-			return;
-		}
-
-		function handleScroll() {
-			setOffset(window.pageYOffset);
-		}
-
-		window.addEventListener('scroll', handleScroll, {
-			passive: true,
-			once: true,
-		});
-
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		};
-	}, [offset, inView]);
-
 	return (
-		<Header ref={ref}>
+		<Wrapper>
 			<BackgroundImage />
-			<HGroup
-				sx={{
-					transform: `translateY(${offset * 0.55}px)`,
-					opacity: `${1 - offset / 400}`,
-				}}
-			>
-				<Typography variant="h1">VEGANISE IT</Typography>
-				<Typography variant="h3" component="h2">
-					🧑‍🍳 Your favourite recipes. Made with plants 🌱
-				</Typography>
-			</HGroup>
-		</Header>
+			<HideOnScroll threshold={(15 / 100) * window.innerHeight}>
+				<HGroup>
+					<Typography
+						variant="h1"
+						sx={{ '@media (max-width: 387px)': { fontSize: '2.8rem' } }}
+					>
+						VEGANISE IT
+					</Typography>
+					<Typography
+						variant="h3"
+						component="h2"
+						sx={{
+							display: { mobile: 'none', tablet: 'block' },
+						}}
+					>
+						<InlineBlock>🧑‍🍳 Your favourite recipes.</InlineBlock>{' '}
+						<InlineBlock>Made with plants 🌱</InlineBlock>
+					</Typography>
+					<Typography
+						variant="h3"
+						component="h2"
+						sx={{
+							display: { mobile: 'block', tablet: 'none' },
+							marginTop: 2,
+							'@media (max-width: 379px)': {
+								display: 'none',
+							},
+						}}
+					>
+						<InlineBlock>Your favourite recipes.</InlineBlock>{' '}
+						<InlineBlock>🧑‍🍳 Made with plants 🌱</InlineBlock>
+					</Typography>
+				</HGroup>
+			</HideOnScroll>
+		</Wrapper>
 	);
-});
-
-const HeaderComponent = handleViewport((props) => {
-	const { inViewport, forwardedRef } = props;
-
-	return <Component ref={forwardedRef} inView={inViewport} />;
-});
-
-export default HeaderComponent;
+}
