@@ -50,11 +50,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	},
 }));
 
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+	padding: theme.spacing(2),
+}));
+
 export default function Appbar() {
 	return (
 		<HideOnScroll threshold={10} transition="slide">
 			<AppBar position="sticky" color="inherit" sx={{ px: 1 }}>
-				<Toolbar>
+				<StyledToolbar>
 					<AppbarLogo />
 					<SearchBox>
 						<SearchIconWrapper>
@@ -65,7 +69,7 @@ export default function Appbar() {
 							inputProps={{ 'aria-label': 'search' }}
 						/>
 					</SearchBox>
-				</Toolbar>
+				</StyledToolbar>
 			</AppBar>
 		</HideOnScroll>
 	);
