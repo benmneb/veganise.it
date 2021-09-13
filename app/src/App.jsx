@@ -11,10 +11,9 @@ import {
 	Advertise,
 	Snackbars,
 } from './components';
-import { useTheme } from './assets';
+import { theme } from './assets';
 
 export default function App() {
-	const theme = useTheme();
 	const location = useLocation();
 
 	const background = location.state?.background;
