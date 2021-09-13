@@ -1,8 +1,4 @@
-import { useEffect } from 'react';
-
-import { useParams } from 'react-router-dom';
-
-import { useReactiveVar, useLazyQuery, gql } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 
 import { styled } from '@mui/material';
 
@@ -19,43 +15,16 @@ const Grid = styled('section')(({ theme }) => ({
 	},
 }));
 
-const SEARCH_RECIPES = gql`
-	query Search($term: String!) {
-		search(term: $term) {
-			_id
-			title
-			author
-			likes
-		}
-	}
-`;
-
 export default function Results() {
 	const searchResults = useReactiveVar(searchResultsVar);
-	const { term } = useParams();
 
-	const [search, { called }] = useLazyQuery(SEARCH_RECIPES, {
-		displayName: 'search-from-url',
-		onCompleted: (data) => {
-			searchResultsVar(data);
-		},
-		onError: (error) => console.error('While getting recipes:', error.message),
-	});
+	if (!searchResults) return null;
 
-	useEffect(() => {
-		if (called) return;
-
-		search({ variables: { term } });
-	}, [term, called, search]);
-
-	if (searchResults)
-		return (
-			<Grid>
-				{searchResults?.search?.map((recipe) => (
-					<ResultCard key={recipe._id} recipe={recipe} />
-				))}
-			</Grid>
-		);
-
-	return null;
+	return (
+		<Grid>
+			{searchResults?.search?.map((recipe) => (
+				<ResultCard key={recipe._id} recipe={recipe} />
+			))}
+		</Grid>
+	);
 }
