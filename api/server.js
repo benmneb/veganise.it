@@ -1,5 +1,3 @@
-import { ApolloServer } from 'apollo-server-express';
-
 import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
@@ -8,37 +6,33 @@ import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
 
-import { typeDefs } from './schema.js';
-import { resolvers } from './resolvers.js';
+import connectDatabase from './connectDatabase.js';
+import routes from './routes.js';
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 const path = '/';
 
+const server = express();
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 100,
+});
+
+server.use(cors());
+server.use(helmet());
+server.use(path, limiter);
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json());
+server.use(mongoSanitize());
+server.use(xss());
+server.use(hpp());
+
 try {
-	const server = new ApolloServer({ typeDefs, resolvers });
-	await server.start();
-
-	const app = express();
-
-	server.applyMiddleware({ app, path });
-
-	const limiter = rateLimit({
-		windowMs: 15 * 60 * 1000,
-		max: 100,
+	const db = await connectDatabase();
+	routes(server, db).listen(port, () => {
+		console.log(`✅ Server live @ ${port}\n🚀 All systems go`);
 	});
-
-	app.use(cors());
-	app.use(helmet());
-	app.use(path, limiter);
-	app.use(express.urlencoded({ extended: true }));
-	app.use(express.json());
-	app.use(mongoSanitize());
-	app.use(xss());
-	app.use(hpp());
-
-	await new Promise((resolve) => app.listen({ port }, resolve));
-
-	console.log(`✅ (2/2) Server live at ${port}${server.graphqlPath}`);
 } catch (error) {
-	console.error('❌ (2/2) Server connection error:', error);
+	console.error('❌ Server connection error\n', error);
 }

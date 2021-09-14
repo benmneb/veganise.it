@@ -12,9 +12,9 @@ export default async function connectDatabase() {
 		await client.connect();
 		const db = client.db('veganise-it');
 		await db.command({ ping: 1 });
-		console.log('✅ (1/2) MongoDB connected');
+		console.log('✅ MongoDB connected');
 		return db;
 	} catch (error) {
-		console.error('❌ (1/2) MongoDB connection error:', error.message);
+		console.error('❌ MongoDB connection error:', error.message);
 	}
 }

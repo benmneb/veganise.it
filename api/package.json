@@ -16,14 +16,12 @@
     "dev": "nodemon -r dotenv/config server.js"
   },
   "dependencies": {
-    "apollo-server-express": "^3.1.2",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-mongo-sanitize": "^2.1.0",
     "express-rate-limit": "^5.3.0",
     "googleapis": "^85.0.0",
-    "graphql": "^15.5.1",
     "helmet": "^4.6.0",
     "hpp": "^0.2.3",
     "mongodb": "^4.1.0",
