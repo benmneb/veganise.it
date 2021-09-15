@@ -2,7 +2,7 @@ import { forwardRef, useState } from 'react';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { Dialog, Fade, styled, useMediaQuery } from '@mui/material';
+import { Dialog, Grow, styled, useMediaQuery } from '@mui/material';
 
 import { Recipe, Submit, Advertise } from './index';
 
@@ -10,7 +10,7 @@ const Transition = forwardRef((props, ref) => {
 	const history = useHistory();
 
 	return (
-		<Fade
+		<Grow
 			ref={ref}
 			{...props}
 			onExited={() => {
