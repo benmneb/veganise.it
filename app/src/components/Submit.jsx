@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
-import { useMutation, gql } from '@apollo/client';
-
 import { useHistory, useLocation } from 'react-router-dom';
+
+import { useDispatch } from 'react-redux';
 
 import { styled, Button, OutlinedInput, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 import { Appbar } from './index';
-import { snackPackVar } from '../cache';
+import { api } from '../assets';
+import { showSnackbar } from '../state';
 
 const Root = styled('section')(({ theme }) => ({
 	height: '100%',
@@ -97,55 +98,37 @@ const CancelButton = styled(Button)(({ theme }) => ({
 	fontSize: theme.typography.h5.fontSize,
 }));
 
-const SUBMIT_RECIPES = gql`
-	mutation Submit($url: String!) {
-		submit(url: $url) {
-			success
-			errorMessage
-		}
-	}
-`;
-
 export default function Submit(props) {
 	const { close } = props;
 
-	const [input, setInput] = useState('');
-	const [isError, setIsError] = useState(false);
 	const location = useLocation();
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const [input, setInput] = useState('');
+	const [isError, setIsError] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const background = location.state?.background;
 
-	const [submit, { loading }] = useMutation(SUBMIT_RECIPES, {
-		fetchPolicy: 'no-cache',
-		onCompleted: ({ submit }) => {
-			if (!submit.success) {
-				snackPackVar([
-					...snackPackVar(),
-					{
-						message: 'Something went wrong. Try again soon!',
-						severity: 'error',
-						key: new Date().getTime(),
-					},
-				]);
-				return console.error('Error sending email:', submit.errorMessage);
-			}
-			snackPackVar([
-				...snackPackVar(),
-				{
-					message: 'Email sent. Thanks!',
-					key: new Date().getTime(),
-				},
-			]);
-			close();
-			return console.log('Email sent:', submit.success);
-		},
-		onError: (error) => console.error('Error submitting:', error),
-	});
-
-	function handleSubmit() {
+	async function handleSubmit() {
 		if (!input || input.length < 6) return setIsError(true);
-		submit({ variables: { url: input } });
+
+		setLoading(true);
+
+		try {
+			await api.post('/submit', { url: input });
+			dispatch(showSnackbar({ message: 'Email sent. Thanks!' }));
+			close();
+		} catch (error) {
+			dispatch(
+				showSnackbar({
+					message: 'Something went wrong. Try again later!',
+					severity: 'error',
+				})
+			);
+			setLoading(false);
+			console.error('Submit:', error.message);
+		}
 	}
 
 	function handleChange(e) {
@@ -181,6 +164,7 @@ export default function Submit(props) {
 								value={input}
 								onChange={handleChange}
 								onKeyPress={handleKeyPress}
+								disabled={loading}
 							/>
 						</TextBox>
 						<SearchBox>

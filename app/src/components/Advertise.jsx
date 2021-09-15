@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
-import { useMutation, gql } from '@apollo/client';
-
 import { useHistory, useLocation } from 'react-router-dom';
+
+import { useDispatch } from 'react-redux';
 
 import { styled, Button, OutlinedInput, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 import { Appbar } from './index';
-import { snackPackVar } from '../cache';
+import { api } from '../assets';
+import { showSnackbar } from '../state';
 
 const Root = styled('section')(({ theme }) => ({
 	height: '100%',
@@ -98,62 +99,44 @@ const CancelButton = styled(Button)(({ theme }) => ({
 	fontSize: theme.typography.h5.fontSize,
 }));
 
-const REQUEST_TO_ADVERTISE = gql`
-	mutation Advertise($email: String!) {
-		advertise(email: $email) {
-			success
-			errorMessage
-		}
-	}
-`;
-
 export default function Advertise(props) {
 	const { close } = props;
 
-	const [input, setInput] = useState('');
-	const [isError, setIsError] = useState(false);
 	const location = useLocation();
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const [email, setEmail] = useState('');
+	const [isError, setIsError] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const background = location.state?.background;
 
-	const [advertise, { loading }] = useMutation(REQUEST_TO_ADVERTISE, {
-		fetchPolicy: 'no-cache',
-		onCompleted: ({ advertise }) => {
-			if (!advertise.success) {
-				snackPackVar([
-					...snackPackVar(),
-					{
-						message: 'Something went wrong. Try again soon!',
-						severity: 'error',
-						key: new Date().getTime(),
-					},
-				]);
-				return console.error('Error sending email:', advertise.errorMessage);
-			}
-			snackPackVar([
-				...snackPackVar(),
-				{
-					message: 'Email sent. Thanks!',
-					key: new Date().getTime(),
-				},
-			]);
-			close();
-			return console.log('Advertising request sent:', advertise.success);
-		},
-		onError: (error) => console.error('Error submitting:', error),
-	});
-
-	function handleSubmit() {
-		if (!input || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)) {
+	async function handleSubmit() {
+		if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
 			return setIsError(true);
 		}
-		advertise({ variables: { email: input } });
+
+		setLoading(true);
+
+		try {
+			await api.post('/advertise', { email });
+			dispatch(showSnackbar({ message: 'Email sent. Thanks!' }));
+			close();
+		} catch (error) {
+			dispatch(
+				showSnackbar({
+					message: 'Something went wrong. Try again later!',
+					severity: 'error',
+				})
+			);
+			setLoading(false);
+			console.error('Error sending advertising request:', error.message);
+		}
 	}
 
 	function handleChange(e) {
 		setIsError(false);
-		setInput(e.target.value);
+		setEmail(e.target.value);
 	}
 
 	function handleKeyPress(e) {
@@ -181,9 +164,10 @@ export default function Advertise(props) {
 								placeholder="Your email..."
 								type="text"
 								error={isError}
-								value={input}
+								value={email}
 								onChange={handleChange}
 								onKeyPress={handleKeyPress}
+								disabled={loading}
 							/>
 						</TextBox>
 						<SearchBox>

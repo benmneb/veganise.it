@@ -2,13 +2,12 @@ import { useState } from 'react';
 
 import { useHistory, useLocation } from 'react-router';
 
-import { gql, useLazyQuery } from '@apollo/client';
-
 import { styled, alpha } from '@mui/material/styles';
 import { InputBase } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-import { searchResultsVar } from '../cache';
+import { search, setSearchResults } from '../state';
+import { useDispatch } from 'react-redux';
 
 const SearchBox = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -55,42 +54,27 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	},
 }));
 
-const SEARCH_RECIPES = gql`
-	query Search($term: String!) {
-		search(term: $term) {
-			_id
-			title
-			author
-			likes
-		}
-	}
-`;
-
 export default function AppbarSearch() {
 	const history = useHistory();
 	const location = useLocation();
+	const dispatch = useDispatch();
 	const [term, setTerm] = useState('');
 
-	const [search] = useLazyQuery(SEARCH_RECIPES, {
-		displayName: 'search',
-		onCompleted: (data) => {
-			searchResultsVar(data);
-			const urlTerm = term.replace(/\s+/g, '-').toLowerCase();
-			history.push(`/${urlTerm}`);
-		},
-		onError: (error) => console.error(error.message),
-	});
-
-	function handleKeyPress(e) {
+	async function handleKeyPress(e) {
 		if (e.key !== 'Enter') return;
 		if (!term) return;
+
 		if (term === 'submit' || term === 'advertise') {
 			return history.push({
 				pathname: `/${term}`,
 				state: { background: location },
 			});
 		}
-		search({ variables: { term } });
+
+		dispatch(setSearchResults({ term, source: 'appbar' }));
+		dispatch(search(term, 'appbar'));
+		const urlTerm = term.trim().replace(/\s+/g, '-').toLowerCase();
+		history.push(`/${urlTerm}`);
 	}
 
 	return (

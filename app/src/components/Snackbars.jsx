@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 
-import { useReactiveVar } from '@apollo/client';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Snackbar, Alert } from '@mui/material';
 
-import { snackPackVar } from '../cache';
+import { sliceSnackPack } from '../state';
 
 export default function Snackbars() {
-	const snackPack = useReactiveVar(snackPackVar);
+	const dispatch = useDispatch();
+	const snackPack = useSelector((state) => state.snackPack);
 	const [open, setOpen] = useState(false);
 	const [messageInfo, setMessageInfo] = useState(undefined);
 
@@ -15,15 +16,15 @@ export default function Snackbars() {
 		if (snackPack.length && !messageInfo) {
 			// Set a new snack when we don't have an active one
 			setMessageInfo({ ...snackPack[0] });
-			snackPackVar([...snackPack.slice(1)]);
+			dispatch(sliceSnackPack());
 			setOpen(true);
 		} else if (snackPack.length && messageInfo && open) {
 			// Close an active snack when a new one is added
 			setOpen(false);
 		}
-	}, [snackPack, messageInfo, open]);
+	}, [snackPack, messageInfo, open, dispatch]);
 
-	function handleClose(event, reason) {
+	function handleClose(_, reason) {
 		if (reason !== 'clickaway') {
 			setOpen(false);
 		}
@@ -36,6 +37,7 @@ export default function Snackbars() {
 	return (
 		<Snackbar
 			key={messageInfo ? messageInfo.key : null}
+			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
 			open={open}
 			autoHideDuration={6000}
 			onClose={handleClose}

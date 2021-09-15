@@ -1,8 +1,8 @@
-import { useReactiveVar } from '@apollo/client';
+import { useEffect, useState } from 'react';
+
+import { useSelector } from 'react-redux';
 
 import { styled, Typography } from '@mui/material';
-
-import { searchResultsVar } from '../cache';
 
 const Wrapper = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -14,20 +14,25 @@ const Wrapper = styled('div')(({ theme }) => ({
 	},
 }));
 
-const defaultText =
+const defaultCaption =
 	'A curated collection of mouth-watering recipes to help you cook the best plant-based meals easier than ever.';
 
 export default function Caption() {
-	const searchResults = useReactiveVar(searchResultsVar);
+	const [caption, setCaption] = useState(defaultCaption);
+	const searchResults = useSelector((state) => state.searchResults);
 
-	const resultsText = `Found ${searchResults?.search?.length} vegan recipes`;
+	useEffect(() => {
+		if (!searchResults?.data) return setCaption(defaultCaption);
 
-	const visibleText = searchResults.search ? resultsText : defaultText;
+		setCaption(
+			`${searchResults?.data?.length} vegan "${searchResults.term}" recipes`
+		);
+	}, [searchResults]);
 
 	return (
 		<Wrapper>
 			<Typography variant="h4" component="h3">
-				{visibleText}
+				{caption}
 			</Typography>
 		</Wrapper>
 	);

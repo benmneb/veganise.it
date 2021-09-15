@@ -1,3 +1,5 @@
+import { useDispatch } from 'react-redux';
+
 import { Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import {
 	Facebook,
@@ -8,7 +10,7 @@ import {
 	ContentCopy,
 } from '@mui/icons-material';
 
-import { snackPackVar } from '../cache';
+import { showSnackbar } from '../state';
 
 const msg = 'Check%20out%20this%20vegan%20recipe!%20%F0%9F%A4%A4';
 const img = 'todo';
@@ -24,6 +26,7 @@ const options = [
 
 export default function ShareMenu(props) {
 	const { open, close, anchor } = props;
+	const dispatch = useDispatch();
 
 	const url = window.location.href;
 
@@ -31,19 +34,28 @@ export default function ShareMenu(props) {
 		if (navigator.clipboard) {
 			try {
 				await navigator.clipboard.writeText(url);
-				console.log('Copied to clipboard:', url);
-				snackPackVar([
-					...snackPackVar(),
-					{
+				dispatch(
+					showSnackbar({
 						message: 'Link copied to clipboard',
 						severity: 'info',
-						key: new Date().getTime(),
-					},
-				]);
+					})
+				);
 			} catch (error) {
+				dispatch(
+					showSnackbar({
+						message: 'Could not copy to clipboard. Sorry!',
+						severity: 'error',
+					})
+				);
 				console.error('Error copying to clipboard:', error.message);
 			}
 		} else {
+			dispatch(
+				showSnackbar({
+					message: 'Could not access clipboard API. Sorry!',
+					severity: 'error',
+				})
+			);
 			console.error('Could not access Clipboard API');
 		}
 	}

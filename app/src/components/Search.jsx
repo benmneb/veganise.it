@@ -1,8 +1,8 @@
 import { useEffect, useRef, useMemo, useState } from 'react';
 
-import { useLazyQuery, gql } from '@apollo/client';
-
 import { useHistory, useLocation } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import { styled, FormControl, OutlinedInput } from '@mui/material/';
 import { useFormControl } from '@mui/material/FormControl';
@@ -11,7 +11,7 @@ import { LoadingButton } from '@mui/lab';
 import Typed from 'typed.js';
 
 import { HideOnScroll } from '../utils';
-import { searchResultsVar } from '../cache';
+import { search, setSearchResults } from '../state';
 
 const FormController = styled(FormControl)(({ theme }) => ({
 	position: 'sticky',
@@ -77,34 +77,14 @@ const SearchButton = styled(LoadingButton)(({ theme }) => ({
 	},
 }));
 
-const SEARCH_RECIPES = gql`
-	query Search($term: String!) {
-		search(term: $term) {
-			_id
-			title
-			author
-			likes
-		}
-	}
-`;
-
 function TypedInputs() {
 	const { focused } = useFormControl() || {};
 	const history = useHistory();
 	const location = useLocation();
+	const dispatch = useDispatch();
 
+	const searchResults = useSelector((state) => state.searchResults);
 	const [inputValue, setInputValue] = useState('');
-
-	const [search, { loading }] = useLazyQuery(SEARCH_RECIPES, {
-		displayName: 'search',
-		onCompleted: (data) => {
-			searchResultsVar(data);
-			const rawTerm = inputValue || stringRef.current;
-			const term = rawTerm.replace(/\s+/g, '-').toLowerCase();
-			history.push(`/${term}`);
-		},
-		onError: (error) => console.error(error.message),
-	});
 
 	const inputRef = useRef(null);
 	const stringRef = useRef(null);
@@ -152,20 +132,24 @@ function TypedInputs() {
 		return null;
 	}, [focused, inputValue]);
 
-	function handleSearch() {
+	async function handleSearch() {
 		const term = inputValue || stringRef.current;
+
 		if (!term) return;
+
 		if (term === 'submit' || term === 'advertise') {
 			return history.push({
 				pathname: `/${term}`,
 				state: { background: location },
 			});
 		}
+
 		if (!inputValue) {
 			typedRef.current.destroy();
 			setInputValue(term);
 		}
-		search({ variables: { term } });
+
+		dispatch(search(term));
 	}
 
 	function handleKeyPress(e) {
@@ -176,8 +160,10 @@ function TypedInputs() {
 
 	function handleBlur() {
 		if (inputValue) return;
-		if (history.location.pathname !== '/') history.push('/');
-		searchResultsVar([]);
+		if (history.location.pathname !== '/' && !searchResults?.data.length) {
+			dispatch(setSearchResults(null));
+			history.push('/');
+		}
 	}
 
 	return (
@@ -197,7 +183,7 @@ function TypedInputs() {
 					disableElevation
 					variant="contained"
 					onClick={handleSearch}
-					loading={loading}
+					// loading={loading}
 					loadingIndicator="Veganising..."
 				>
 					Veganise It!

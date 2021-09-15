@@ -1,27 +1,23 @@
 import { StrictMode } from 'react';
 import { render } from 'react-dom';
+
 import { BrowserRouter } from 'react-router-dom';
 
-import { ApolloClient, ApolloProvider } from '@apollo/client';
-import { cache } from './cache';
+import { Provider } from 'react-redux';
+import { store } from './state';
 
 import App from './App';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
-const client = new ApolloClient({
-	cache,
-	uri: 'http://localhost:4000/',
-});
-
 render(
 	<StrictMode>
-		<ApolloProvider client={client}>
+		<Provider store={store}>
 			<BrowserRouter>
 				<App />
 			</BrowserRouter>
-		</ApolloProvider>
+		</Provider>
 	</StrictMode>,
 	document.getElementById('root')
 );

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useParams, useLocation, useHistory } from 'react-router';
 
-import { gql, useQuery } from '@apollo/client';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
 	Button,
@@ -21,6 +21,8 @@ import {
 } from '@mui/icons-material';
 
 import { LikeIconButton, LikeButton, ShareMenu, Appbar } from './index';
+import { api } from '../assets';
+import { setSearchResults } from '../state';
 
 const Content = styled(DialogContent)(({ theme }) => ({
 	cursor: 'auto',
@@ -86,37 +88,43 @@ const ActionButton = styled(Button)(({ theme }) => ({
 	borderRadius: 0,
 }));
 
-const GET_RECIPE = gql`
-	query Recipe($id: String!) {
-		recipe(id: $id) {
-			title
-			author
-			likes
-			url
-			about
-			ingredients
-			method
-		}
-	}
-`;
-
 export default function Recipe(props) {
 	const { close } = props;
 
 	const location = useLocation();
 	const history = useHistory();
 	const { id } = useParams();
+	const dispatch = useDispatch();
+	const searchResults = useSelector((state) => state.searchResults);
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
+	const [recipe, setRecipe] = useState(null);
 
 	const background = location.state?.background;
 
-	const { error, loading, data } = useQuery(GET_RECIPE, {
-		variables: { id },
-	});
-
-	if (loading) return 'Loading...';
-	if (error) return `Error: ${error.message}`;
+	// get recipe data on mount
+	// this is also responsible for updating the like count "in real time"
+	useEffect(() => {
+		if (!searchResults) {
+			// if theres no search results in redux, it means they came from a link etc
+			// so it needs to be fetched
+			(async () => {
+				try {
+					const response = await api.get(`/recipe/${id}`);
+					const recipeData = response.data.data;
+					// need to set search results so it can be updated when liking it
+					dispatch(setSearchResults({ length: 1, data: [recipeData] }));
+					setRecipe(recipeData);
+				} catch (error) {
+					console.error(error.message);
+				}
+			})();
+		} else {
+			// else get data from the searchResults data array already in redux
+			// this is responsible for updating the like count "in real time"
+			setRecipe(searchResults.data.find((recipe) => recipe._id === id));
+		}
+	}, [searchResults, id, dispatch]);
 
 	async function handleShare(event) {
 		if (navigator.share && mobile) {
@@ -142,15 +150,13 @@ export default function Recipe(props) {
 	}
 
 	function handleViewSource() {
-		return window.open(
-			`${data.recipe.url}?ref=veganise.it`,
-			'_blank',
-			'noopener'
-		);
+		return window.open(`${recipe?.url}?ref=veganise.it`, '_blank', 'noopener');
 	}
 
 	function handleClose() {
 		if (background) return close();
+		// reset searchResults so Home.jsx doesn't try to do a search
+		dispatch(setSearchResults(null));
 		history.push('/');
 	}
 
@@ -161,12 +167,12 @@ export default function Recipe(props) {
 				<Header component="header">
 					<Titles>
 						<Typography variant="h4" component="h1">
-							{data.recipe.title}
+							{recipe?.title}
 						</Typography>
 						<Typography variant="h6" component="h2">
-							by {data.recipe.author}
+							by {recipe?.author}
 						</Typography>
-						<LikeIconButton initialLikes={data.recipe.likes} />
+						<LikeIconButton currentLikes={recipe?.likes} />
 					</Titles>
 					<IconActions>
 						<Tooltip
@@ -204,23 +210,31 @@ export default function Recipe(props) {
 				</Header>
 				<Image />
 				<Overview>
-					<Typography variant="h5" gutterBottom>
-						💬 About
-					</Typography>
-					{data.recipe.about}
+					{recipe?.about && (
+						<>
+							<Typography variant="h5" gutterBottom>
+								💬 About
+							</Typography>
+							{recipe.about.map((paragraph) => (
+								<Typography key={paragraph} paragraph>
+									{paragraph}
+								</Typography>
+							))}
+						</>
+					)}
 				</Overview>
 				<Details>
 					<Ingredients>
 						<Typography variant="h5" gutterBottom>
 							🛒 Ingredients
 						</Typography>
-						{data.recipe.ingredients}
+						{/* {recipe?.ingredients} */}
 					</Ingredients>
 					<Method>
 						<Typography variant="h5" gutterBottom>
 							🧑‍🍳 Method
 						</Typography>
-						{data.recipe.method}
+						{/* {recipe?.method} */}
 					</Method>
 				</Details>
 				<Actions color="inherit">
@@ -232,7 +246,7 @@ export default function Recipe(props) {
 					>
 						Feed a friend
 					</ActionButton>
-					<LikeButton>Compliment {data.recipe.authorNickname}</LikeButton>
+					<LikeButton>Compliment the chef</LikeButton>
 					{mobile ? (
 						<ActionButton
 							size="large"

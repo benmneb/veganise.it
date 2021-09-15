@@ -11,8 +11,6 @@ import { FavoriteBorderRounded } from '@mui/icons-material';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { sessionLikesVar } from '../cache';
-
 const Card = styled(MuiCard)(({ theme }) => ({
 	cursor: 'zoom-in',
 	width: '100%',
@@ -79,10 +77,7 @@ export default function ResultCard(props) {
 					alignItems="center"
 					gutterBottom
 				>
-					<LikeIcon />{' '}
-					{sessionLikesVar()[recipe._id] !== undefined
-						? recipe.likes + sessionLikesVar()[recipe._id]
-						: recipe.likes}
+					<LikeIcon /> {recipe.likes}
 				</Typography>
 			</Content>
 		</Card>

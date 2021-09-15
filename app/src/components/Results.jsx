@@ -1,9 +1,13 @@
-import { useReactiveVar } from '@apollo/client';
+import { useEffect, useRef } from 'react';
+
+import { useParams } from 'react-router-dom';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 import { styled } from '@mui/material';
 
 import { ResultCard } from './index';
-import { searchResultsVar } from '../cache';
+import { search } from '../state';
 
 const Grid = styled('section')(({ theme }) => ({
 	width: '100%',
@@ -16,13 +20,24 @@ const Grid = styled('section')(({ theme }) => ({
 }));
 
 export default function Results() {
-	const searchResults = useReactiveVar(searchResultsVar);
+	const { term } = useParams();
+	const dispatch = useDispatch();
+	const searchResults = useSelector((state) => state.searchResults);
+	const firstMount = useRef(true);
 
-	if (!searchResults) return null;
+	// enable search from url
+	useEffect(() => {
+		if (!firstMount.current) return;
+		firstMount.current = false;
+
+		dispatch(search(term, 'url'));
+	}, [term, dispatch]);
+
+	if (!searchResults?.data) return null;
 
 	return (
 		<Grid>
-			{searchResults?.search?.map((recipe) => (
+			{searchResults?.data.map((recipe) => (
 				<ResultCard key={recipe._id} recipe={recipe} />
 			))}
 		</Grid>

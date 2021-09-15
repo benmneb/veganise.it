@@ -1,15 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import { useParams } from 'react-router';
 
-import { gql, useMutation, useReactiveVar } from '@apollo/client';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, styled } from '@mui/material';
 import { FavoriteBorderRounded, FavoriteRounded } from '@mui/icons-material';
 
-import { compliments, maxPossibleLikes } from '../assets';
+import { compliments, maxPossibleLikes, api } from '../assets';
 import { get, update } from '../utils';
-import { sessionLikesVar, indexedDbLikesVar } from '../cache';
+import { like } from '../state';
 
 const ActionButton = styled(Button)(({ theme }) => ({
 	flex: '1 1 0',
@@ -26,41 +26,40 @@ const TextWrapper = styled('div')({
 	textAlign: 'left',
 });
 
-const ADD_LIKE = gql`
-	mutation Like($id: String!) {
-		like(id: $id) {
-			likes
-		}
-	}
-`;
-
 export default function LikeButton(props) {
 	const { children } = props;
 
+	const dispatch = useDispatch();
 	const { id } = useParams();
-	const [like] = useMutation(ADD_LIKE);
 	const [compliment, setCompliment] = useState(null);
+	const [userLikes, setUserLikes] = useState(0);
+	const searchResults = useSelector((state) => state.searchResults);
 
-	const sessionLikes = useReactiveVar(sessionLikesVar)[id];
-	const indexedDbLikes = useReactiveVar(indexedDbLikesVar)[id];
-	const indexedDbLikesRef = useRef(undefined);
+	const setIndexedDbLikesToLocalState = useCallback(() => {
+		get(id).then((val) => {
+			setUserLikes(val || 0);
+		});
+	}, [id]);
 
-	function handleClick() {
-		if (
-			indexedDbLikesRef.current !== undefined &&
-			(indexedDbLikes || 0) < maxPossibleLikes
-		) {
-			// add to mongo via graphQL for long term storage
-			like({ variables: { id } });
-			// add to reactive var to update ui based on like count for this session
-			sessionLikesVar({
-				...sessionLikesVar(),
-				[id]: (sessionLikesVar()[id] = (sessionLikes || 0) + 1),
-			});
-			// add to indexedDb to track "temp user" like count long-term (so they can't leave unlimited likes)
+	// sync indexDb value to local state on mount and after like from either button
+	useEffect(() => {
+		setIndexedDbLikesToLocalState();
+	}, [setIndexedDbLikesToLocalState, searchResults]);
+
+	async function handleClick() {
+		if (userLikes >= maxPossibleLikes) return;
+
+		try {
+			// add to mongo for long term global storage
+			await api.post('/like', { id });
+			// update redux state so changes are reflected locally without a re-fetch
+			dispatch(like(id));
+
+			// add to indexedDb so they can't leave unlimited likes
 			update(id, (val) => (val || 0) + 1).catch((err) =>
 				console.error('error updating indexedDb:', err)
 			);
+
 			// set a random compliment thats not the one immediately preceeding it
 			setCompliment(
 				(prev) =>
@@ -68,21 +67,12 @@ export default function LikeButton(props) {
 						Math.floor(Math.random() * compliments.length)
 					]
 			);
+		} catch (error) {
+			console.error(error.message);
 		}
 	}
 
-	// update indexedDb value to track "temp user" like count long-term
-	useEffect(() => {
-		get(id).then((val) => {
-			indexedDbLikesVar({
-				...indexedDbLikesVar(),
-				[id]: val,
-			});
-			indexedDbLikesRef.current = val || 0;
-		});
-	}, [sessionLikes, id]);
-
-	// clear random compliment
+	// clear random compliment after 3 seconds
 	useEffect(() => {
 		const clearCompliment = setTimeout(() => {
 			setCompliment(null);
@@ -97,16 +87,13 @@ export default function LikeButton(props) {
 		<ActionButton
 			size="large"
 			color="inherit"
-			disableRipple={
-				indexedDbLikes >= maxPossibleLikes || sessionLikes >= maxPossibleLikes
-			}
+			disableRipple={userLikes >= maxPossibleLikes}
 			onClick={handleClick}
 			startIcon={
-				indexedDbLikes >= maxPossibleLikes ||
-				sessionLikes >= maxPossibleLikes ? (
-					<FavoriteRounded color="favorite" edge="start" />
+				userLikes >= maxPossibleLikes ? (
+					<FavoriteRounded color="favorite" />
 				) : (
-					<FavoriteBorderRounded color="favorite" edge="start" />
+					<FavoriteBorderRounded color="favorite" />
 				)
 			}
 		>
