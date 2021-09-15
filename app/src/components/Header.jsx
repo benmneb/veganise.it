@@ -38,10 +38,6 @@ const HGroup = styled('hgroup')(({ theme }) => ({
 	padding: theme.spacing(2),
 }));
 
-const InlineBlock = styled('span')({
-	display: 'inline-block',
-});
-
 export default function Header() {
 	// const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -64,7 +60,11 @@ export default function Header() {
 				<HGroup>
 					<Typography
 						variant="h1"
-						sx={{ '@media (max-width: 387px)': { fontSize: '2.8rem' } }}
+						sx={{
+							marginBottom: 2,
+							marginTop: -2,
+							'@media (max-width: 387px)': { fontSize: '2.8rem' },
+						}}
 					>
 						VEGANISE IT
 					</Typography>
@@ -73,24 +73,24 @@ export default function Header() {
 						component="h2"
 						sx={{
 							display: { mobile: 'none', tablet: 'block' },
+							'@media (max-width: 850px)': { display: 'none' },
 						}}
 					>
-						<InlineBlock>🧑‍🍳 Your favourite recipes.</InlineBlock>{' '}
-						<InlineBlock>Made with plants 🌱</InlineBlock>
+						🧑‍🍳 Your favourite recipes. Made with plants 🌱
 					</Typography>
 					<Typography
 						variant="h3"
 						component="h2"
 						sx={{
-							display: { mobile: 'block', tablet: 'none' },
-							marginTop: 2,
-							'@media (max-width: 379px)': {
-								display: 'none',
+							display: 'none',
+							'@media (min-width: 387px) and (max-width: 850px)': {
+								display: 'block',
 							},
 						}}
 					>
-						<InlineBlock>Your favourite recipes.</InlineBlock>{' '}
-						<InlineBlock>🧑‍🍳 Made with plants 🌱</InlineBlock>
+						Your favourite recipes.
+						<br />
+						🧑‍🍳 Made with plants 🌱
 					</Typography>
 				</HGroup>
 			</HideOnScroll>
