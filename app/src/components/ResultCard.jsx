@@ -24,13 +24,18 @@ const Card = styled(MuiCard)(({ theme }) => ({
 		transform: 'translateY(-2px)',
 		boxShadow: '0 16px 24px 0 rgba(0, 0, 0, 0.12)',
 	},
+	'&:active': {
+		transform: 'scale(0.95)',
+		boxShadow: '0 24px 32px 0 rgba(0, 0, 0, 0.22)',
+	},
 }));
 
 const Media = styled(CardMedia)({
-	height: 350,
+	height: '70%',
 });
 
 const Content = styled(CardContent)({
+	height: '30%',
 	textAlign: 'center',
 });
 
