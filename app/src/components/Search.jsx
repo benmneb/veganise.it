@@ -12,6 +12,7 @@ import Typed from 'typed.js';
 
 import { HideOnScroll } from '../utils';
 import { search, setSearchResults } from '../state';
+import { autosuggestStrings } from '../assets';
 
 const FormController = styled(FormControl)(({ theme }) => ({
 	position: 'sticky',
@@ -93,16 +94,9 @@ function TypedInputs() {
 	// initialise Typed.js on load, and destroy it on unmount
 	useEffect(() => {
 		const options = {
-			strings: [
-				'Delicious food',
-				'Something else great',
-				'So many awesome things',
-				'Its truly amazing',
-				'Absolutely fabulous',
-				'Outstandingly entertaining',
-			],
-			typeSpeed: 80,
-			backSpeed: 30,
+			strings: autosuggestStrings,
+			typeSpeed: 130,
+			backSpeed: 50,
 			startDelay: 300,
 			backDelay: 1500,
 			smartBackspace: false,
