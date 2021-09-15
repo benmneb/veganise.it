@@ -3,7 +3,8 @@
 */.env
 todo.txt
 
-#vercel
+# deployment
+*/.netlify
 */.vercel
 
 # yarn zero-installs
