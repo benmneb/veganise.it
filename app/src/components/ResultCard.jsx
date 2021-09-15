@@ -15,7 +15,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 	cursor: 'zoom-in',
 	width: '100%',
 	maxWidth: 700,
-	height: 500,
+	height: 400,
 	placeSelf: 'center',
 	position: 'relative',
 	boxShadow: '0 8px 24px 0 rgba(0, 0, 0, 0.12)',
@@ -31,11 +31,11 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const Media = styled(CardMedia)({
-	height: '70%',
+	height: '60%',
 });
 
 const Content = styled(CardContent)({
-	height: '30%',
+	height: '40%',
 	textAlign: 'center',
 });
 
