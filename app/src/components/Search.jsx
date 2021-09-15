@@ -12,7 +12,7 @@ import Typed from 'typed.js';
 
 import { HideOnScroll } from '../utils';
 import { search, setSearchResults } from '../state';
-import { autosuggestStrings } from '../assets';
+import { searchSuggestStrings } from '../assets';
 
 const FormController = styled(FormControl)(({ theme }) => ({
 	position: 'sticky',
@@ -94,7 +94,7 @@ function TypedInputs() {
 	// initialise Typed.js on load, and destroy it on unmount
 	useEffect(() => {
 		const options = {
-			strings: autosuggestStrings,
+			strings: searchSuggestStrings,
 			typeSpeed: 130,
 			backSpeed: 50,
 			startDelay: 300,

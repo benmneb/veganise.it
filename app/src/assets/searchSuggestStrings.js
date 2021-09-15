@@ -1,4 +1,4 @@
-export const autosuggestStrings = [
+export const searchSuggestStrings = [
 	'Bacon',
 	'Meat',
 	'Cheese',
