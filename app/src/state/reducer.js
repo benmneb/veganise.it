@@ -18,7 +18,7 @@ export function reducer(state = initialState, action) {
 					data: [
 						...state.searchResults.data.map((recipe) =>
 							recipe._id === action.id
-								? { ...recipe, likes: recipe.likes + 1 }
+								? { ...recipe, likes: (recipe.likes || 0) + 1 }
 								: recipe
 						),
 					],
