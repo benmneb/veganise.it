@@ -8,7 +8,7 @@ import { styled, Button, OutlinedInput, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 import { Appbar } from './index';
-import { api } from '../assets';
+import { api } from '../utils';
 import { showSnackbar } from '../state';
 
 const Root = styled('section')(({ theme }) => ({

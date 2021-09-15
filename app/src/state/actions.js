@@ -1,4 +1,4 @@
-import { api } from '../assets';
+import { api } from '../utils';
 
 export function setSearchResults(data) {
 	return {

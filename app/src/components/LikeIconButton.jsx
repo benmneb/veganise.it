@@ -2,12 +2,13 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { useParams } from 'react-router';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import { IconButton, styled, Typography } from '@mui/material';
 import { FavoriteBorderRounded, FavoriteRounded } from '@mui/icons-material';
 
-import { compliments, maxPossibleLikes, api } from '../assets';
-import { get, update } from '../utils';
-import { useDispatch, useSelector } from 'react-redux';
+import { compliments, maxPossibleLikes } from '../assets';
+import { get, update, api } from '../utils';
 import { like } from '../state';
 
 const Container = styled('div')({

@@ -21,7 +21,7 @@ import {
 } from '@mui/icons-material';
 
 import { LikeIconButton, LikeButton, ShareMenu, Appbar } from './index';
-import { api } from '../assets';
+import { api } from '../utils';
 import { setSearchResults } from '../state';
 
 const Content = styled(DialogContent)(({ theme }) => ({

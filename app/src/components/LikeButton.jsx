@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, styled } from '@mui/material';
 import { FavoriteBorderRounded, FavoriteRounded } from '@mui/icons-material';
 
-import { compliments, maxPossibleLikes, api } from '../assets';
-import { get, update } from '../utils';
+import { compliments, maxPossibleLikes } from '../assets';
+import { get, update, api } from '../utils';
 import { like } from '../state';
 
 const ActionButton = styled(Button)(({ theme }) => ({
