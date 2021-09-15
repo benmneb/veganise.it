@@ -121,7 +121,8 @@ export default function Advertise(props) {
 		try {
 			await api.post('/advertise', { email });
 			dispatch(showSnackbar({ message: 'Email sent. Thanks!' }));
-			close();
+			if (background) close();
+			if (!background) setLoading(false);
 		} catch (error) {
 			dispatch(
 				showSnackbar({

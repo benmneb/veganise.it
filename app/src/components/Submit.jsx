@@ -118,7 +118,8 @@ export default function Submit(props) {
 		try {
 			await api.post('/submit', { url: input });
 			dispatch(showSnackbar({ message: 'Email sent. Thanks!' }));
-			close();
+			if (background) close();
+			if (!background) setLoading(false);
 		} catch (error) {
 			dispatch(
 				showSnackbar({
