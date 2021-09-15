@@ -106,25 +106,28 @@ export default function Recipe(props) {
 	// this is also responsible for updating the like count "in real time"
 	useEffect(() => {
 		if (!searchResults) {
-			// if theres no search results in redux, it means they came from a link etc
+			// no search results means they came from a link or refershed the page
 			// so it needs to be fetched
 			(async () => {
 				try {
 					const response = await api.get(`/recipe/${id}`);
 					const recipeData = response.data.data;
 					// need to set search results so it can be updated when liking it
-					dispatch(setSearchResults({ length: 1, data: [recipeData] }));
+					// but only if there's no background state (because its already there otherwise)
+					if (!background) {
+						dispatch(setSearchResults({ length: 1, data: [recipeData] }));
+					}
 					setRecipe(recipeData);
 				} catch (error) {
 					console.error(error.message);
 				}
 			})();
 		} else {
-			// else get data from the searchResults data array already in redux
-			// this is responsible for updating the like count "in real time"
+			// otherwise get data from the searchResults data array already in redux
+			// this is also responsible for updating the like count "in real time"
 			setRecipe(searchResults.data.find((recipe) => recipe._id === id));
 		}
-	}, [searchResults, id, dispatch]);
+	}, [searchResults, id, dispatch, background]);
 
 	async function handleShare(event) {
 		if (navigator.share && mobile) {
