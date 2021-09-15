@@ -1,4 +1,6 @@
-import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import {
@@ -12,9 +14,6 @@ import {
 
 import { showSnackbar } from '../state';
 
-const msg = 'Check%20out%20this%20vegan%20recipe!%20%F0%9F%A4%A4';
-const img = 'todo';
-
 const options = [
 	{ name: 'Facebook', icon: <Facebook sx={{ color: '#4267B2' }} /> },
 	{ name: 'Reddit', icon: <Reddit sx={{ color: '#ff4500' }} /> },
@@ -26,9 +25,15 @@ const options = [
 
 export default function ShareMenu(props) {
 	const { open, close, anchor } = props;
+
+	const { id } = useParams();
 	const dispatch = useDispatch();
+	const searchResults = useSelector((state) => state.searchResults);
+	const currentRecipe = searchResults?.data.find((recipe) => recipe._id === id);
 
 	const url = window.location.href;
+	const msg = 'Check%20out%20this%20vegan%20recipe!%20%F0%9F%A4%A4';
+	const img = currentRecipe?.image || '';
 
 	async function copyLink() {
 		if (navigator.clipboard) {
