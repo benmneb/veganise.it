@@ -14,19 +14,15 @@ import {
 	Typography,
 	useMediaQuery,
 } from '@mui/material';
-import {
-	ShareRounded,
-	OpenInNewRounded,
-	CancelRounded,
-} from '@mui/icons-material';
+import { OpenInNewRounded, CancelRounded } from '@mui/icons-material';
 
 import { LikeIconButton, LikeButton, ShareMenu, Appbar } from './index';
-import { api } from '../utils';
+import { api, ShareIcon } from '../utils';
 import { setSearchResults } from '../state';
 
-const Content = styled(DialogContent)(({ theme }) => ({
+const Content = styled(DialogContent)({
 	cursor: 'auto',
-}));
+});
 
 const Header = styled(DialogTitle)({
 	display: 'flex',
@@ -186,7 +182,7 @@ export default function Recipe(props) {
 								size={mobile ? 'medium' : 'large'}
 								onClick={handleShare}
 							>
-								<ShareRounded />
+								<ShareIcon />
 							</IconButton>
 						</Tooltip>
 						<Tooltip title="View source" placement={mobile ? 'left' : 'bottom'}>
@@ -244,31 +240,20 @@ export default function Recipe(props) {
 					<ActionButton
 						size="large"
 						color="inherit"
-						startIcon={<ShareRounded />}
+						startIcon={<ShareIcon />}
 						onClick={handleShare}
 					>
 						Feed a friend
 					</ActionButton>
 					<LikeButton>Compliment the chef</LikeButton>
-					{mobile ? (
-						<ActionButton
-							size="large"
-							color="inherit"
-							startIcon={<CancelRounded />}
-							onClick={handleClose}
-						>
-							Close
-						</ActionButton>
-					) : (
-						<ActionButton
-							size="large"
-							color="inherit"
-							startIcon={<OpenInNewRounded />}
-							onClick={handleViewSource}
-						>
-							View source
-						</ActionButton>
-					)}
+					<ActionButton
+						size="large"
+						color="inherit"
+						startIcon={<CancelRounded color="action" />}
+						onClick={handleClose}
+					>
+						Close
+					</ActionButton>
 				</Actions>
 				<ShareMenu
 					anchor={shareMenuAnchor}
