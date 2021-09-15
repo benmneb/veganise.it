@@ -19,8 +19,8 @@ export default function routes(app, db) {
 		}
 	});
 
-	app.get('/recipe', async (req, res) => {
-		const { id } = req.body;
+	app.get('/recipe/:id', async (req, res) => {
+		const id = req.params.id;
 
 		if (!id) {
 			return res.status(500).json({
