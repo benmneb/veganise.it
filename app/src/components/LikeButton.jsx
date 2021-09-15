@@ -22,7 +22,7 @@ const ActionButton = styled(Button)(({ theme }) => ({
 }));
 
 const TextWrapper = styled('div')({
-	width: 150,
+	width: 170,
 	textAlign: 'left',
 });
 
