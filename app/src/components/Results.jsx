@@ -8,7 +8,7 @@ import { styled } from '@mui/material';
 
 import { ResultCard } from './index';
 import { api, spaceout } from '../utils';
-import { setSearchResults } from '../state';
+import { setSearchData } from '../state';
 
 const Grid = styled('section')(({ theme }) => ({
 	width: '100%',
@@ -22,7 +22,7 @@ const Grid = styled('section')(({ theme }) => ({
 
 export default function Results() {
 	const dispatch = useDispatch();
-	const searchResults = useSelector((state) => state.searchResults);
+	const searchData = useSelector((state) => state.searchData);
 	const { term: rawTerm } = useParams();
 
 	const term = spaceout(rawTerm);
@@ -31,18 +31,18 @@ export default function Results() {
 	useEffect(() => {
 		(async () => {
 			const response = await api.get(`/search/${term}`);
-			dispatch(setSearchResults({ term, ...response.data }));
+			dispatch(setSearchData({ term, ...response.data }));
 		})();
 	}, [term, dispatch]);
 
 	// set searchData to null on return to base url
 	useEffect(() => {
-		return () => dispatch(setSearchResults(null));
+		return () => dispatch(setSearchData(null));
 	}, [dispatch]);
 
 	return (
 		<Grid>
-			{searchResults?.data.map((recipe) => (
+			{searchData?.results.map((recipe) => (
 				<ResultCard key={recipe._id} recipe={recipe} />
 			))}
 		</Grid>

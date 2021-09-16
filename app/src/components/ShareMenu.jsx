@@ -28,8 +28,8 @@ export default function ShareMenu(props) {
 
 	const { id } = useParams();
 	const dispatch = useDispatch();
-	const searchResults = useSelector((state) => state.searchResults);
-	const currentRecipe = searchResults?.data.find((recipe) => recipe._id === id);
+	const searchData = useSelector((state) => state.searchData);
+	const currentRecipe = searchData?.results.find((recipe) => recipe._id === id);
 
 	const url = window.location.href;
 	const msg = 'Check%20out%20this%20vegan%20recipe!%20%F0%9F%A4%A4';

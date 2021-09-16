@@ -29,7 +29,7 @@ export default function LikeIconButton(props) {
 	const { id } = useParams();
 	const [compliment, setCompliment] = useState(null);
 	const [userLikes, setUserLikes] = useState(0);
-	const searchResults = useSelector((state) => state.searchResults);
+	const searchData = useSelector((state) => state.searchData);
 
 	const setIndexedDbLikesToLocalState = useCallback(() => {
 		get(id).then((val) => {
@@ -40,7 +40,7 @@ export default function LikeIconButton(props) {
 	// sync indexDb value to local state on mount and after like from either button
 	useEffect(() => {
 		setIndexedDbLikesToLocalState();
-	}, [setIndexedDbLikesToLocalState, searchResults]);
+	}, [setIndexedDbLikesToLocalState, searchData]);
 
 	async function handleClick() {
 		if (userLikes >= maxPossibleLikes) return;

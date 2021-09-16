@@ -18,7 +18,7 @@ import { OpenInNewRounded, CancelRounded } from '@mui/icons-material';
 
 import { LikeIconButton, LikeButton, ShareMenu, Appbar } from './index';
 import { api, ShareIcon } from '../utils';
-import { setSearchResults } from '../state';
+import { setSearchData } from '../state';
 
 const Content = styled(DialogContent)({
 	cursor: 'auto',
@@ -91,7 +91,7 @@ export default function Recipe(props) {
 	const history = useHistory();
 	const { id } = useParams();
 	const dispatch = useDispatch();
-	const searchResults = useSelector((state) => state.searchResults);
+	const searchData = useSelector((state) => state.searchData);
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
 	const [recipe, setRecipe] = useState(null);
@@ -101,29 +101,32 @@ export default function Recipe(props) {
 	// get recipe data on mount
 	// this is also responsible for updating the like count "in real time"
 	useEffect(() => {
-		if (!searchResults) {
+		if (!searchData) {
 			// no search results means they came from a link or refershed the page
 			// so it needs to be fetched
 			(async () => {
 				try {
 					const response = await api.get(`/recipe/${id}`);
 					const recipeData = response.data.data;
-					// need to set search results so it can be updated when liking it
+
+					// need to set data in redux so it can be updated when liking it
 					// but only if there's no background state (because its already there otherwise)
 					if (!background) {
-						dispatch(setSearchResults({ length: 1, data: [recipeData] }));
+						dispatch(setSearchData({ length: 1, results: [recipeData] }));
 					}
+
+					// set the data in local state for use in this component
 					setRecipe(recipeData);
 				} catch (error) {
 					console.error(error.message);
 				}
 			})();
 		} else {
-			// otherwise get data from the searchResults data array already in redux
-			// this is also responsible for updating the like count "in real time"
-			setRecipe(searchResults.data.find((recipe) => recipe._id === id));
+			// otherwise get data from the searchData array already in redux
+			// this `else` block is also responsible for updating the like count "in real time"
+			setRecipe(searchData.results.find((recipe) => recipe._id === id));
 		}
-	}, [searchResults, id, dispatch, background]);
+	}, [searchData, id, dispatch, background]);
 
 	async function handleShare(event) {
 		if (navigator.share && mobile) {
@@ -154,8 +157,8 @@ export default function Recipe(props) {
 
 	function handleClose() {
 		if (background) return close();
-		// reset searchResults so Home.jsx doesn't try to do a search
-		dispatch(setSearchResults(null));
+		// reset searchData so Home.jsx doesn't try to do a search
+		dispatch(setSearchData(null));
 		history.push('/');
 	}
 

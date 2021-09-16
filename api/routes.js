@@ -51,9 +51,10 @@ export default function routes(app, db) {
 			const response = await recipes
 				.find({ $text: { $search: term } })
 				.toArray();
+
 			res
 				.status(200)
-				.json({ success: true, length: response.length, data: response });
+				.json({ success: true, length: response.length, results: response });
 		} catch (error) {
 			res.status(500).json({ success: false, message: error.message });
 			console.error('While searching:', error.message);

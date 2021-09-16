@@ -1,22 +1,22 @@
 const initialState = {
-	searchResults: null,
+	searchData: null,
 	snackPack: [],
 };
 
 export function reducer(state = initialState, action) {
 	switch (action.type) {
-		case 'SET_SEARCH_RESULTS':
+		case 'SET_SEARCH_DATA':
 			return {
 				...state,
-				searchResults: action.data,
+				searchData: action.data,
 			};
 		case 'LIKE':
 			return {
 				...state,
-				searchResults: {
-					...state.searchResults,
-					data: [
-						...state.searchResults.data.map((recipe) =>
+				searchData: {
+					...state.searchData,
+					results: [
+						...state.searchData.results.map((recipe) =>
 							recipe._id === action.id
 								? { ...recipe, likes: (recipe.likes || 0) + 1 }
 								: recipe

@@ -11,7 +11,7 @@ import { LoadingButton } from '@mui/lab';
 import Typed from 'typed.js';
 
 import { HideOnScroll, kebab } from '../utils';
-import { setSearchResults } from '../state';
+import { setSearchData } from '../state';
 import { searchSuggestStrings } from '../assets';
 
 const FormController = styled(FormControl)(({ theme }) => ({
@@ -84,7 +84,7 @@ function TypedInputs() {
 	const location = useLocation();
 	const dispatch = useDispatch();
 
-	const searchResults = useSelector((state) => state.searchResults);
+	const searchData = useSelector((state) => state.searchData);
 	const [inputValue, setInputValue] = useState('');
 
 	const inputRef = useRef(null);
@@ -154,8 +154,8 @@ function TypedInputs() {
 
 	function handleBlur() {
 		if (inputValue) return;
-		if (history.location.pathname !== '/' && !searchResults?.data.length) {
-			dispatch(setSearchResults(null));
+		if (history.location.pathname !== '/' && !searchData?.results.length) {
+			dispatch(setSearchData(null));
 			history.push('/');
 		}
 	}
