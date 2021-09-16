@@ -39,12 +39,6 @@ const Content = styled(CardContent)({
 	textAlign: 'center',
 });
 
-const LikeIcon = styled((props) => (
-	<FavoriteBorderRounded color="favorite" {...props} />
-))(({ theme }) => ({
-	marginRight: theme.spacing(1),
-}));
-
 export default function ResultCard(props) {
 	const { recipe } = props;
 
@@ -82,7 +76,11 @@ export default function ResultCard(props) {
 					alignItems="center"
 					gutterBottom
 				>
-					<LikeIcon /> {recipe.likes}
+					<FavoriteBorderRounded
+						color="favorite"
+						sx={{ mr: Boolean(recipe.likes) ? 1 : 0 }}
+					/>{' '}
+					{recipe.likes}
 				</Typography>
 			</Content>
 		</Card>
