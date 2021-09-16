@@ -52,6 +52,7 @@ export default function LikeButton(props) {
 		try {
 			// add to mongo for long term global storage
 			await api.post('/like', { id });
+
 			// update redux state so changes are reflected locally without a re-fetch
 			dispatch(like(id));
 
@@ -97,7 +98,7 @@ export default function LikeButton(props) {
 				)
 			}
 		>
-			<TextWrapper>{compliment ? compliment : children}</TextWrapper>
+			<TextWrapper>{compliment || children}</TextWrapper>
 		</ActionButton>
 	);
 }

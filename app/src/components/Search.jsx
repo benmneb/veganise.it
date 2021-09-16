@@ -10,8 +10,8 @@ import { LoadingButton } from '@mui/lab';
 
 import Typed from 'typed.js';
 
-import { HideOnScroll } from '../utils';
-import { search, setSearchResults } from '../state';
+import { HideOnScroll, kebab } from '../utils';
+import { setSearchResults } from '../state';
 import { searchSuggestStrings } from '../assets';
 
 const FormController = styled(FormControl)(({ theme }) => ({
@@ -143,7 +143,7 @@ function TypedInputs() {
 			setInputValue(term);
 		}
 
-		dispatch(search(term));
+		history.push(`/${kebab(term)}`);
 	}
 
 	function handleKeyPress(e) {

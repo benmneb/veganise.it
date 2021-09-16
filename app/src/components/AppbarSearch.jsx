@@ -6,8 +6,7 @@ import { styled, alpha } from '@mui/material/styles';
 import { InputBase } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-import { search, setSearchResults } from '../state';
-import { useDispatch } from 'react-redux';
+import { kebab } from '../utils';
 
 const SearchBox = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -57,7 +56,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function AppbarSearch() {
 	const history = useHistory();
 	const location = useLocation();
-	const dispatch = useDispatch();
 	const [term, setTerm] = useState('');
 
 	async function handleKeyPress(e) {
@@ -71,10 +69,7 @@ export default function AppbarSearch() {
 			});
 		}
 
-		dispatch(setSearchResults({ term, source: 'appbar' }));
-		dispatch(search(term, 'appbar'));
-		const urlTerm = term.trim().replace(/\s+/g, '-').toLowerCase();
-		history.push(`/${urlTerm}`);
+		history.push(`/${kebab(term)}`);
 	}
 
 	return (

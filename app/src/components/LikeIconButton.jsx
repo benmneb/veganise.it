@@ -48,6 +48,7 @@ export default function LikeIconButton(props) {
 		try {
 			// add to mongo for long term global storage
 			await api.post('/like', { id });
+
 			// update redux state so changes are reflected locally without a re-fetch
 			dispatch(like(id));
 
@@ -93,9 +94,7 @@ export default function LikeIconButton(props) {
 					<FavoriteBorderRounded />
 				)}
 			</StyledIconButton>
-			<Typography fontWeight={800}>
-				{compliment ? compliment : currentLikes}
-			</Typography>
+			<Typography fontWeight={800}>{compliment || currentLikes}</Typography>
 		</Container>
 	);
 }

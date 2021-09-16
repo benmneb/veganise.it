@@ -19,6 +19,7 @@ const defaultCaption =
 
 export default function Caption() {
 	const [caption, setCaption] = useState(defaultCaption);
+
 	const searchResults = useSelector((state) => state.searchResults);
 
 	useEffect(() => {

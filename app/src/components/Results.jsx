@@ -1,13 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { styled } from '@mui/material';
 
 import { ResultCard } from './index';
-import { search } from '../state';
+import { api, spaceout } from '../utils';
+import { setSearchResults } from '../state';
 
 const Grid = styled('section')(({ theme }) => ({
 	width: '100%',
@@ -20,20 +21,24 @@ const Grid = styled('section')(({ theme }) => ({
 }));
 
 export default function Results() {
-	const { term } = useParams();
 	const dispatch = useDispatch();
 	const searchResults = useSelector((state) => state.searchResults);
-	const firstMount = useRef(true);
+	const { term: rawTerm } = useParams();
 
-	// enable search from url
+	const term = spaceout(rawTerm);
+
+	// perform search based on url params
 	useEffect(() => {
-		if (!firstMount.current) return;
-		firstMount.current = false;
-
-		dispatch(search(term, 'url'));
+		(async () => {
+			const response = await api.get(`/search/${term}`);
+			dispatch(setSearchResults({ term, ...response.data }));
+		})();
 	}, [term, dispatch]);
 
-	if (!searchResults?.data) return null;
+	// set searchData to null on return to base url
+	useEffect(() => {
+		return () => dispatch(setSearchResults(null));
+	}, [dispatch]);
 
 	return (
 		<Grid>
