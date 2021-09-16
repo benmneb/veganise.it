@@ -157,7 +157,6 @@ export default function Recipe(props) {
 
 	function handleClose() {
 		if (background) return close();
-		// reset searchData so Home.jsx doesn't try to do a search
 		dispatch(setSearchData(null));
 		history.push('/');
 	}
