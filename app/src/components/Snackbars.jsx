@@ -36,6 +36,7 @@ export default function Snackbars() {
 
 	return (
 		<Snackbar
+			className="mui-fixed"
 			key={messageInfo ? messageInfo.key : null}
 			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
 			open={open}
