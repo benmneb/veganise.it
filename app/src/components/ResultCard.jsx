@@ -28,6 +28,12 @@ const Card = styled(MuiCard)(({ theme }) => ({
 		transform: 'scale(0.95)',
 		boxShadow: '0 24px 32px 0 rgba(0, 0, 0, 0.22)',
 	},
+	'&:focus-visible': {
+		transform: 'translateY(-2px)',
+		boxShadow:
+			'0 16px 24px 0 rgba(0, 0, 0, 0.12), 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5)',
+		outline: 'none',
+	},
 }));
 
 const Media = styled(CardMedia)({
@@ -52,8 +58,18 @@ export default function ResultCard(props) {
 		});
 	}
 
+	function handleKeyPress(e) {
+		if (e.key !== 'Enter') return;
+		handleClick();
+	}
+
 	return (
-		<Card component="article" onClick={handleClick}>
+		<Card
+			component="article"
+			onClick={handleClick}
+			onKeyPress={handleKeyPress}
+			tabIndex="0"
+		>
 			<Media image="https://picsum.photos/320/" />
 			<Content>
 				<Typography variant="h5" component="h1" fontWeight="bold" gutterBottom>

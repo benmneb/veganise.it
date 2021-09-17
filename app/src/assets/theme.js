@@ -1,6 +1,19 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { green, pink } from '@mui/material/colors';
 
+const pseudoStyleOverrides = {
+	root: {
+		'&:active': {
+			backgroundColor: 'rgba(0, 0, 0, 0.54)',
+		},
+		'&:focus-visible': {
+			boxShadow:
+				'0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5)',
+			outline: 'none',
+		},
+	},
+};
+
 export const theme = responsiveFontSizes(
 	createTheme({
 		palette: {
@@ -50,11 +63,11 @@ export const theme = responsiveFontSizes(
 		},
 		components: {
 			MuiCssBaseline: {
-				styleOverrides: `
-								body {
-									user-select: none;
-								}
-							`,
+				styleOverrides: {
+					body: {
+						userSelect: 'none',
+					},
+				},
 			},
 			MuiButtonBase: {
 				defaultProps: {
@@ -62,31 +75,13 @@ export const theme = responsiveFontSizes(
 				},
 			},
 			MuiButton: {
-				styleOverrides: {
-					root: {
-						'&:active': {
-							backgroundColor: 'rgba(0, 0, 0, 0.54)',
-						},
-					},
-				},
+				styleOverrides: pseudoStyleOverrides,
 			},
 			MuiIconButton: {
-				styleOverrides: {
-					root: {
-						'&:active': {
-							backgroundColor: 'rgba(0, 0, 0, 0.54)',
-						},
-					},
-				},
+				styleOverrides: pseudoStyleOverrides,
 			},
 			MuiMenuItem: {
-				styleOverrides: {
-					root: {
-						'&:active': {
-							backgroundColor: 'rgba(0, 0, 0, 0.54)',
-						},
-					},
-				},
+				styleOverrides: pseudoStyleOverrides,
 			},
 		},
 	}),
