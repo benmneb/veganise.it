@@ -2,11 +2,14 @@
 // and replace space(s) with a dash
 
 export function kebab(string) {
-	return string
-		.trim()
-		.replace(/\s+/g, '-')
-		.replace(/[^a-zA-Z0-9-]/g, '')
-		.toLowerCase();
+	return (
+		string
+			.trim()
+			.replace(/\s+/g, '-')
+			// .replace(/-+/g, '-')
+			.replace(/[^a-zA-Z0-9-]/g, '')
+			.toLowerCase()
+	);
 }
 
 // to replace dashes with spaces
@@ -14,4 +17,15 @@ export function kebab(string) {
 
 export function spaceout(string) {
 	return string.replace(/-+/g, ' ').toLowerCase();
+}
+
+// used to compare raw input with redux searchData.term
+
+export function clean(string) {
+	return string
+		.replace(/-+/g, ' ')
+		.replace(/\s+/g, ' ')
+		.replace(/[^a-zA-Z0-9-\s]/g, '')
+		.toLowerCase()
+		.trim();
 }

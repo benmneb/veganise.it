@@ -10,7 +10,7 @@ import { LoadingButton } from '@mui/lab';
 
 import Typed from 'typed.js';
 
-import { HideOnScroll, kebab } from '../utils';
+import { HideOnScroll, kebab, clean } from '../utils';
 import { setLoadingSearch, setSearchData } from '../state';
 import { searchSuggestStrings } from '../assets';
 
@@ -135,7 +135,8 @@ function TypedInputs() {
 	function handleSearch() {
 		const term = inputValue || stringRef.current;
 
-		if (!term) return;
+		// dont perform empty search || dont perform same search twice
+		if (!term || clean(term) === searchData?.term) return;
 
 		setFocus(false);
 
