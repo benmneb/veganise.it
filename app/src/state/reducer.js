@@ -1,5 +1,6 @@
 const initialState = {
 	searchData: null,
+	loadingSearch: false,
 	snackPack: [],
 };
 
@@ -9,6 +10,11 @@ export function reducer(state = initialState, action) {
 			return {
 				...state,
 				searchData: action.data,
+			};
+		case 'SET_LOADING_SEARCH':
+			return {
+				...state,
+				loadingSearch: action.state,
 			};
 		case 'LIKE':
 			return {

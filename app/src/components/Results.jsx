@@ -8,7 +8,7 @@ import { styled } from '@mui/material';
 
 import { ResultCard } from './index';
 import { api, spaceout, scrollToResults } from '../utils';
-import { setSearchData } from '../state';
+import { setLoadingSearch, setSearchData, showSnackbar } from '../state';
 
 const Grid = styled('section')(({ theme }) => ({
 	width: '100%',
@@ -30,9 +30,21 @@ export default function Results() {
 	// perform search based on url params
 	useEffect(() => {
 		(async () => {
-			const response = await api.get(`/search/${term}`);
-			dispatch(setSearchData({ term, ...response.data }));
-			scrollToResults();
+			try {
+				const response = await api.get(`/search/${term}`);
+				dispatch(setSearchData({ term, ...response.data }));
+				dispatch(setLoadingSearch(false));
+				scrollToResults();
+			} catch (error) {
+				console.error('While searching:', error);
+				dispatch(setLoadingSearch(false));
+				dispatch(
+					showSnackbar({
+						message: 'Could not search! Try again soon.',
+						severity: 'error',
+					})
+				);
+			}
 		})();
 	}, [term, dispatch]);
 

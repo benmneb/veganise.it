@@ -5,6 +5,13 @@ export function setSearchData(data) {
 	};
 }
 
+export function setLoadingSearch(state) {
+	return {
+		type: 'SET_LOADING_SEARCH',
+		state,
+	};
+}
+
 export function like(id) {
 	return {
 		type: 'LIKE',

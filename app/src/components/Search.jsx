@@ -11,7 +11,7 @@ import { LoadingButton } from '@mui/lab';
 import Typed from 'typed.js';
 
 import { HideOnScroll, kebab } from '../utils';
-import { setSearchData } from '../state';
+import { setLoadingSearch, setSearchData } from '../state';
 import { searchSuggestStrings } from '../assets';
 
 const FormController = styled(FormControl)(({ theme }) => ({
@@ -88,6 +88,8 @@ function TypedInputs() {
 	const dispatch = useDispatch();
 
 	const searchData = useSelector((state) => state.searchData);
+	const loading = useSelector((state) => state.loadingSearch);
+
 	const [inputValue, setInputValue] = useState('');
 	const [focus, setFocus] = useState(false);
 
@@ -136,6 +138,7 @@ function TypedInputs() {
 		if (!term) return;
 
 		setFocus(false);
+		dispatch(setLoadingSearch(true));
 
 		if (term === 'submit' || term === 'advertise') {
 			return history.push({
@@ -186,7 +189,7 @@ function TypedInputs() {
 						disableElevation
 						variant="contained"
 						onClick={handleSearch}
-						// loading={loading}
+						loading={loading}
 						loadingIndicator="Veganising..."
 					>
 						Veganise It!
