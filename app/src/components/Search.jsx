@@ -138,7 +138,6 @@ function TypedInputs() {
 		if (!term) return;
 
 		setFocus(false);
-		dispatch(setLoadingSearch(true));
 
 		if (term === 'submit' || term === 'advertise') {
 			return history.push({
@@ -146,6 +145,8 @@ function TypedInputs() {
 				state: { background: location },
 			});
 		}
+
+		dispatch(setLoadingSearch(true));
 
 		if (!inputValue) {
 			typedRef.current.destroy();
