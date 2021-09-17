@@ -242,7 +242,7 @@ export default function Recipe(props) {
 					<ActionButton
 						size="large"
 						color="inherit"
-						startIcon={<ShareIcon />}
+						startIcon={<ShareIcon color="action" />}
 						onClick={handleShare}
 					>
 						Feed a friend
