@@ -157,7 +157,7 @@ function TypedInputs() {
 		history.push(`/${kebab(term)}`);
 	}
 
-	function handleKeyPress(e) {
+	function handleKeyDown(e) {
 		if (e.key !== 'Enter') return;
 		e.preventDefault();
 		handleSearch();
@@ -181,7 +181,7 @@ function TypedInputs() {
 						inputRef={inputRef}
 						value={inputValue}
 						onChange={(e) => setInputValue(e.target.value)}
-						onKeyPress={handleKeyPress}
+						onKeyDown={handleKeyDown}
 						onBlur={handleBlur}
 						onFocus={() => setFocus(true)}
 					/>

@@ -140,7 +140,7 @@ export default function Advertise(props) {
 		setEmail(e.target.value);
 	}
 
-	function handleKeyPress(e) {
+	function handleKeyDown(e) {
 		if (e.key !== 'Enter') return;
 		e.preventDefault();
 		handleSubmit();
@@ -167,7 +167,7 @@ export default function Advertise(props) {
 								error={isError}
 								value={email}
 								onChange={handleChange}
-								onKeyPress={handleKeyPress}
+								onKeyDown={handleKeyDown}
 								disabled={loading}
 							/>
 						</TextBox>

@@ -58,7 +58,7 @@ export default function AppbarSearch() {
 	const location = useLocation();
 	const [term, setTerm] = useState('');
 
-	async function handleKeyPress(e) {
+	async function handleKeyDown(e) {
 		if (e.key !== 'Enter') return;
 		if (!term) return;
 
@@ -82,7 +82,7 @@ export default function AppbarSearch() {
 				inputProps={{ 'aria-label': 'search' }}
 				value={term}
 				onChange={(e) => setTerm(e.target.value)}
-				onKeyPress={handleKeyPress}
+				onKeyDown={handleKeyDown}
 			/>
 		</SearchBox>
 	);

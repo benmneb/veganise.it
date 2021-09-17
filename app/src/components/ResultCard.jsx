@@ -58,7 +58,7 @@ export default function ResultCard(props) {
 		});
 	}
 
-	function handleKeyPress(e) {
+	function handleKeyDown(e) {
 		if (e.key !== 'Enter') return;
 		handleClick();
 	}
@@ -67,7 +67,7 @@ export default function ResultCard(props) {
 		<Card
 			component="article"
 			onClick={handleClick}
-			onKeyPress={handleKeyPress}
+			onKeyDown={handleKeyDown}
 			tabIndex="0"
 		>
 			<Media image="https://picsum.photos/320/" />

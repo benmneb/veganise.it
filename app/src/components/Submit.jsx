@@ -137,7 +137,7 @@ export default function Submit(props) {
 		setInput(e.target.value);
 	}
 
-	function handleKeyPress(e) {
+	function handleKeyDown(e) {
 		if (e.key !== 'Enter') return;
 		e.preventDefault();
 		handleSubmit();
@@ -164,7 +164,7 @@ export default function Submit(props) {
 								error={isError}
 								value={input}
 								onChange={handleChange}
-								onKeyPress={handleKeyPress}
+								onKeyDown={handleKeyDown}
 								disabled={loading}
 							/>
 						</TextBox>
