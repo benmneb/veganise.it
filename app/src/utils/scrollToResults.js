@@ -1,3 +1,7 @@
+import smoothscroll from 'smoothscroll-polyfill';
+
+smoothscroll.polyfill();
+
 export function scrollToResults() {
 	const element = document.getElementById('caption');
 	const offset = 32;
