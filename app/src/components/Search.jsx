@@ -20,6 +20,10 @@ const FormController = styled(FormControl)(({ theme }) => ({
 	zIndex: theme.zIndex.appBar,
 	backgroundColor: 'transparent',
 	borderRadius: theme.shape.borderRadius,
+	margin: theme.spacing(-10, -3, 4),
+}));
+
+const Wrapper = styled('div')(({ theme }) => ({
 	display: 'flex',
 	flexDirection: 'row',
 	[theme.breakpoints.down('tablet')]: {
@@ -27,7 +31,6 @@ const FormController = styled(FormControl)(({ theme }) => ({
 	},
 	justifyContent: 'center',
 	alignItems: 'center',
-	margin: theme.spacing(-10, -3, 4),
 }));
 
 const TextField = styled(OutlinedInput)(({ theme }) => ({
@@ -86,6 +89,7 @@ function TypedInputs() {
 
 	const searchData = useSelector((state) => state.searchData);
 	const [inputValue, setInputValue] = useState('');
+	const [focus, setFocus] = useState(false);
 
 	const inputRef = useRef(null);
 	const stringRef = useRef(null);
@@ -126,10 +130,12 @@ function TypedInputs() {
 		return null;
 	}, [focused, inputValue]);
 
-	async function handleSearch() {
+	function handleSearch() {
 		const term = inputValue || stringRef.current;
 
 		if (!term) return;
+
+		setFocus(false);
 
 		if (term === 'submit' || term === 'advertise') {
 			return history.push({
@@ -153,6 +159,7 @@ function TypedInputs() {
 	}
 
 	function handleBlur() {
+		setFocus(false);
 		if (inputValue) return;
 		if (history.location.pathname !== '/' && !searchData?.results.length) {
 			dispatch(setSearchData(null));
@@ -161,38 +168,39 @@ function TypedInputs() {
 	}
 
 	return (
-		<>
-			<TextBox>
-				<TextField
-					placeholder={placeholder}
-					inputRef={inputRef}
-					value={inputValue}
-					onChange={(e) => setInputValue(e.target.value)}
-					onKeyPress={handleKeyPress}
-					onBlur={handleBlur}
-				/>
-			</TextBox>
-			<SearchBox>
-				<SearchButton
-					disableElevation
-					variant="contained"
-					onClick={handleSearch}
-					// loading={loading}
-					loadingIndicator="Veganising..."
-				>
-					Veganise It!
-				</SearchButton>
-			</SearchBox>
-		</>
+		<HideOnScroll threshold={(55 / 100) * window.innerHeight} disabled={focus}>
+			<Wrapper>
+				<TextBox>
+					<TextField
+						placeholder={placeholder}
+						inputRef={inputRef}
+						value={inputValue}
+						onChange={(e) => setInputValue(e.target.value)}
+						onKeyPress={handleKeyPress}
+						onBlur={handleBlur}
+						onFocus={() => setFocus(true)}
+					/>
+				</TextBox>
+				<SearchBox>
+					<SearchButton
+						disableElevation
+						variant="contained"
+						onClick={handleSearch}
+						// loading={loading}
+						loadingIndicator="Veganising..."
+					>
+						Veganise It!
+					</SearchButton>
+				</SearchBox>
+			</Wrapper>
+		</HideOnScroll>
 	);
 }
 
 export default function Search() {
 	return (
-		<HideOnScroll threshold={(55 / 100) * window.innerHeight}>
-			<FormController component="form">
-				<TypedInputs />
-			</FormController>
-		</HideOnScroll>
+		<FormController component="form">
+			<TypedInputs />
+		</FormController>
 	);
 }

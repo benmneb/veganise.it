@@ -3,16 +3,26 @@ import PropTypes from 'prop-types';
 import { useScrollTrigger, Grow, Slide } from '@mui/material/';
 
 export default function HideOnScroll(props) {
-	const { children, threshold, disableHysteresis, target, transition } = props;
+	const {
+		children,
+		threshold,
+		disableHysteresis,
+		target,
+		transition,
+		disabled,
+	} = props;
 
 	const trigger = useScrollTrigger({ threshold, disableHysteresis, target });
 
-	return transition === 'grow' ? (
-		<Grow appear={false} in={!trigger}>
-			{children}
-		</Grow>
-	) : (
-		<Slide appear={false} in={!trigger}>
+	if (transition === 'grow')
+		return (
+			<Grow appear={false} in={disabled || !trigger}>
+				{children}
+			</Grow>
+		);
+
+	return (
+		<Slide appear={false} in={disabled || !trigger}>
 			{children}
 		</Slide>
 	);

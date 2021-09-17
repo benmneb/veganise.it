@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { styled } from '@mui/material';
 
 import { ResultCard } from './index';
-import { api, spaceout } from '../utils';
+import { api, spaceout, scrollToResults } from '../utils';
 import { setSearchData } from '../state';
 
 const Grid = styled('section')(({ theme }) => ({
@@ -32,6 +32,7 @@ export default function Results() {
 		(async () => {
 			const response = await api.get(`/search/${term}`);
 			dispatch(setSearchData({ term, ...response.data }));
+			scrollToResults();
 		})();
 	}, [term, dispatch]);
 

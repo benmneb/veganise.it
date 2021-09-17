@@ -29,7 +29,7 @@ export default function Caption() {
 	}, [searchData]);
 
 	return (
-		<Wrapper>
+		<Wrapper id="caption">
 			<Typography variant="h4" component="h3">
 				{caption}
 			</Typography>
