@@ -18,7 +18,9 @@ export const theme = responsiveFontSizes(
 	createTheme({
 		palette: {
 			primary: green,
+			secondary: { main: '#1a90ff' },
 			favorite: { main: pink[400] },
+			youtube: { main: '#FF0000' },
 		},
 		typography: {
 			fontFamily: ['Nunito', 'sans-serif'].join(','),
@@ -66,6 +68,10 @@ export const theme = responsiveFontSizes(
 				styleOverrides: {
 					body: {
 						userSelect: 'none',
+						'& ::selection': {
+							backgroundColor: green[500],
+							color: 'white',
+						},
 					},
 				},
 			},

@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {
 	styled,
 	Card as MuiCard,
@@ -10,6 +8,8 @@ import {
 import { FavoriteBorderRounded } from '@mui/icons-material';
 
 import { useHistory, useLocation } from 'react-router-dom';
+
+import { titlise } from '../utils';
 
 const Card = styled(MuiCard)(({ theme }) => ({
 	cursor: 'zoom-in',
@@ -70,10 +70,10 @@ export default function ResultCard(props) {
 			onKeyDown={handleKeyDown}
 			tabIndex="0"
 		>
-			<Media image="https://picsum.photos/320/" />
+			<Media image={recipe.image} />
 			<Content>
 				<Typography variant="h5" component="h1" fontWeight="bold" gutterBottom>
-					{recipe.title}
+					{titlise(recipe.title)}
 				</Typography>
 				<Typography
 					variant="h6"

@@ -14,10 +14,20 @@ import {
 	Typography,
 	useMediaQuery,
 } from '@mui/material';
-import { OpenInNewRounded, CancelRounded } from '@mui/icons-material';
+import {
+	OpenInNewRounded,
+	CancelRounded,
+	VideoLibraryRounded,
+} from '@mui/icons-material';
 
-import { LikeIconButton, LikeButton, ShareMenu, Appbar } from './index';
-import { api, ShareIcon } from '../utils';
+import {
+	LikeIconButton,
+	LikeButton,
+	ShareMenu,
+	Appbar,
+	Lightbox,
+} from './index';
+import { api, ShareIcon, titlise } from '../utils';
 import { setSearchData } from '../state';
 
 const Content = styled(DialogContent)({
@@ -31,11 +41,13 @@ const Header = styled(DialogTitle)({
 
 const Titles = styled('div')({
 	flexGrow: 1,
+	cursor: 'context-menu',
 });
 
 const IconActions = styled('div')(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'flex-start',
+	height: 'max-content',
 	[theme.breakpoints.only('mobile')]: {
 		flexDirection: 'column-reverse',
 		justifyContent: 'flex-end',
@@ -45,15 +57,39 @@ const IconActions = styled('div')(({ theme }) => ({
 const Overview = styled('div')(({ theme }) => ({
 	width: '100%',
 	marginBottom: theme.spacing(2),
+	userSelect: 'text',
+}));
+
+const OverviewBody = styled('div')(({ theme }) => ({
+	display: 'flex',
+	flexDirection: 'row',
+	justifyContent: 'space-between',
+	gap: theme.spacing(2),
+	[theme.breakpoints.only('mobile')]: {
+		flexDirection: 'column',
+		gap: 0,
+	},
+}));
+
+const About = styled('div')(({ theme }) => ({
+	flexShrink: '1',
+}));
+
+const Stats = styled('div')(({ theme }) => ({
+	borderLeft: `1px solid ${theme.palette.grey[300]}`,
+	padding: theme.spacing(2),
+	height: 'max-content',
+	minWidth: 'max-content',
 }));
 
 const Image = styled('div')(({ theme }) => ({
-	backgroundImage: `linear-gradient(180deg, ${theme.palette.background.default} 0%, rgba(0,0,0,0) 100%), url(https://picsum.photos/720/480)`,
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
 	margin: theme.spacing(-16, -3, 2),
-	height: 400,
+	height: '70vh',
+	maxHeight: 700,
+	cursor: 'zoom-in',
 }));
 
 const Details = styled('div')(({ theme }) => ({
@@ -61,6 +97,7 @@ const Details = styled('div')(({ theme }) => ({
 	gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
 	gap: theme.spacing(3),
 	marginBottom: theme.spacing(2),
+	userSelect: 'text',
 }));
 
 const Ingredients = styled('div')({});
@@ -95,6 +132,7 @@ export default function Recipe(props) {
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
 	const [recipe, setRecipe] = useState(null);
+	const [lightboxData, setLightboxData] = useState(null);
 
 	const background = location.state?.background;
 
@@ -131,12 +169,11 @@ export default function Recipe(props) {
 	async function handleShare(event) {
 		if (navigator.share && mobile) {
 			try {
-				const response = await navigator.share({
+				await navigator.share({
 					title: 'Veganise It!',
 					text: 'Check out this vegan recipe! 🤤',
 					url: window.location.href,
 				});
-				console.log('Shared via Web Share API:', response);
 			} catch (error) {
 				if (error.message !== 'Abort due to cancellation of share.') {
 					console.error('Error sharing via Web Share API:', error.message);
@@ -161,6 +198,32 @@ export default function Recipe(props) {
 		history.push('/');
 	}
 
+	function openLightbox(media) {
+		if (media === 'image') {
+			return setLightboxData({
+				url: recipe?.image,
+				type: 'image',
+				altTag: `${recipe.title} by ${recipe.author} on Veganise It!`,
+			});
+		}
+
+		if (media === 'video') {
+			return setLightboxData({
+				url: recipe?.video?.replace('watch?v=', 'embed/'),
+				type: 'video',
+				title: `${recipe.title} by ${recipe.author} on Veganise It!`,
+			});
+		}
+
+		throw new Error(
+			`Lightbox media must be either "image" or "video", received ${media}`
+		);
+	}
+
+	function closeLightbox() {
+		setLightboxData(null);
+	}
+
 	return (
 		<>
 			{!background && <Appbar />}
@@ -168,7 +231,7 @@ export default function Recipe(props) {
 				<Header component="header">
 					<Titles>
 						<Typography variant="h4" component="h1">
-							{recipe?.title}
+							{recipe?.title && titlise(recipe.title)}
 						</Typography>
 						<Typography variant="h6" component="h2">
 							by {recipe?.author}
@@ -209,33 +272,106 @@ export default function Recipe(props) {
 						</Tooltip>
 					</IconActions>
 				</Header>
-				<Image />
+				<Image
+					onClick={() => openLightbox('image')}
+					sx={{
+						backgroundImage: (theme) =>
+							`linear-gradient(180deg, ${theme.palette.background.default} 0%, rgba(0,0,0,0) 30%), url(${recipe?.image})`,
+					}}
+				/>
 				<Overview>
-					{recipe?.about && (
-						<>
-							<Typography variant="h5" gutterBottom>
-								💬 About
-							</Typography>
-							{recipe.about.map((paragraph) => (
-								<Typography key={paragraph} paragraph>
-									{paragraph}
-								</Typography>
-							))}
-						</>
+					{mobile && recipe?.video && (
+						<Button
+							startIcon={<VideoLibraryRounded color="youtube" />}
+							variant="outlined"
+							size="large"
+							color="inherit"
+							sx={{ mb: 2, width: '100%' }}
+							onClick={() => openLightbox('video')}
+						>
+							Watch how it's made!
+						</Button>
 					)}
+					{(recipe?.about || recipe?.stats) && (
+						<Typography variant="h5" paragraph>
+							💬 About
+						</Typography>
+					)}
+					<OverviewBody>
+						{recipe?.about && (
+							<About>
+								{recipe.about.map((paragraph) => (
+									<Typography key={paragraph} paragraph>
+										{paragraph}
+									</Typography>
+								))}
+							</About>
+						)}
+						{recipe?.stats && (
+							<Stats>
+								{recipe.stats.map((stat) => (
+									<Typography key={stat}>{stat}</Typography>
+								))}
+							</Stats>
+						)}
+					</OverviewBody>
 				</Overview>
 				<Details>
 					<Ingredients>
-						<Typography variant="h5" gutterBottom>
+						<Typography variant="h5" paragraph>
 							🛒 Ingredients
 						</Typography>
-						{/* {recipe?.ingredients} */}
+						{recipe?.ingredients &&
+							Object.entries(recipe.ingredients).map((entry) => (
+								<div key={entry[0]}>
+									{entry[0] !== 'default' && (
+										<Typography paragraph fontWeight="bold">
+											{entry[0]}
+										</Typography>
+									)}
+									<Typography paragraph component="div">
+										{entry[1].map((subEntry) => (
+											<Typography key={subEntry}>• {subEntry}</Typography>
+										))}
+									</Typography>
+								</div>
+							))}
 					</Ingredients>
 					<Method>
-						<Typography variant="h5" gutterBottom>
-							🧑‍🍳 Method
-						</Typography>
-						{/* {recipe?.method} */}
+						{(recipe?.method || recipe?.video) && (
+							<Typography variant="h5" paragraph>
+								🧑‍🍳 Method
+							</Typography>
+						)}
+						{recipe?.video && (
+							<Button
+								startIcon={<VideoLibraryRounded color="youtube" />}
+								variant="outlined"
+								size="large"
+								color="inherit"
+								sx={{ mb: 2 }}
+								onClick={() => openLightbox('video')}
+							>
+								{mobile ? 'Watch video instructions' : "Watch how it's made!"}
+							</Button>
+						)}
+						{recipe?.method &&
+							Object.entries(recipe.method).map((entry) => (
+								<div key={entry[0]}>
+									{entry[0] !== 'default' && (
+										<Typography paragraph fontWeight="bold">
+											{entry[0]}
+										</Typography>
+									)}
+									<Typography paragraph component="div">
+										{entry[1].map((subEntry, i) => (
+											<Typography key={subEntry} paragraph>
+												<strong>{i + 1}.</strong> {subEntry}
+											</Typography>
+										))}
+									</Typography>
+								</div>
+							))}
 					</Method>
 				</Details>
 				<Actions color="inherit">
@@ -263,6 +399,12 @@ export default function Recipe(props) {
 					close={closeShareMenu}
 				/>
 			</Content>
+			<Lightbox
+				open={Boolean(lightboxData)}
+				handleClose={closeLightbox}
+				data={lightboxData || {}}
+				startIndex={0}
+			/>
 		</>
 	);
 }
