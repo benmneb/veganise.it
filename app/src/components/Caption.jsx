@@ -23,7 +23,7 @@ export default function Caption() {
 	const searchData = useSelector((state) => state.searchData);
 
 	useEffect(() => {
-		if (!searchData?.results) return setCaption(defaultCaption);
+		if (!searchData?.term) return setCaption(defaultCaption);
 
 		setCaption(`${searchData?.length} vegan "${searchData.term}" recipes`);
 	}, [searchData]);
