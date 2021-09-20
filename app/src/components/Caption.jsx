@@ -25,7 +25,7 @@ export default function Caption() {
 	useEffect(() => {
 		if (!searchData?.term) return setCaption(defaultCaption);
 
-		setCaption(`${searchData?.length} vegan "${searchData.term}" recipes`);
+		setCaption(`${searchData?.totalCount} vegan "${searchData.term}" recipes`);
 	}, [searchData]);
 
 	return (

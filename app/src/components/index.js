@@ -16,3 +16,4 @@ export { default as Submit } from './Submit';
 export { default as Advertise } from './Advertise';
 export { default as Snackbars } from './Snackbars';
 export { default as Lightbox } from './Lightbox';
+export { default as ResultsSpinner } from './ResultsSpinner';

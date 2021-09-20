@@ -5,6 +5,13 @@ export function setSearchData(data) {
 	};
 }
 
+export function updateSearchResultsOnScroll(data) {
+	return {
+		type: 'UPDATE_SEARCH_RESULTS_ON_SCROLL',
+		data,
+	};
+}
+
 export function setLoadingSearch(state) {
 	return {
 		type: 'SET_LOADING_SEARCH',

@@ -11,6 +11,14 @@ export function reducer(state = initialState, action) {
 				...state,
 				searchData: action.data,
 			};
+		case 'UPDATE_SEARCH_RESULTS_ON_SCROLL':
+			return {
+				...state,
+				searchData: {
+					...state.searchData,
+					results: [...state.searchData.results, ...action.data],
+				},
+			};
 		case 'SET_LOADING_SEARCH':
 			return {
 				...state,

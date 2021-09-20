@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import { transporter } from './transporter.js';
 
 export default function routes(app, db) {
-	const recipes = db.collection('recipes');
+	const recipes = db.collection('recipes-khaled');
 
 	app.get('/', (_, res) => {
 		res.send('Get off my lawn! 👴🏻');
@@ -24,13 +24,14 @@ export default function routes(app, db) {
 
 		if (!id) {
 			return res.status(500).json({
-				success: 'false',
+				success: false,
 				message: `ID was ${id}`,
 			});
 		}
 
 		try {
 			const response = await recipes.findOne(ObjectId(id));
+			if (!response) throw new Error('Could not get recipe by ID');
 			res.status(200).json({ success: true, data: response });
 		} catch (error) {
 			res.status(500).json({ success: false, message: error.message });
@@ -48,13 +49,64 @@ export default function routes(app, db) {
 		}
 
 		try {
+			// const results = await recipes
+			// 	.find({ $text: { $search: term } })
+			// 	.project({ score: { $meta: 'textScore' } })
+			// 	.sort({ score: { $meta: 'textScore' } })
+			// 	.limit(3) // change TODO
+			// 	.toArray();
+
+			// const totalCount = await recipes.countDocuments({ $text: { $search: term } });
+
 			const response = await recipes
-				.find({ $text: { $search: term } })
+				.aggregate([
+					{ $match: { $text: { $search: term } } },
+					{ $addFields: { score: { $meta: 'textScore' } } },
+					{ $sort: { score: { $meta: 'textScore' } } },
+					{
+						$facet: {
+							results: [{ $limit: 3 }], // change TODO
+							totalCount: [{ $count: 'count' }],
+						},
+					},
+				])
 				.toArray();
 
-			res
-				.status(200)
-				.json({ success: true, length: response.length, results: response });
+			const results = response[0].results;
+			const totalCount = response[0].totalCount[0].count;
+
+			res.status(200).json({ success: true, totalCount, results });
+		} catch (error) {
+			res.status(500).json({ success: false, message: error.message });
+			console.error('While searching:', error.message);
+		}
+	});
+
+	app.get('/search-more/:term/:offset', async (req, res) => {
+		const { term, offset } = req.params;
+
+		if (!term) {
+			return res
+				.status(500)
+				.json({ success: false, message: `Term was ${term}` });
+		}
+
+		if (!offset) {
+			return res
+				.status(500)
+				.json({ success: false, message: `Offset was ${offset}` });
+		}
+
+		try {
+			const results = await recipes
+				.find({ $text: { $search: term } })
+				.project({ score: { $meta: 'textScore' } })
+				.sort({ score: { $meta: 'textScore' } })
+				.skip(Number(offset))
+				.limit(3) // change TODO
+				.toArray();
+
+			res.status(200).json({ success: true, results });
 		} catch (error) {
 			res.status(500).json({ success: false, message: error.message });
 			console.error('While searching:', error.message);

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useParams } from 'react-router-dom';
 
@@ -6,11 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { styled } from '@mui/material';
 
-import { ResultCard } from './index';
-import { api, spaceout, scrollToResults } from '../utils';
-import { setLoadingSearch, setSearchData, showSnackbar } from '../state';
+import InfiniteScrollComponent from 'react-infinite-scroll-component';
 
-const Grid = styled('section')(({ theme }) => ({
+import { ResultCard, ResultsSpinner } from './index';
+import { api, spaceout, scrollToResults } from '../utils';
+import {
+	setLoadingSearch,
+	setSearchData,
+	updateSearchResultsOnScroll,
+	showSnackbar,
+} from '../state';
+
+const InfiniteScroll = styled(InfiniteScrollComponent)(({ theme }) => ({
 	width: '100%',
 	display: 'grid',
 	gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
@@ -20,16 +27,22 @@ const Grid = styled('section')(({ theme }) => ({
 	},
 }));
 
+const DEFAULT_OFFSET = 3;
+
 export default function Results() {
 	const dispatch = useDispatch();
 	const searchData = useSelector((state) => state.searchData);
 	const { term: rawTerm } = useParams();
+	const offset = useRef(DEFAULT_OFFSET);
 
 	const term = spaceout(rawTerm);
 
 	// perform search based on url params
 	useEffect(() => {
 		(async () => {
+			// reset offset for future `loadMoreOnScroll()` calls
+			offset.current = DEFAULT_OFFSET;
+
 			try {
 				const response = await api.get(`/search/${term}`);
 				dispatch(setSearchData({ term, ...response.data }));
@@ -48,16 +61,49 @@ export default function Results() {
 		})();
 	}, [term, dispatch]);
 
-	// set searchData to null on return to base url
+	// set searchData to null on unmount
 	useEffect(() => {
 		return () => dispatch(setSearchData(null));
 	}, [dispatch]);
 
+	async function loadMoreOnScroll() {
+		try {
+			const response = await api.get(`/search-more/${term}/${offset.current}`);
+			offset.current = offset.current + DEFAULT_OFFSET;
+			dispatch(updateSearchResultsOnScroll(response.data.results));
+			console.log('loaded more...');
+		} catch (error) {
+			console.error('While trying to scoll infinitely:', error);
+			dispatch(
+				showSnackbar({
+					message: 'Could not load more! Try again soon.',
+					severity: 'error',
+				})
+			);
+		}
+	}
+
 	return (
-		<Grid>
-			{searchData?.results.map((recipe) => (
-				<ResultCard key={recipe._id} recipe={recipe} />
-			))}
-		</Grid>
+		<div style={{ width: '100%' }}>
+			<InfiniteScroll
+				style={{ overflow: 'unset' }}
+				dataLength={searchData?.results.length || 0}
+				next={loadMoreOnScroll}
+				hasMore={searchData?.results.length < searchData?.totalCount}
+				loader={null}
+				endMessage={
+					offset.current > DEFAULT_OFFSET && (
+						<h3 style={{ textAlign: 'center' }}>That's it!</h3>
+					)
+				}
+			>
+				{searchData?.results.map((recipe) => (
+					<ResultCard key={recipe._id} recipe={recipe} />
+				))}
+			</InfiniteScroll>
+			<ResultsSpinner
+				show={searchData?.results.length < searchData?.totalCount}
+			/>
+		</div>
 	);
 }
