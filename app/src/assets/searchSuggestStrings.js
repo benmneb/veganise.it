@@ -8,4 +8,6 @@ export const searchSuggestStrings = [
 	'Steak',
 	'Muffin',
 	'Shawarma',
+	'Doughnut',
+	'Chocolate',
 ];
