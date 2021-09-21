@@ -69,7 +69,7 @@ export default function Results() {
 	async function loadMoreOnScroll() {
 		try {
 			const response = await api.get(`/search-more/${term}/${offset.current}`);
-			offset.current = offset.current + DEFAULT_OFFSET;
+			offset.current += DEFAULT_OFFSET;
 			dispatch(updateSearchResultsOnScroll(response.data.results));
 			console.log('loaded more...');
 		} catch (error) {

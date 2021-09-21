@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 
 import { styled, Typography } from '@mui/material';
 
+import { dequote } from '../utils';
+
 const Wrapper = styled('div')(({ theme }) => ({
 	display: 'flex',
 	justifyContent: 'center',
@@ -25,7 +27,9 @@ export default function Caption() {
 	useEffect(() => {
 		if (!searchData?.term) return setCaption(defaultCaption);
 
-		setCaption(`${searchData?.totalCount} vegan "${searchData.term}" recipes`);
+		setCaption(
+			`${searchData?.totalCount} vegan "${dequote(searchData.term)}" recipes`
+		);
 	}, [searchData]);
 
 	return (

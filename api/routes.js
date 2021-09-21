@@ -13,9 +13,9 @@ export default function routes(app, db) {
 		try {
 			const response = await recipes.find().toArray();
 			res.status(200).json(response);
-		} catch (error) {
-			res.status(500).json({ 'Error getting all recipes': error.message });
-			console.error('While getting all recipes:', error);
+		} catch ({ message }) {
+			res.status(500).json({ success: false, message });
+			console.error('While getting all recipes:', message);
 		}
 	});
 
@@ -33,9 +33,9 @@ export default function routes(app, db) {
 			const response = await recipes.findOne(ObjectId(id));
 			if (!response) throw new Error('Could not get recipe by ID');
 			res.status(200).json({ success: true, data: response });
-		} catch (error) {
-			res.status(500).json({ success: false, message: error.message });
-			console.error('Error getting recipe by ID:', error.message);
+		} catch ({ message }) {
+			res.status(500).json({ success: false, message });
+			console.error('While getting recipe by ID:', message);
 		}
 	});
 
@@ -73,12 +73,12 @@ export default function routes(app, db) {
 				.toArray();
 
 			const results = response[0].results;
-			const totalCount = response[0].totalCount[0].count;
+			const totalCount = response[0].totalCount[0]?.count || 0;
 
 			res.status(200).json({ success: true, totalCount, results });
-		} catch (error) {
-			res.status(500).json({ success: false, message: error.message });
-			console.error('While searching:', error.message);
+		} catch ({ message }) {
+			res.status(500).json({ success: false, message });
+			console.error('While searching:', message);
 		}
 	});
 
@@ -107,9 +107,9 @@ export default function routes(app, db) {
 				.toArray();
 
 			res.status(200).json({ success: true, results });
-		} catch (error) {
-			res.status(500).json({ success: false, message: error.message });
-			console.error('While searching:', error.message);
+		} catch ({ message }) {
+			res.status(500).json({ success: false, message });
+			console.error('While searching for more:', message);
 		}
 	});
 
@@ -131,9 +131,9 @@ export default function routes(app, db) {
 			res
 				.status(200)
 				.json({ success: true, data: { likes: response.value.likes } });
-		} catch (error) {
-			res.status(500).json({ 'Error liking recipe': error.message });
-			console.error('Error liking recipe:', error);
+		} catch ({ message }) {
+			res.status(500).json({ success: false, message });
+			console.error('While liking recipe:', message);
 		}
 	});
 
@@ -154,9 +154,9 @@ export default function routes(app, db) {
 				html: `Someone suggested: ${url}`,
 			});
 			res.status(200).json({ success: true });
-		} catch (error) {
-			res.status(500).json({ success: false, message: error.message });
-			console.error('Error submitting recipes:', error);
+		} catch ({ message }) {
+			res.status(500).json({ success: false, message });
+			console.error('While submitting recipes:', message);
 		}
 	});
 
@@ -177,9 +177,9 @@ export default function routes(app, db) {
 				html: `Get in contact with: <a href="mailto:${email}">${email}</a>`,
 			});
 			res.status(200).json({ success: true });
-		} catch (error) {
-			res.status(500).json({ success: false, message: error.message });
-			console.error('Error submitting advertising request:', error);
+		} catch ({ message }) {
+			res.status(500).json({ success: false, message });
+			console.error('While submitting advertising request:', message);
 		}
 	});
 
