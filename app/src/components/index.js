@@ -17,3 +17,4 @@ export { default as Advertise } from './Advertise';
 export { default as Snackbars } from './Snackbars';
 export { default as Lightbox } from './Lightbox';
 export { default as ResultsSpinner } from './ResultsSpinner';
+export { default as SearchBar } from './SearchBar';

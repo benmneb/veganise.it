@@ -4,12 +4,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { styled, FormControl, OutlinedInput } from '@mui/material/';
+import { styled, FormControl } from '@mui/material/';
 import { useFormControl } from '@mui/material/FormControl';
 import { LoadingButton } from '@mui/lab';
 
 import Typed from 'typed.js';
 
+import { SearchBar } from './index';
 import { HideOnScroll, kebab, clean } from '../utils';
 import { setLoadingSearch, setSearchData } from '../state';
 import { searchSuggestStrings } from '../assets';
@@ -33,23 +34,6 @@ const Wrapper = styled('div')(({ theme }) => ({
 	alignItems: 'center',
 }));
 
-const TextField = styled(OutlinedInput)(({ theme }) => ({
-	width: 458,
-	height: 80,
-	backgroundColor: theme.palette.background.paper,
-	fontSize: theme.typography.h3.fontSize,
-	fontWeight: theme.typography.h3.fontWeight,
-	borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,
-	[theme.breakpoints.down('tablet')]: {
-		width: '100%',
-		fontSize: theme.typography.h4.fontSize,
-		borderRadius: `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`,
-	},
-	'& .MuiOutlinedInput-input': {
-		textAlign: 'center',
-	},
-}));
-
 const TextBox = styled('div')(({ theme }) => ({
 	[theme.breakpoints.down('tablet')]: {
 		width: '100%',
@@ -59,7 +43,7 @@ const TextBox = styled('div')(({ theme }) => ({
 	},
 }));
 
-const SearchBox = styled(TextBox)({
+const ButtonBox = styled(TextBox)({
 	flexShrink: 0,
 });
 
@@ -108,6 +92,7 @@ function TypedInputs() {
 			smartBackspace: false,
 			loop: true,
 			shuffle: true,
+			showCursor: false,
 			preStringTyped: (arrayPos, self) =>
 				(stringRef.current = self.strings[self.sequence[arrayPos]]),
 		};
@@ -176,7 +161,7 @@ function TypedInputs() {
 		<HideOnScroll threshold={(55 / 100) * window.innerHeight} disabled={focus}>
 			<Wrapper>
 				<TextBox>
-					<TextField
+					<SearchBar
 						placeholder={placeholder}
 						inputRef={inputRef}
 						value={inputValue}
@@ -186,7 +171,7 @@ function TypedInputs() {
 						onFocus={() => setFocus(true)}
 					/>
 				</TextBox>
-				<SearchBox>
+				<ButtonBox>
 					<SearchButton
 						disableElevation
 						variant="contained"
@@ -196,7 +181,7 @@ function TypedInputs() {
 					>
 						Veganise It!
 					</SearchButton>
-				</SearchBox>
+				</ButtonBox>
 			</Wrapper>
 		</HideOnScroll>
 	);
