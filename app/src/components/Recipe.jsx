@@ -28,7 +28,7 @@ import {
 	Lightbox,
 } from './index';
 import { api, ShareIcon, titlise } from '../utils';
-import { setSearchData } from '../state';
+import { setSearchData, showSnackbar } from '../state';
 
 const Content = styled(DialogContent)({
 	cursor: 'auto',
@@ -144,8 +144,21 @@ export default function Recipe(props) {
 			// so it needs to be fetched
 			(async () => {
 				try {
-					const response = await api.get(`/recipe/${id}`);
-					const recipeData = response.data.data;
+					const request = await api.get(`/recipe/${id}`);
+					const response = request.data;
+
+					if (!response.success) {
+						console.error('Recipe not found:', response.message);
+						dispatch(
+							showSnackbar({
+								message: 'Recipe not found! Try searching for it?',
+								severity: 'error',
+							})
+						);
+						return history.replace('/');
+					}
+
+					const recipeData = response.data;
 
 					// need to set data in redux so it can be updated when liking it
 					// but only if there's no background state (because its already there otherwise)
@@ -164,7 +177,7 @@ export default function Recipe(props) {
 			// this `else` block is also responsible for updating the like count "in real time"
 			setRecipe(searchData.results.find((recipe) => recipe._id === id));
 		}
-	}, [searchData, id, dispatch, background]);
+	}, [searchData, id, dispatch, background, history]);
 
 	async function handleShare(event) {
 		if (navigator.share && mobile) {

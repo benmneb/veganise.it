@@ -30,12 +30,11 @@ export default function routes(app, db) {
 		}
 
 		try {
-			const response = await recipes.findOne(ObjectId(id));
-			if (!response) throw new Error('Could not get recipe by ID');
-			res.status(200).json({ success: true, data: response });
+			const data = await recipes.findOne(ObjectId(id));
+			if (!data) throw new Error('Please check ID');
+			res.status(200).json({ success: true, data });
 		} catch ({ message }) {
-			res.status(500).json({ success: false, message });
-			console.error('While getting recipe by ID:', message);
+			res.status(200).json({ success: false, message });
 		}
 	});
 
@@ -48,6 +47,18 @@ export default function routes(app, db) {
 				.json({ success: false, message: `Term was ${term}` });
 		}
 
+		const pipeline = [
+			{ $match: { $text: { $search: term } } },
+			{ $addFields: { score: { $meta: 'textScore' } } },
+			{ $sort: { score: { $meta: 'textScore' } } },
+			{
+				$facet: {
+					results: [{ $limit: 3 }], // change TODO
+					totalCount: [{ $count: 'count' }],
+				},
+			},
+		];
+
 		try {
 			// const results = await recipes
 			// 	.find({ $text: { $search: term } })
@@ -58,20 +69,7 @@ export default function routes(app, db) {
 
 			// const totalCount = await recipes.countDocuments({ $text: { $search: term } });
 
-			const response = await recipes
-				.aggregate([
-					{ $match: { $text: { $search: term } } },
-					{ $addFields: { score: { $meta: 'textScore' } } },
-					{ $sort: { score: { $meta: 'textScore' } } },
-					{
-						$facet: {
-							results: [{ $limit: 3 }], // change TODO
-							totalCount: [{ $count: 'count' }],
-						},
-					},
-				])
-				.toArray();
-
+			const response = await recipes.aggregate(pipeline).toArray();
 			const results = response[0].results;
 			const totalCount = response[0].totalCount[0]?.count || 0;
 
