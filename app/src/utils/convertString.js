@@ -5,6 +5,7 @@ export function kebab(string) {
 	return string
 		.trim()
 		.replace(/\s+/g, '-')
+		.replace(/-{2,}/g, '-')
 		.replace(/[^a-zA-Z0-9-"]/g, '')
 		.toLowerCase();
 }
