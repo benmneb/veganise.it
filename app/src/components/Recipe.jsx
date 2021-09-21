@@ -26,6 +26,7 @@ import {
 	ShareMenu,
 	Appbar,
 	Lightbox,
+	BottomNavBar,
 } from './index';
 import { api, ShareIcon, titlise } from '../utils';
 import { setSearchData, showSnackbar } from '../state';
@@ -111,6 +112,7 @@ const Actions = styled('div')(({ theme }) => ({
 	padding: 0,
 	[theme.breakpoints.only('mobile')]: {
 		flexDirection: 'column',
+		paddingBottom: 74.25, // height of BottomNavBar
 	},
 }));
 
@@ -396,15 +398,19 @@ export default function Recipe(props) {
 					>
 						Feed a friend
 					</ActionButton>
-					<LikeButton>Compliment the chef</LikeButton>
-					<ActionButton
-						size="large"
-						color="inherit"
-						startIcon={<CancelRounded color="action" />}
-						onClick={handleClose}
-					>
-						Close
-					</ActionButton>
+					{!mobile && (
+						<>
+							<LikeButton>Compliment the chef</LikeButton>
+							<ActionButton
+								size="large"
+								color="inherit"
+								startIcon={<CancelRounded color="action" />}
+								onClick={handleClose}
+							>
+								Close
+							</ActionButton>
+						</>
+					)}
 				</Actions>
 				<ShareMenu
 					anchor={shareMenuAnchor}
@@ -412,6 +418,11 @@ export default function Recipe(props) {
 					close={closeShareMenu}
 				/>
 			</Content>
+			{mobile && (
+				<BottomNavBar onClick={handleClose} background={background}>
+					{background ? 'Back' : 'Close'}
+				</BottomNavBar>
+			)}
 			<Lightbox
 				open={Boolean(lightboxData)}
 				handleClose={closeLightbox}

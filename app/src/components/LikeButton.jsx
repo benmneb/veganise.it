@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router';
 
@@ -15,7 +15,6 @@ const ActionButton = styled(Button)(({ theme }) => ({
 	flex: '1 1 0',
 	margin: 0,
 	padding: theme.spacing(3, 0, 3, 3),
-	borderRadius: 0,
 	'&:active': {
 		backgroundColor: 'transparent',
 	},
@@ -24,6 +23,10 @@ const ActionButton = styled(Button)(({ theme }) => ({
 const TextWrapper = styled('div')({
 	width: 170,
 	textAlign: 'left',
+	textOverflow: 'ellipsis',
+	overflow: 'hidden',
+	lineBreak: 'none',
+	whiteSpace: 'nowrap',
 });
 
 export default function LikeButton(props) {
@@ -35,16 +38,12 @@ export default function LikeButton(props) {
 	const [userLikes, setUserLikes] = useState(0);
 	const searchData = useSelector((state) => state.searchData);
 
-	const setIndexedDbLikesToLocalState = useCallback(() => {
+	// sync indexDb value to local state on mount and after like from either button
+	useEffect(() => {
 		get(id).then((val) => {
 			setUserLikes(val || 0);
 		});
-	}, [id]);
-
-	// sync indexDb value to local state on mount and after like from either button
-	useEffect(() => {
-		setIndexedDbLikesToLocalState();
-	}, [setIndexedDbLikesToLocalState, searchData]);
+	}, [id, searchData]);
 
 	async function handleClick() {
 		if (userLikes >= maxPossibleLikes) return;
@@ -97,6 +96,7 @@ export default function LikeButton(props) {
 					<FavoriteBorderRounded color="favorite" />
 				)
 			}
+			sx={{ borderRadius: { mobile: '0 16px 0 0', tablet: 0 } }}
 		>
 			<TextWrapper>{compliment || children}</TextWrapper>
 		</ActionButton>
