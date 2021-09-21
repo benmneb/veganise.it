@@ -89,6 +89,11 @@ export const theme = responsiveFontSizes(
 			MuiMenuItem: {
 				styleOverrides: pseudoStyleOverrides,
 			},
+			MuiUseMediaQuery: {
+				defaultProps: {
+					noSsr: true,
+				},
+			},
 		},
 	}),
 	{ breakpoints: ['tablet', 'desktop', 'hd'] }
