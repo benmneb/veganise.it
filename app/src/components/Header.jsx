@@ -2,7 +2,9 @@ import { styled, Typography } from '@mui/material/';
 
 import { HideOnScroll } from '../utils';
 
-const Wrapper = styled('header')(({ theme }) => ({
+import Image from 'mui-image';
+
+const Wrapper = styled('header')({
 	height: '70vh',
 	display: 'flex',
 	flexDirection: 'column',
@@ -10,22 +12,19 @@ const Wrapper = styled('header')(({ theme }) => ({
 	alignItems: 'center',
 	position: 'relative',
 	overflow: 'hidden',
-}));
+});
 
-const BackgroundImage = styled('div')(({ theme }) => ({
-	opacity: 1,
+const Gradient = styled('div')(({ theme }) => ({
+	zIndex: 1,
 	position: 'absolute',
 	top: 0,
 	left: 0,
 	width: '100%',
 	height: '100%',
-	backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${theme.palette.background.default} 100%), url(https://picsum.photos/720/480)`,
+	backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${theme.palette.background.default} 100%)`,
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
-	transitionProperty: 'opacity',
-	transitionDuration: theme.transitions.duration.complex,
-	transitionTimingFunction: theme.transitions.easing.easeInOut,
 }));
 
 const HGroup = styled('hgroup')(({ theme }) => ({
@@ -39,23 +38,15 @@ const HGroup = styled('hgroup')(({ theme }) => ({
 }));
 
 export default function Header() {
-	// const [imageLoaded, setImageLoaded] = useState(false);
-
-	// load image on pageload
-	// useEffect(() => {
-	// 	// const { imageSrc } = props;
-
-	// 	const image = new Image();
-	// 	image.src = 'https://picsum.photos/id/1080/720/480';
-
-	// 	image.onload = () => {
-	// 		setImageLoaded(true);
-	// 	};
-	// }, []);
-
 	return (
 		<Wrapper>
-			<BackgroundImage />
+			<Gradient />
+			<Image
+				src="https://picsum.photos/720/480"
+				position="absolute"
+				shift="bottom"
+				wrapperStyle={{ position: 'absolute' }}
+			/>
 			<HideOnScroll threshold={(15 / 100) * window.innerHeight}>
 				<HGroup>
 					<Typography

@@ -10472,6 +10472,19 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"mui-image@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "mui-image@npm:0.1.3"
+  peerDependencies:
+    "@emotion/react": ^11.4.1
+    "@emotion/styled": ^11.3.0
+    "@mui/material": ^5.0.1
+    prop-types: ^15.7.2
+    react: ^17.0.2
+  checksum: 9a2ae03140823bddba950dd02a001de890303043efe57ac601cc6ffbd8e50ec959c236ec29e276835d902b70f474ad8b77d623de73626f71733b9cb40b99cc56
+  languageName: node
+  linkType: hard
+
 "multicast-dns-service-types@npm:^1.1.0":
   version: 1.1.0
   resolution: "multicast-dns-service-types@npm:1.1.0"
@@ -15504,6 +15517,7 @@ resolve@1.18.1:
     axios: ^0.21.4
     eslint-config-react-app: ^6.0.0
     idb-keyval: ^5.1.3
+    mui-image: ^0.1.3
     react: ^17.0.2
     react-dom: ^17.0.2
     react-infinite-scroll-component: ^6.1.0
