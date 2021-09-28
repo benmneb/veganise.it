@@ -67,7 +67,6 @@ export const theme = responsiveFontSizes(
 			MuiCssBaseline: {
 				styleOverrides: {
 					body: {
-						userSelect: 'none',
 						'& ::selection': {
 							backgroundColor: green[500],
 							color: 'white',

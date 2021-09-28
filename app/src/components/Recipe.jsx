@@ -42,7 +42,6 @@ const Header = styled(DialogTitle)({
 
 const Titles = styled('div')({
 	flexGrow: 1,
-	cursor: 'context-menu',
 });
 
 const IconActions = styled('div')(({ theme }) => ({
@@ -68,7 +67,6 @@ const Image = styled('div')(({ theme }) => ({
 const Overview = styled('div')(({ theme }) => ({
 	width: '100%',
 	marginBottom: theme.spacing(2),
-	userSelect: 'text',
 }));
 
 const OverviewBody = styled('div')(({ theme }) => ({
@@ -98,7 +96,6 @@ const Details = styled('div')(({ theme }) => ({
 	gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
 	gap: theme.spacing(3),
 	marginBottom: theme.spacing(2),
-	userSelect: 'text',
 }));
 
 const Features = styled('div')(({ theme }) => ({
