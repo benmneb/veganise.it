@@ -28,7 +28,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function BottomNavBar(props) {
-	const { onClick, children, background } = props;
+	const { handleClose, background } = props;
 
 	const tinyPhone = useMediaQuery('(max-width: 347px)');
 
@@ -43,9 +43,9 @@ export default function BottomNavBar(props) {
 						<HighlightOffRounded color="action" />
 					)
 				}
-				onClick={onClick}
+				onClick={handleClose}
 			>
-				{children}
+				{background ? 'Back' : 'Close'}
 			</StyledButton>
 			<LikeButton>Compliment {!tinyPhone && 'the chef'}</LikeButton>
 		</StyledPaper>
