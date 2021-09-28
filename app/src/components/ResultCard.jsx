@@ -3,11 +3,12 @@ import {
 	Card as MuiCard,
 	CardContent,
 	Typography,
-	CardMedia,
 } from '@mui/material';
 import { FavoriteBorderRounded } from '@mui/icons-material';
 
 import { useHistory, useLocation } from 'react-router-dom';
+
+import Image from 'mui-image';
 
 import { titlise, truncate } from '../utils';
 
@@ -35,10 +36,6 @@ const Card = styled(MuiCard)(({ theme }) => ({
 		outline: 'none',
 	},
 }));
-
-const Media = styled(CardMedia)({
-	height: '60%',
-});
 
 const Content = styled(CardContent)({
 	height: '40%',
@@ -70,7 +67,7 @@ export default function ResultCard(props) {
 			onKeyDown={handleKeyDown}
 			tabIndex="0"
 		>
-			<Media image={recipe.image} />
+			<Image src={recipe.image} height="60%" shift="bottom" />
 			<Content>
 				<Typography variant="h5" component="h1" fontWeight="bold" gutterBottom>
 					{truncate(titlise(recipe.title))}
