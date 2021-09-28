@@ -1,6 +1,6 @@
 export const searchSuggestStrings = [
 	'Bacon',
-	'Meat',
+	'Beef',
 	'Cheese',
 	'Ice cream',
 	'Chicken',
@@ -10,4 +10,7 @@ export const searchSuggestStrings = [
 	'Shawarma',
 	'Doughnut',
 	'Chocolate',
+	'Ribs',
+	'Cake',
+	'Pulled pork',
 ];
