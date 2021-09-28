@@ -19,3 +19,4 @@ export { default as Lightbox } from './Lightbox';
 export { default as ResultsSpinner } from './ResultsSpinner';
 export { default as SearchBar } from './SearchBar';
 export { default as BottomNavBar } from './BottomNavBar';
+export { default as SubmitCard } from './SubmitCard';
