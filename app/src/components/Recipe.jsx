@@ -28,7 +28,7 @@ import {
 	Lightbox,
 	BottomNavBar,
 } from './index';
-import { api, ShareIcon, titlise } from '../utils';
+import { api, ShareIcon, titlise, Link } from '../utils';
 import { setSearchData, showSnackbar } from '../state';
 
 const Content = styled(DialogContent)({
@@ -42,7 +42,6 @@ const Header = styled(DialogTitle)({
 
 const Titles = styled('div')({
 	flexGrow: 1,
-	cursor: 'context-menu',
 });
 
 const IconActions = styled('div')(({ theme }) => ({
@@ -55,10 +54,19 @@ const IconActions = styled('div')(({ theme }) => ({
 	},
 }));
 
+const Image = styled('div')(({ theme }) => ({
+	backgroundRepeat: 'no-repeat',
+	backgroundPosition: 'center',
+	backgroundSize: 'cover',
+	margin: theme.spacing(-16, -3, 2),
+	height: '70vh',
+	maxHeight: 700,
+	cursor: 'zoom-in',
+}));
+
 const Overview = styled('div')(({ theme }) => ({
 	width: '100%',
 	marginBottom: theme.spacing(2),
-	userSelect: 'text',
 }));
 
 const OverviewBody = styled('div')(({ theme }) => ({
@@ -80,17 +88,7 @@ const Stats = styled('div')(({ theme }) => ({
 	borderLeft: `1px solid ${theme.palette.grey[300]}`,
 	padding: theme.spacing(2),
 	height: 'max-content',
-	minWidth: 'max-content',
-}));
-
-const Image = styled('div')(({ theme }) => ({
-	backgroundRepeat: 'no-repeat',
-	backgroundPosition: 'center',
-	backgroundSize: 'cover',
-	margin: theme.spacing(-16, -3, 2),
-	height: '70vh',
-	maxHeight: 700,
-	cursor: 'zoom-in',
+	minWidth: 200,
 }));
 
 const Details = styled('div')(({ theme }) => ({
@@ -98,7 +96,18 @@ const Details = styled('div')(({ theme }) => ({
 	gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
 	gap: theme.spacing(3),
 	marginBottom: theme.spacing(2),
-	userSelect: 'text',
+}));
+
+const Features = styled('div')(({ theme }) => ({
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	gap: theme.spacing(2),
+	marginBottom: theme.spacing(2),
+	[theme.breakpoints.only('mobile')]: {
+		flexDirection: 'column',
+		alignItems: 'stretch',
+	},
 }));
 
 const Ingredients = styled('div')({});
@@ -114,6 +123,10 @@ const Actions = styled('div')(({ theme }) => ({
 		flexDirection: 'column',
 		paddingBottom: 74.25, // height of BottomNavBar
 	},
+}));
+
+const Nutrition = styled('div')(({ theme }) => ({
+	marginBottom: theme.spacing(2),
 }));
 
 const ActionButton = styled(Button)(({ theme }) => ({
@@ -307,19 +320,24 @@ export default function Recipe(props) {
 							Watch how it's made!
 						</Button>
 					)}
-					{(recipe?.about || recipe?.stats) && (
+					{(recipe?.about || recipe?.stats || recipe?.difficulty) && (
 						<Typography variant="h5" paragraph>
 							💬 About
 						</Typography>
 					)}
 					<OverviewBody>
-						{recipe?.about && (
+						{(recipe?.about || recipe?.difficulty) && (
 							<About>
-								{recipe.about.map((paragraph) => (
+								{recipe?.about?.map((paragraph) => (
 									<Typography key={paragraph} paragraph>
 										{paragraph}
 									</Typography>
 								))}
+								{recipe?.difficulty && (
+									<Typography paragraph>
+										Difficulty: {recipe.difficulty}
+									</Typography>
+								)}
 							</About>
 						)}
 						{recipe?.stats && (
@@ -331,27 +349,101 @@ export default function Recipe(props) {
 						)}
 					</OverviewBody>
 				</Overview>
+				{recipe?.features && (
+					<Features>
+						<div>
+							<Typography fontWeight="bold" component="span">
+								This recipe features:{' '}
+							</Typography>
+							{recipe.features.map((product, i) => (
+								<span key={product}>
+									<Link
+										href={`https://vomad.guide/search/${product
+											.replace(/\s/g, '+')
+											.toLowerCase()}?ref=veganise.it`}
+										target="_blank"
+										rel="noopener"
+									>
+										{titlise(product)}
+									</Link>
+									{i === recipe.features.length - 1 ? '' : ', '}
+								</span>
+							))}
+						</div>
+						<Button
+							variant="outlined"
+							color="inherit"
+							endIcon={<OpenInNewRounded />}
+							sx={{ minWidth: 250 }}
+							onClick={() =>
+								window.open('https://vomad.guide?ref=veganise.it', '_blank')
+							}
+						>
+							Find Vegan Products Near You
+						</Button>
+					</Features>
+				)}
 				<Details>
-					<Ingredients>
-						<Typography variant="h5" paragraph>
-							🛒 Ingredients
-						</Typography>
-						{recipe?.ingredients &&
-							Object.entries(recipe.ingredients).map((entry) => (
-								<div key={entry[0]}>
-									{entry[0] !== 'default' && (
-										<Typography paragraph fontWeight="bold">
-											{entry[0]}
-										</Typography>
-									)}
-									<Typography paragraph component="div">
-										{entry[1].map((subEntry) => (
-											<Typography key={subEntry}>• {subEntry}</Typography>
+					{(recipe?.ingredients || recipe?.['before you start']) && (
+						<Ingredients>
+							{recipe?.['before you start'] && (
+								<>
+									<Typography variant="h5" paragraph>
+										☝️ Before you start
+									</Typography>
+									<Typography paragraph component="ul" paddingLeft={3}>
+										{recipe?.['before you start'].map((item) => (
+											<Typography key={item} component="li">
+												{item}
+											</Typography>
 										))}
 									</Typography>
-								</div>
-							))}
-					</Ingredients>
+								</>
+							)}
+							{recipe?.ingredients && (
+								<>
+									<Typography variant="h5" paragraph>
+										🛒 Ingredients
+									</Typography>
+									{!recipe?.features && (
+										<Button
+											variant="outlined"
+											color="inherit"
+											size="large"
+											endIcon={<OpenInNewRounded />}
+											sx={{ mb: 2 }}
+											onClick={() =>
+												window.open(
+													'https://vomad.guide?ref=veganise.it',
+													'_blank'
+												)
+											}
+										>
+											Find Vegan Products Near You
+										</Button>
+									)}
+									<Typography paragraph component="div">
+										{Object.entries(recipe.ingredients).map((entry) => (
+											<div key={entry[0]}>
+												{entry[0] !== 'default' && (
+													<Typography paragraph fontWeight="bold">
+														{titlise(entry[0])}
+													</Typography>
+												)}
+												<Typography paragraph component="ul" paddingLeft={3}>
+													{entry[1].map((subEntry) => (
+														<Typography key={subEntry} component="li">
+															{subEntry}
+														</Typography>
+													))}
+												</Typography>
+											</div>
+										))}
+									</Typography>
+								</>
+							)}
+						</Ingredients>
+					)}
 					<Method>
 						{(recipe?.method || recipe?.video) && (
 							<Typography variant="h5" paragraph>
@@ -375,13 +467,16 @@ export default function Recipe(props) {
 								<div key={entry[0]}>
 									{entry[0] !== 'default' && (
 										<Typography paragraph fontWeight="bold">
-											{entry[0]}
+											{titlise(entry[0])}
 										</Typography>
 									)}
 									<Typography paragraph component="div">
 										{entry[1].map((subEntry, i) => (
 											<Typography key={subEntry} paragraph>
-												<strong>{i + 1}.</strong> {subEntry}
+												<strong>
+													{subEntry[0] === '*' ? '' : `${i + 1}.`}
+												</strong>{' '}
+												{subEntry}
 											</Typography>
 										))}
 									</Typography>
@@ -389,6 +484,19 @@ export default function Recipe(props) {
 							))}
 					</Method>
 				</Details>
+				{recipe?.nutrition && (
+					<Nutrition>
+						<Typography fontWeight="bold" component="span">
+							Nutrition Information:{' '}
+						</Typography>
+						{recipe?.nutrition.map((nut, i) => (
+							<span key={nut}>
+								{nut}
+								{i === recipe.nutrition.length - 1 ? '' : ', '}
+							</span>
+						))}
+					</Nutrition>
+				)}
 				<Actions color="inherit">
 					<ActionButton
 						size="large"
@@ -419,9 +527,7 @@ export default function Recipe(props) {
 				/>
 			</Content>
 			{mobile && (
-				<BottomNavBar onClick={handleClose} background={background}>
-					{background ? 'Back' : 'Close'}
-				</BottomNavBar>
+				<BottomNavBar handleClose={handleClose} background={background} />
 			)}
 			<Lightbox
 				open={Boolean(lightboxData)}

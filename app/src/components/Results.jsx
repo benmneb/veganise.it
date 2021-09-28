@@ -8,7 +8,7 @@ import { styled } from '@mui/material';
 
 import InfiniteScrollComponent from 'react-infinite-scroll-component';
 
-import { ResultCard, ResultsSpinner } from './index';
+import { ResultCard, ResultsSpinner, SubmitCard } from './index';
 import { api, spaceout, scrollToResults } from '../utils';
 import {
 	setLoadingSearch,
@@ -27,7 +27,7 @@ const InfiniteScroll = styled(InfiniteScrollComponent)(({ theme }) => ({
 	},
 }));
 
-const DEFAULT_OFFSET = 3;
+const DEFAULT_OFFSET = 20;
 
 export default function Results() {
 	const dispatch = useDispatch();
@@ -38,6 +38,7 @@ export default function Results() {
 	const term = spaceout(rawTerm);
 
 	// perform search based on url params
+	// this is the initial search no matter the source (main search bar, url, or appbar)
 	useEffect(() => {
 		(async () => {
 			// reset offset for future `loadMoreOnScroll()` calls
@@ -71,7 +72,6 @@ export default function Results() {
 			const response = await api.get(`/search-more/${term}/${offset.current}`);
 			offset.current += DEFAULT_OFFSET;
 			dispatch(updateSearchResultsOnScroll(response.data.results));
-			console.log('loaded more...');
 		} catch (error) {
 			console.error('While trying to scoll infinitely:', error);
 			dispatch(
@@ -92,8 +92,9 @@ export default function Results() {
 				hasMore={searchData?.results.length < searchData?.totalCount}
 				loader={null}
 				endMessage={
-					offset.current > DEFAULT_OFFSET && (
-						<h3 style={{ textAlign: 'center' }}>That's it!</h3>
+					searchData?.results.length > 0 &&
+					searchData?.results.length === searchData?.totalCount && (
+						<SubmitCard />
 					)
 				}
 			>

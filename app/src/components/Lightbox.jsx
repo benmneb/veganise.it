@@ -301,45 +301,47 @@ export default class Lightbox extends Component {
 
 		if (data.type === 'video') {
 			return (
-				<VideoWrapper>
-					<div
-						style={{
-							position: 'relative',
-							width: '100%',
-							height: 0,
-							paddingBottom: '56.25%',
-						}}
-					>
-						<iframe
-							width="560"
-							height="315"
-							src={data.url}
-							frameBorder="0"
-							allow="autoplay; encrypted-media"
-							title={data.title}
-							allowFullScreen
+				<Fade in={!this.state.loading}>
+					<VideoWrapper>
+						<div
 							style={{
-								pointerEvents: this.state.scale === 1 ? 'auto' : 'none',
-								maxWidth: '100%',
-								maxHeight: '100%',
-								transform: `translate(${this.state.x}px, ${this.state.y}px)`,
-								transition: 'transform 0.5s ease-out',
-								cursor: 'default',
-								borderRadius: 16,
-								// responsiveness ⬇️
-								position: 'absolute',
-								top: 0,
-								left: 0,
+								position: 'relative',
 								width: '100%',
-								height: '100%',
+								height: 0,
+								paddingBottom: '56.25%',
 							}}
-							onLoad={() => {
-								this.setState({ loading: false });
-							}}
-							onClick={(e) => e.stopPropagation()}
-						/>
-					</div>
-				</VideoWrapper>
+						>
+							<iframe
+								width="560"
+								height="315"
+								src={data.url}
+								frameBorder="0"
+								allow="autoplay; encrypted-media"
+								title={data.title}
+								allowFullScreen
+								style={{
+									pointerEvents: this.state.scale === 1 ? 'auto' : 'none',
+									maxWidth: '100%',
+									maxHeight: '100%',
+									transform: `translate(${this.state.x}px, ${this.state.y}px)`,
+									transition: 'transform 0.5s ease-out',
+									cursor: 'default',
+									borderRadius: 16,
+									// responsiveness ⬇️
+									position: 'absolute',
+									top: 0,
+									left: 0,
+									width: '100%',
+									height: '100%',
+								}}
+								onLoad={() => {
+									this.setState({ loading: false });
+								}}
+								onClick={(e) => e.stopPropagation()}
+							/>
+						</div>
+					</VideoWrapper>
+				</Fade>
 			);
 		}
 	}

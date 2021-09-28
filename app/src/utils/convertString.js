@@ -44,6 +44,7 @@ export function dequote(string) {
 export function titlise(string) {
 	let i, j, str, lowers, uppers;
 
+	// Make first letter of every word uppercase
 	str = string.replace(
 		/([^\W_]+[^\s-]*) */g,
 		(txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
@@ -92,4 +93,14 @@ export function titlise(string) {
 		);
 
 	return str;
+}
+
+// to handle massive recipe titles in the ResultCard
+
+export function truncate(text) {
+	const length = 75;
+
+	if (text.length <= length) return text;
+
+	return text.substr(0, length) + '\u2026';
 }

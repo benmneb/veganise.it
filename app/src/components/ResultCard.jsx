@@ -9,7 +9,7 @@ import { FavoriteBorderRounded } from '@mui/icons-material';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { titlise } from '../utils';
+import { titlise, truncate } from '../utils';
 
 const Card = styled(MuiCard)(({ theme }) => ({
 	cursor: 'zoom-in',
@@ -59,7 +59,7 @@ export default function ResultCard(props) {
 	}
 
 	function handleKeyDown(e) {
-		if (e.key !== 'Enter') return;
+		if (e.key !== ' ' && e.key !== 'Enter') return;
 		handleClick();
 	}
 
@@ -73,7 +73,7 @@ export default function ResultCard(props) {
 			<Media image={recipe.image} />
 			<Content>
 				<Typography variant="h5" component="h1" fontWeight="bold" gutterBottom>
-					{titlise(recipe.title)}
+					{truncate(titlise(recipe.title))}
 				</Typography>
 				<Typography
 					variant="h6"

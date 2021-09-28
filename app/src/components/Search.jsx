@@ -118,7 +118,7 @@ function TypedInputs() {
 	}, [focused, inputValue]);
 
 	function handleSearch() {
-		const term = inputValue || stringRef.current;
+		const term = inputValue.trim() || stringRef.current;
 
 		// dont perform empty search || dont perform same search twice
 		if (!term || clean(term) === searchData?.term) return;

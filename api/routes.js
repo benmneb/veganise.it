@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import { transporter } from './transporter.js';
 
 export default function routes(app, db) {
-	const recipes = db.collection('recipes-khaled');
+	const recipes = db.collection('recipes');
 
 	app.get('/', (_, res) => {
 		res.send('Get off my lawn! 👴🏻');
@@ -53,7 +53,7 @@ export default function routes(app, db) {
 			{ $sort: { score: { $meta: 'textScore' } } },
 			{
 				$facet: {
-					results: [{ $limit: 3 }], // change TODO
+					results: [{ $limit: 20 }],
 					totalCount: [{ $count: 'count' }],
 				},
 			},
@@ -101,7 +101,7 @@ export default function routes(app, db) {
 				.project({ score: { $meta: 'textScore' } })
 				.sort({ score: { $meta: 'textScore' } })
 				.skip(Number(offset))
-				.limit(3) // change TODO
+				.limit(20)
 				.toArray();
 
 			res.status(200).json({ success: true, results });
