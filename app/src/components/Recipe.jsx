@@ -90,7 +90,7 @@ const Stats = styled('div')(({ theme }) => ({
 	borderLeft: `1px solid ${theme.palette.grey[300]}`,
 	padding: theme.spacing(2),
 	height: 'max-content',
-	minWidth: 'max-content',
+	minWidth: 200,
 }));
 
 const Details = styled('div')(({ theme }) => ({
@@ -379,7 +379,7 @@ export default function Recipe(props) {
 							endIcon={<OpenInNewRounded />}
 							sx={{ minWidth: 250 }}
 							onClick={() =>
-								window.open('https://vomad.guide?ref="veganise.it', '_blank')
+								window.open('https://vomad.guide?ref=veganise.it', '_blank')
 							}
 						>
 							Find Vegan Products Near You
@@ -408,6 +408,23 @@ export default function Recipe(props) {
 									<Typography variant="h5" paragraph>
 										🛒 Ingredients
 									</Typography>
+									{!recipe?.features && (
+										<Button
+											variant="outlined"
+											color="inherit"
+											size="large"
+											endIcon={<OpenInNewRounded />}
+											sx={{ mb: 2 }}
+											onClick={() =>
+												window.open(
+													'https://vomad.guide?ref=veganise.it',
+													'_blank'
+												)
+											}
+										>
+											Find Vegan Products Near You
+										</Button>
+									)}
 									<Typography paragraph component="div">
 										{Object.entries(recipe.ingredients).map((entry) => (
 											<div key={entry[0]}>
