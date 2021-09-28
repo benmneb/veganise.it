@@ -27,7 +27,7 @@ const InfiniteScroll = styled(InfiniteScrollComponent)(({ theme }) => ({
 	},
 }));
 
-const DEFAULT_OFFSET = 3;
+const DEFAULT_OFFSET = 20;
 
 export default function Results() {
 	const dispatch = useDispatch();
@@ -71,7 +71,6 @@ export default function Results() {
 			const response = await api.get(`/search-more/${term}/${offset.current}`);
 			offset.current += DEFAULT_OFFSET;
 			dispatch(updateSearchResultsOnScroll(response.data.results));
-			console.log('loaded more...');
 		} catch (error) {
 			console.error('While trying to scoll infinitely:', error);
 			dispatch(
@@ -92,7 +91,8 @@ export default function Results() {
 				hasMore={searchData?.results.length < searchData?.totalCount}
 				loader={null}
 				endMessage={
-					offset.current > DEFAULT_OFFSET && (
+					searchData?.results.length > 0 &&
+					searchData?.results.length === searchData?.totalCount && (
 						<h3 style={{ textAlign: 'center' }}>That's it!</h3>
 					)
 				}
