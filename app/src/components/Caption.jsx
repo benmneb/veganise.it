@@ -17,7 +17,7 @@ const Wrapper = styled('div')(({ theme }) => ({
 }));
 
 const defaultCaption =
-	'A curated collection of mouth-watering recipes to help you cook the best plant-based meals easier than ever.';
+	'A curated collection of the internets most mouth-watering vegan recipes made to help you cook the best plant-based meals easier than ever.';
 
 export default function Caption() {
 	const [caption, setCaption] = useState(defaultCaption);
