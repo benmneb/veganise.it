@@ -59,7 +59,7 @@ export default function ResultCard(props) {
 	}
 
 	function handleKeyDown(e) {
-		if (e.key !== 'Enter') return;
+		if (e.key !== ' ' && e.key !== 'Enter') return;
 		handleClick();
 	}
 
