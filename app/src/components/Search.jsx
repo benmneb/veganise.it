@@ -65,7 +65,9 @@ const SearchButton = styled(LoadingButton)(({ theme }) => ({
 	},
 }));
 
-function TypedInputs() {
+function TypedInputs(props) {
+	const { setInputFocus } = props;
+
 	const { focused } = useFormControl() || {};
 	const history = useHistory();
 	const location = useLocation();
@@ -75,7 +77,6 @@ function TypedInputs() {
 	const loading = useSelector((state) => state.loadingSearch);
 
 	const [inputValue, setInputValue] = useState('');
-	const [focus, setFocus] = useState(false);
 
 	const inputRef = useRef(null);
 	const stringRef = useRef(null);
@@ -123,7 +124,7 @@ function TypedInputs() {
 		// dont perform empty search || dont perform same search twice
 		if (!term || clean(term) === searchData?.term) return;
 
-		setFocus(false);
+		setInputFocus(false);
 
 		if (term === 'submit' || term === 'advertise') {
 			return history.push({
@@ -149,7 +150,7 @@ function TypedInputs() {
 	}
 
 	function handleBlur() {
-		setFocus(false);
+		setInputFocus(false);
 		if (inputValue) return;
 		if (history.location.pathname !== '/' && !searchData?.results.length) {
 			dispatch(setSearchData(null));
@@ -158,39 +159,44 @@ function TypedInputs() {
 	}
 
 	return (
-		<HideOnScroll threshold={(55 / 100) * window.innerHeight} disabled={focus}>
-			<Wrapper>
-				<TextBox>
-					<SearchBar
-						placeholder={placeholder}
-						inputRef={inputRef}
-						value={inputValue}
-						onChange={(e) => setInputValue(e.target.value)}
-						onKeyDown={handleKeyDown}
-						onBlur={handleBlur}
-						onFocus={() => setFocus(true)}
-					/>
-				</TextBox>
-				<ButtonBox>
-					<SearchButton
-						disableElevation
-						variant="contained"
-						onClick={handleSearch}
-						loading={loading}
-						loadingIndicator="Veganising..."
-					>
-						Veganise It!
-					</SearchButton>
-				</ButtonBox>
-			</Wrapper>
-		</HideOnScroll>
+		<Wrapper>
+			<TextBox>
+				<SearchBar
+					placeholder={placeholder}
+					inputRef={inputRef}
+					value={inputValue}
+					onChange={(e) => setInputValue(e.target.value)}
+					onKeyDown={handleKeyDown}
+					onBlur={handleBlur}
+					onFocus={() => setInputFocus(true)}
+				/>
+			</TextBox>
+			<ButtonBox>
+				<SearchButton
+					disableElevation
+					variant="contained"
+					onClick={handleSearch}
+					loading={loading}
+					loadingIndicator="Veganising..."
+				>
+					Veganise It!
+				</SearchButton>
+			</ButtonBox>
+		</Wrapper>
 	);
 }
 
 export default function Search() {
+	const [inputFocus, setInputFocus] = useState(false);
+
 	return (
-		<FormController component="form">
-			<TypedInputs />
-		</FormController>
+		<HideOnScroll
+			threshold={(55 / 100) * window.innerHeight}
+			disabled={inputFocus}
+		>
+			<FormController component="form">
+				<TypedInputs setInputFocus={setInputFocus} />
+			</FormController>
+		</HideOnScroll>
 	);
 }
