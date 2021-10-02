@@ -35,6 +35,7 @@ const HGroup = styled('hgroup')(({ theme }) => ({
 	textAlign: 'center',
 	zIndex: '1',
 	padding: theme.spacing(2),
+	marginTop: theme.spacing(-4),
 }));
 
 export default function Header() {
