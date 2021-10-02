@@ -94,13 +94,3 @@ export function titlise(string) {
 
 	return str;
 }
-
-// to handle massive recipe titles in the ResultCard
-
-export function truncate(text) {
-	const length = 75;
-
-	if (text.length <= length) return text;
-
-	return text.substr(0, length) + '\u2026';
-}

@@ -4,13 +4,16 @@ import {
 	CardContent,
 	Typography,
 } from '@mui/material';
-import { FavoriteBorderRounded } from '@mui/icons-material';
+import {
+	FavoriteBorderRounded,
+	VideoLibraryRounded,
+} from '@mui/icons-material';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
 import Image from 'mui-image';
 
-import { titlise, truncate } from '../utils';
+import { titlise } from '../utils';
 
 const Card = styled(MuiCard)(({ theme }) => ({
 	cursor: 'zoom-in',
@@ -37,9 +40,34 @@ const Card = styled(MuiCard)(({ theme }) => ({
 	},
 }));
 
-const Content = styled(CardContent)({
-	height: '40%',
-	textAlign: 'center',
+const Content = styled(CardContent)(({ theme }) => ({
+	height: '33%',
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'space-between',
+	'&:last-child': {
+		padding: theme.spacing(2),
+	},
+}));
+
+const Title = styled(Typography)({
+	display: '-webkit-box',
+	WebkitLineClamp: '2',
+	WebkitBoxOrient: 'vertical',
+	overflow: 'hidden',
+	textOverflow: 'ellipsis',
+});
+
+const Author = styled(Typography)(({ theme }) => ({
+	whiteSpace: 'nowrap',
+	margin: theme.spacing(0, 1, 0, 0),
+	overflow: 'hidden',
+	textOverflow: 'ellipsis',
+}));
+
+const Footer = styled('div')({
+	display: 'flex',
+	justifyContent: 'space-between',
 });
 
 export default function ResultCard(props) {
@@ -67,34 +95,31 @@ export default function ResultCard(props) {
 			onKeyDown={handleKeyDown}
 			tabIndex="0"
 		>
-			<Image src={recipe.image} height="60%" shift="bottom" />
+			<Image src={recipe.image} height="67%" shift="bottom" loading="lazy" />
 			<Content>
-				<Typography variant="h5" component="h1" fontWeight="bold" gutterBottom>
-					{truncate(titlise(recipe.title))}
-				</Typography>
-				<Typography
-					variant="h6"
-					component="h2"
-					color="text.secondary"
-					gutterBottom
-				>
-					by {recipe.author}
-				</Typography>
-				<Typography
-					variant="h6"
-					color="text.secondary"
-					component="div"
-					display="flex"
-					justifyContent="center"
-					alignItems="center"
-					gutterBottom
-				>
-					<FavoriteBorderRounded
-						color="favorite"
-						sx={{ mr: Boolean(recipe.likes) ? 1 : 0 }}
-					/>{' '}
-					{recipe.likes}
-				</Typography>
+				<Title variant="h5" component="h1" fontWeight="bold">
+					{titlise(recipe.title)}
+				</Title>
+				<Footer>
+					<Author variant="h6" component="h2" color="text.secondary">
+						by {recipe.author}
+					</Author>
+					<Typography
+						variant="h6"
+						color="text.secondary"
+						component="div"
+						display="flex"
+						justifyContent="center"
+						alignItems="center"
+					>
+						{recipe.video && <VideoLibraryRounded sx={{ mr: 1 }} />}
+						<FavoriteBorderRounded
+							color="favorite"
+							sx={{ mr: Boolean(recipe.likes) ? 1 : 0 }}
+						/>{' '}
+						{recipe.likes}
+					</Typography>
+				</Footer>
 			</Content>
 		</Card>
 	);
