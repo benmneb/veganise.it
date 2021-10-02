@@ -43,6 +43,9 @@ export default function ControlledInput(props) {
 			inputRef={inputRef}
 			value={value}
 			onChange={handleChange}
+			spellCheck="false"
+			autoCapitalize="off"
+			autoCorrect="off"
 			{...rest}
 		/>
 	);
