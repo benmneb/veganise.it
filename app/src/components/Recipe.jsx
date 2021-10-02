@@ -353,7 +353,7 @@ export default function Recipe(props) {
 					<Features>
 						<div>
 							<Typography fontWeight="bold" component="span">
-								This recipe features:{' '}
+								Featured products:{' '}
 							</Typography>
 							{recipe.features.map((product, i) => (
 								<span key={product}>
@@ -520,15 +520,15 @@ export default function Recipe(props) {
 						</>
 					)}
 				</Actions>
-				<ShareMenu
-					anchor={shareMenuAnchor}
-					open={Boolean(shareMenuAnchor)}
-					close={closeShareMenu}
-				/>
 			</Content>
 			{mobile && (
 				<BottomNavBar handleClose={handleClose} background={background} />
 			)}
+			<ShareMenu
+				anchor={shareMenuAnchor}
+				open={Boolean(shareMenuAnchor)}
+				close={closeShareMenu}
+			/>
 			<Lightbox
 				open={Boolean(lightboxData)}
 				handleClose={closeLightbox}
