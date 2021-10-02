@@ -4,8 +4,9 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { styled, FormControl } from '@mui/material/';
+import { styled, FormControl, IconButton } from '@mui/material/';
 import { useFormControl } from '@mui/material/FormControl';
+import { ClearRounded } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 
 import Typed from 'typed.js';
@@ -42,6 +43,12 @@ const TextBox = styled('div')(({ theme }) => ({
 		justifyContent: 'center',
 	},
 }));
+
+const ClearSearch = styled('div')({
+	position: 'absolute',
+	right: 0,
+	backgroundColor: 'inherit',
+});
 
 const ButtonBox = styled(TextBox)({
 	flexShrink: 0,
@@ -169,6 +176,15 @@ function TypedInputs(props) {
 					onKeyDown={handleKeyDown}
 					onBlur={handleBlur}
 					onFocus={() => setInputFocus(true)}
+					endAdornment={
+						inputValue && (
+							<ClearSearch>
+								<IconButton onClick={() => setInputValue('')} size="large">
+									<ClearRounded color="action" fontSize="large" />
+								</IconButton>
+							</ClearSearch>
+						)
+					}
 				/>
 			</TextBox>
 			<ButtonBox>
