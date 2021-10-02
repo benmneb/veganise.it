@@ -67,7 +67,7 @@ export const theme = responsiveFontSizes(
 			MuiCssBaseline: {
 				styleOverrides: {
 					body: {
-						'& ::selection': {
+						'& :not(img)::selection': {
 							backgroundColor: green[500],
 							color: 'white',
 						},
