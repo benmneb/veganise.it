@@ -1,6 +1,8 @@
-import { styled, IconButton, Typography } from '@mui/material';
+import { styled, IconButton, Typography, Avatar } from '@mui/material';
 
 import { Link } from 'react-router-dom';
+
+import logo from '../assets/logo-icon.png';
 
 const StyledLink = styled(Link)({
 	textDecoration: 'none',
@@ -14,20 +16,21 @@ const Wrapper = styled('div')({
 	flexGrow: 1,
 });
 
-const EmojiIcon = styled('div')({
-	width: 24,
-	height: 24,
-	display: 'flex',
-	justifyContent: 'center',
-	alignItems: 'center',
-});
-
 export default function AppbarLogo() {
 	return (
 		<Wrapper>
 			<StyledLink to="/">
-				<IconButton size="large" edge="start" color="inherit" sx={{ mr: 1 }}>
-					<EmojiIcon>🧑‍🍳</EmojiIcon>
+				<IconButton
+					size="large"
+					edge="start"
+					color="inherit"
+					sx={{ mr: 1, p: 1 }}
+				>
+					<Avatar
+						src={logo}
+						variant="square"
+						sx={{ width: 32, height: 32, p: 0, borderRadius: 0.5 }}
+					/>
 				</IconButton>
 				<Typography
 					variant="h4"
