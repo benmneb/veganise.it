@@ -28,7 +28,7 @@ import {
 	Lightbox,
 	BottomNavBar,
 } from './index';
-import { api, ShareIcon, titlise, Link } from '../utils';
+import { api, ShareIcon, titlise } from '../utils';
 import { setSearchData, showSnackbar } from '../state';
 
 const Content = styled(DialogContent)({
@@ -62,6 +62,13 @@ const Image = styled('div')(({ theme }) => ({
 	height: '70vh',
 	maxHeight: 700,
 	cursor: 'zoom-in',
+}));
+
+const Body = styled('main', {
+	shouldForwardProp: (prop) => prop !== 'isInModal',
+})(({ isInModal }) => ({
+	maxWidth: isInModal ? 'auto' : 750,
+	margin: isInModal ? 0 : 'auto',
 }));
 
 const Overview = styled('div')(({ theme }) => ({
@@ -307,196 +314,190 @@ export default function Recipe(props) {
 							`linear-gradient(180deg, ${theme.palette.background.default} 0%, rgba(0,0,0,0) 30%), url(${recipe?.image})`,
 					}}
 				/>
-				<Overview>
-					{mobile && recipe?.video && (
-						<Button
-							startIcon={<VideoLibraryRounded color="youtube" />}
-							variant="outlined"
-							size="large"
-							color="inherit"
-							sx={{ mb: 2, width: '100%' }}
-							onClick={() => openLightbox('video')}
-						>
-							Watch how it's made!
-						</Button>
-					)}
-					{(recipe?.about || recipe?.stats || recipe?.difficulty) && (
-						<Typography variant="h5" paragraph>
-							💬 About
-						</Typography>
-					)}
-					<OverviewBody>
-						{(recipe?.about || recipe?.difficulty) && (
-							<About>
-								{recipe?.about?.map((paragraph) => (
-									<Typography key={paragraph} paragraph>
-										{paragraph}
-									</Typography>
-								))}
-								{recipe?.difficulty && (
-									<Typography paragraph>
-										Difficulty: {recipe.difficulty}
-									</Typography>
-								)}
-							</About>
-						)}
-						{recipe?.stats && (
-							<Stats>
-								{recipe.stats.map((stat) => (
-									<Typography key={stat}>{stat}</Typography>
-								))}
-							</Stats>
-						)}
-					</OverviewBody>
-				</Overview>
-				{recipe?.features && (
-					<Features>
-						<div>
-							<Typography fontWeight="bold" component="span">
-								Featured products:{' '}
-							</Typography>
-							{recipe.features.map((product, i) => (
-								<span key={product}>
-									<Link
-										href={`https://vomad.guide/search/${product
-											.replace(/\s/g, '+')
-											.toLowerCase()}?ref=veganise.it`}
-										target="_blank"
-										rel="noopener"
-									>
-										{titlise(product)}
-									</Link>
-									{i === recipe.features.length - 1 ? '' : ', '}
-								</span>
-							))}
-						</div>
-						<Button
-							variant="outlined"
-							color="inherit"
-							endIcon={<OpenInNewRounded />}
-							sx={{ minWidth: 250 }}
-							onClick={() =>
-								window.open('https://vomad.guide?ref=veganise.it', '_blank')
-							}
-						>
-							Find Vegan Products Near You
-						</Button>
-					</Features>
-				)}
-				<Details>
-					{(recipe?.ingredients || recipe?.['before you start']) && (
-						<Ingredients>
-							{recipe?.['before you start'] && (
-								<>
-									<Typography variant="h5" paragraph>
-										☝️ Before you start
-									</Typography>
-									<Typography paragraph component="ul" paddingLeft={3}>
-										{recipe?.['before you start'].map((item) => (
-											<Typography key={item} component="li">
-												{item}
-											</Typography>
-										))}
-									</Typography>
-								</>
-							)}
-							{recipe?.ingredients && (
-								<>
-									<Typography variant="h5" paragraph>
-										🛒 Ingredients
-									</Typography>
-									{!recipe?.features && (
-										<Button
-											variant="outlined"
-											color="inherit"
-											size="large"
-											endIcon={<OpenInNewRounded />}
-											sx={{ mb: 2 }}
-											onClick={() =>
-												window.open(
-													'https://vomad.guide?ref=veganise.it',
-													'_blank'
-												)
-											}
-										>
-											Find Vegan Products Near You
-										</Button>
-									)}
-									<Typography paragraph component="div">
-										{Object.entries(recipe.ingredients).map((entry) => (
-											<div key={entry[0]}>
-												{entry[0] !== 'default' && (
-													<Typography paragraph fontWeight="bold">
-														{titlise(entry[0])}
-													</Typography>
-												)}
-												<Typography paragraph component="ul" paddingLeft={3}>
-													{entry[1].map((subEntry) => (
-														<Typography key={subEntry} component="li">
-															{subEntry}
-														</Typography>
-													))}
-												</Typography>
-											</div>
-										))}
-									</Typography>
-								</>
-							)}
-						</Ingredients>
-					)}
-					<Method>
-						{(recipe?.method || recipe?.video) && (
-							<Typography variant="h5" paragraph>
-								🧑‍🍳 Method
-							</Typography>
-						)}
-						{recipe?.video && (
+				<Body isInModal={Boolean(background)}>
+					<Overview>
+						{mobile && recipe?.video && (
 							<Button
 								startIcon={<VideoLibraryRounded color="youtube" />}
 								variant="outlined"
 								size="large"
 								color="inherit"
-								sx={{ mb: 2 }}
+								sx={{ mb: 2, width: '100%' }}
 								onClick={() => openLightbox('video')}
 							>
-								{mobile ? 'Watch video instructions' : "Watch how it's made!"}
+								Watch how it's made!
 							</Button>
 						)}
-						{recipe?.method &&
-							Object.entries(recipe.method).map((entry) => (
-								<div key={entry[0]}>
-									{entry[0] !== 'default' && (
-										<Typography paragraph fontWeight="bold">
-											{titlise(entry[0])}
+						{(recipe?.about || recipe?.stats || recipe?.difficulty) && (
+							<Typography variant="h5" paragraph>
+								💬 About
+							</Typography>
+						)}
+						<OverviewBody>
+							{(recipe?.about || recipe?.difficulty) && (
+								<About>
+									{recipe?.about?.map((paragraph) => (
+										<Typography key={paragraph} paragraph>
+											{paragraph}
+										</Typography>
+									))}
+									{recipe?.difficulty && (
+										<Typography paragraph>
+											Difficulty: {recipe.difficulty}
 										</Typography>
 									)}
-									<Typography paragraph component="div">
-										{entry[1].map((subEntry, i) => (
-											<Typography key={subEntry} paragraph>
-												<strong>
-													{subEntry[0] === '*' ? '' : `${i + 1}.`}
-												</strong>{' '}
-												{subEntry}
+								</About>
+							)}
+							{recipe?.stats && (
+								<Stats>
+									{recipe.stats.map((stat) => (
+										<Typography key={stat}>{stat}</Typography>
+									))}
+								</Stats>
+							)}
+						</OverviewBody>
+					</Overview>
+					{recipe?.features && (
+						<Features>
+							<div>
+								<Typography fontWeight="bold" component="span">
+									Featured products:{' '}
+								</Typography>
+								{recipe.features.map((product, i) => (
+									<span key={product}>
+										{titlise(product)}
+										{i === recipe.features.length - 1 ? '' : ', '}
+									</span>
+								))}
+							</div>
+							<Button
+								variant="outlined"
+								color="inherit"
+								endIcon={<OpenInNewRounded />}
+								sx={{ minWidth: 250 }}
+								onClick={() =>
+									window.open('https://vomad.guide?ref=veganise.it', '_blank')
+								}
+							>
+								Find Vegan Products Near You
+							</Button>
+						</Features>
+					)}
+					<Details>
+						{(recipe?.ingredients || recipe?.['before you start']) && (
+							<Ingredients>
+								{recipe?.['before you start'] && (
+									<>
+										<Typography variant="h5" paragraph>
+											☝️ Before you start
+										</Typography>
+										<Typography paragraph component="ul" paddingLeft={3}>
+											{recipe?.['before you start'].map((item) => (
+												<Typography key={item} component="li">
+													{item}
+												</Typography>
+											))}
+										</Typography>
+									</>
+								)}
+								{recipe?.ingredients && (
+									<>
+										<Typography variant="h5" paragraph>
+											🛒 Ingredients
+										</Typography>
+										{!recipe?.features && (
+											<Button
+												variant="outlined"
+												color="inherit"
+												size="large"
+												endIcon={<OpenInNewRounded />}
+												sx={{ mb: 2, whiteSpace: 'nowrap', maxWidth: '100%' }}
+												onClick={() =>
+													window.open(
+														'https://vomad.guide?ref=veganise.it',
+														'_blank'
+													)
+												}
+											>
+												Find Vegan Products Near You
+											</Button>
+										)}
+										<Typography paragraph component="div">
+											{Object.entries(recipe.ingredients).map((entry) => (
+												<div key={entry[0]}>
+													{entry[0] !== 'default' && (
+														<Typography paragraph fontWeight="bold">
+															{titlise(entry[0])}
+														</Typography>
+													)}
+													<Typography paragraph component="ul" paddingLeft={3}>
+														{entry[1].map((subEntry) => (
+															<Typography key={subEntry} component="li">
+																{subEntry}
+															</Typography>
+														))}
+													</Typography>
+												</div>
+											))}
+										</Typography>
+									</>
+								)}
+							</Ingredients>
+						)}
+						<Method>
+							{(recipe?.method || recipe?.video) && (
+								<Typography variant="h5" paragraph>
+									🧑‍🍳 Method
+								</Typography>
+							)}
+							{recipe?.video && (
+								<Button
+									startIcon={<VideoLibraryRounded color="youtube" />}
+									variant="outlined"
+									size="large"
+									color="inherit"
+									sx={{ mb: 2 }}
+									onClick={() => openLightbox('video')}
+								>
+									{mobile ? 'Watch video instructions' : "Watch how it's made!"}
+								</Button>
+							)}
+							{recipe?.method &&
+								Object.entries(recipe.method).map((entry) => (
+									<div key={entry[0]}>
+										{entry[0] !== 'default' && (
+											<Typography paragraph fontWeight="bold">
+												{titlise(entry[0])}
 											</Typography>
-										))}
-									</Typography>
-								</div>
+										)}
+										<Typography paragraph component="div">
+											{entry[1].map((subEntry, i) => (
+												<Typography key={subEntry} paragraph>
+													<strong>
+														{subEntry[0] === '*' ? '' : `${i + 1}.`}
+													</strong>{' '}
+													{subEntry}
+												</Typography>
+											))}
+										</Typography>
+									</div>
+								))}
+						</Method>
+					</Details>
+					{recipe?.nutrition && (
+						<Nutrition>
+							<Typography fontWeight="bold" component="span">
+								Nutrition Information:{' '}
+							</Typography>
+							{recipe?.nutrition.map((nut, i) => (
+								<span key={nut}>
+									{nut}
+									{i === recipe.nutrition.length - 1 ? '' : ', '}
+								</span>
 							))}
-					</Method>
-				</Details>
-				{recipe?.nutrition && (
-					<Nutrition>
-						<Typography fontWeight="bold" component="span">
-							Nutrition Information:{' '}
-						</Typography>
-						{recipe?.nutrition.map((nut, i) => (
-							<span key={nut}>
-								{nut}
-								{i === recipe.nutrition.length - 1 ? '' : ', '}
-							</span>
-						))}
-					</Nutrition>
-				)}
+						</Nutrition>
+					)}
+				</Body>
 				<Actions color="inherit">
 					<ActionButton
 						size="large"
