@@ -73,10 +73,10 @@ export default function Results() {
 			offset.current += DEFAULT_OFFSET;
 			dispatch(updateSearchResultsOnScroll(response.data.results));
 		} catch (error) {
-			console.error('While trying to scoll infinitely:', error);
+			console.error('While trying to scroll infinitely:', error);
 			dispatch(
 				showSnackbar({
-					message: 'Could not load more! Try again soon.',
+					message: "Couldn't load more recipes! Try again soon.",
 					severity: 'error',
 				})
 			);
