@@ -39,7 +39,7 @@ export function dequote(string) {
 }
 
 // to title case
-// slightly modified from https://stackoverflow.com/a/6475125/12104850
+// modified from https://stackoverflow.com/a/6475125/12104850
 
 export function titlise(string) {
 	let i, j, str, lowers, uppers;
@@ -76,6 +76,7 @@ export function titlise(string) {
 		'With',
 		'This',
 		'Min',
+		'Using',
 	];
 
 	for (i = 0, j = lowers.length; i < j; i++)
@@ -84,13 +85,17 @@ export function titlise(string) {
 		);
 
 	// Certain words such as initialisms or acronyms should be left uppercase
-	uppers = ['Id', 'Tv', 'Bbq'];
+	uppers = ['Id', 'Tv', 'Bbq', 'Kfc'];
 
 	for (i = 0, j = uppers.length; i < j; i++)
 		str = str.replace(
 			new RegExp('\\b' + uppers[i] + '\\b', 'g'),
 			uppers[i].toUpperCase()
 		);
+
+	// This removes the word "recipe" from the end of the title.
+	// Could also do this https://docs.mongodb.com/manual/reference/method/db.collection.updateMany/#syntax
+	str = str.replace(/\srecipe$/i, '');
 
 	return str;
 }
