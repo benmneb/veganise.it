@@ -20,7 +20,7 @@ import {
 const InfiniteScroll = styled(InfiniteScrollComponent)(({ theme }) => ({
 	width: '100%',
 	display: 'grid',
-	gridTemplateColumns: 'repeat(auto-fit, minmax(330px, 1fr))',
+	gridTemplateColumns: 'repeat(auto-fit, minmax(315px, 1fr))',
 	gridGap: theme.spacing(6),
 	[theme.breakpoints.only('mobile')]: {
 		gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
