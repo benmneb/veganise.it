@@ -10,14 +10,17 @@ export function scrollToResults() {
 	const elementPosition = elementRect - bodyRect;
 	const offsetPosition = elementPosition - offset;
 
+	// This function scrolls the page down one pixel to make the search bar
+	// disappear when searching from somwhere down in the results list.
+	// It often causes inital scroll glitch on Safari because Safari is the new IE.
 	function adjustForSearchBar() {
-		if (window.scrollY.toFixed() !== offsetPosition.toFixed()) return;
-
-		window.removeEventListener('scroll', adjustForSearchBar);
-		window.scrollBy({
-			top: 1,
-			behavior: 'smooth',
-		});
+		if (Number(window.scrollY).toFixed() === Number(offsetPosition).toFixed()) {
+			window.removeEventListener('scroll', adjustForSearchBar);
+			return window.scrollBy({
+				top: 1,
+				behavior: 'smooth',
+			});
+		}
 	}
 
 	window.addEventListener('scroll', adjustForSearchBar);
