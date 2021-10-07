@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { Helmet } from 'react-helmet';
+
 import { useParams, useLocation, useHistory } from 'react-router';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -261,6 +263,21 @@ export default function Recipe(props) {
 
 	return (
 		<>
+			<Helmet>
+				<title>
+					{`${
+						recipe ? `${titlise(recipe.title)} by ${recipe.author} @ ` : ''
+					}Veganise It!`}
+				</title>
+				<meta
+					name="description"
+					content={
+						recipe?.about
+							? recipe.about
+							: 'Veganise It is a curated collection of the internets most mouth-watering vegan recipes.'
+					}
+				/>
+			</Helmet>
 			{!background && <Appbar />}
 			<Content>
 				<Header component="header">

@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 
+import { Helmet } from 'react-helmet';
+
 import { useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +11,7 @@ import { styled } from '@mui/material';
 import InfiniteScrollComponent from 'react-infinite-scroll-component';
 
 import { ResultCard, ResultsSpinner, SubmitCard } from './index';
-import { api, spaceout, scrollToResults } from '../utils';
+import { api, spaceout, scrollToResults, titlise } from '../utils';
 import {
 	setLoadingSearch,
 	setSearchData,
@@ -85,6 +87,18 @@ export default function Results() {
 
 	return (
 		<div style={{ width: '100%' }}>
+			<Helmet>
+				<title>
+					{`Vegan ${searchData?.term ? titlise(searchData.term) : ''} Recipes @
+					Veganise It!`}
+				</title>
+				<meta
+					name="description"
+					content={`The internet's most mouth-watering vegan ${
+						searchData?.term ? titlise(searchData.term) : ''
+					} recipes only at Veganise.It`}
+				/>
+			</Helmet>
 			<InfiniteScroll
 				style={{ overflow: 'unset' }}
 				dataLength={searchData?.results.length || 0}

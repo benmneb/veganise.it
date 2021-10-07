@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { Helmet } from 'react-helmet';
+
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
@@ -150,6 +152,13 @@ export default function Submit(props) {
 
 	return (
 		<>
+			<Helmet>
+				<title>Submit Vegan Recipes @ Veganise It!</title>
+				<meta
+					name="description"
+					content="Feature your culinary creations on Veganise It!"
+				/>
+			</Helmet>
 			{!background && <Appbar />}
 			<Root>
 				<Content>

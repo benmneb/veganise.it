@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { Helmet } from 'react-helmet';
+
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
@@ -153,6 +155,10 @@ export default function Advertise(props) {
 
 	return (
 		<>
+			<Helmet>
+				<title>Advertise @ Veganise It!</title>
+				<meta name="description" content="Promote your brand on Veganise It!" />
+			</Helmet>
 			{!background && <Appbar />}
 			<Root>
 				<Content>
