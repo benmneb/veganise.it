@@ -40,6 +40,12 @@ const Card = styled(MuiCard)(({ theme }) => ({
 	},
 }));
 
+const Svg = styled('svg')({
+	position: 'absolute',
+	bottom: '33%',
+	width: '110%',
+});
+
 const Content = styled(CardContent)(({ theme }) => ({
 	height: '33%',
 	display: 'flex',
@@ -95,7 +101,21 @@ export default function ResultCard(props) {
 			onKeyDown={handleKeyDown}
 			tabIndex="0"
 		>
-			<Image src={recipe.image} height="67%" shift="bottom" loading="lazy" />
+			<Image
+				src={recipe.image}
+				height="67%"
+				shift="bottom"
+				distance="30px"
+				loading="lazy"
+			/>
+			{!recipe?.url.includes('sodeliciousdairyfree.com') && (
+				<Svg viewBox="0 0 1440 42">
+					<path
+						fill="#fff"
+						d="M 1440 21.2102 L 1440 44 L 0 44 L 0 21.2102 C 120 35.0701 240 42 360 42 C 480 42 600 35.0701 720 21.2102 C 808.3278 12.4164 874.5736 6.877 918.7375 4.5921 C 972.4917 1.8109 1026.2458 0.4204 1080 0.4204 C 1200 0.4204 1320 7.3503 1440 21.2102 Z"
+					/>
+				</Svg>
+			)}
 			<Content>
 				<Title variant="h5" component="h1" fontWeight="bold">
 					{titlise(recipe.title)}
