@@ -23,7 +23,9 @@ export const theme = responsiveFontSizes(
 			youtube: { main: '#FF0000' },
 		},
 		typography: {
-			fontFamily: ['Nunito', 'sans-serif'].join(','),
+			fontFamily: ['Nunito', 'Montserrat', 'Lato', 'Roboto', 'sans-serif'].join(
+				', '
+			),
 			fontWeightMedium: 600,
 			fontWeightBold: 800,
 			h1: {
