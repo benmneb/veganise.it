@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import { AppBar, Toolbar } from '@mui/material';
 
 import { AppbarLogo, AppbarSearch } from './index';
-import { HideOnScroll } from '../utils';
+import { ScrollTrigger } from '../utils';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 	padding: theme.spacing(2),
@@ -10,13 +10,13 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 export default function Appbar() {
 	return (
-		<HideOnScroll threshold={10} transition="slide">
+		<ScrollTrigger threshold={10} transition="slide">
 			<AppBar position="sticky" color="inherit" sx={{ px: 1 }}>
 				<StyledToolbar>
 					<AppbarLogo />
 					<AppbarSearch />
 				</StyledToolbar>
 			</AppBar>
-		</HideOnScroll>
+		</ScrollTrigger>
 	);
 }

@@ -1,4 +1,4 @@
-export { default as HideOnScroll } from './HideOnScroll';
+export { default as ScrollTrigger } from './ScrollTrigger';
 export { default as ShareIcon } from './ShareIcon';
 export * from './indexedDb';
 export * from './convertString';

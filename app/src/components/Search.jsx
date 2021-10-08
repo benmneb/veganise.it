@@ -18,7 +18,7 @@ import { LoadingButton } from '@mui/lab';
 import Typed from 'typed.js';
 
 import { SearchBar } from './index';
-import { HideOnScroll, kebab, clean } from '../utils';
+import { ScrollTrigger, kebab, clean } from '../utils';
 import { setLoadingSearch, setSearchData } from '../state';
 import { searchSuggestStrings } from '../assets';
 
@@ -207,13 +207,13 @@ export default function Search() {
 	const [inputFocus, setInputFocus] = useState(false);
 
 	return (
-		<HideOnScroll
+		<ScrollTrigger
 			threshold={(55 / 100) * window.innerHeight}
 			disabled={inputFocus}
 		>
 			<FormController component="form">
 				<TypedInputs setInputFocus={setInputFocus} />
 			</FormController>
-		</HideOnScroll>
+		</ScrollTrigger>
 	);
 }

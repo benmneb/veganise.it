@@ -1,6 +1,6 @@
 import { styled, Typography } from '@mui/material/';
 
-import { HideOnScroll } from '../utils';
+import { ScrollTrigger } from '../utils';
 
 import Image from 'mui-image';
 
@@ -48,7 +48,7 @@ export default function Header() {
 				shift="bottom"
 				wrapperStyle={{ position: 'absolute' }}
 			/>
-			<HideOnScroll threshold={(15 / 100) * window.innerHeight}>
+			<ScrollTrigger threshold={(15 / 100) * window.innerHeight}>
 				<HGroup>
 					<Typography
 						variant="h1"
@@ -85,7 +85,7 @@ export default function Header() {
 						🧑‍🍳 Made with plants 🌱
 					</Typography>
 				</HGroup>
-			</HideOnScroll>
+			</ScrollTrigger>
 		</Wrapper>
 	);
 }

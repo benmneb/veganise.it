@@ -6,12 +6,19 @@ import { useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { styled } from '@mui/material';
+import { styled, Fab, useMediaQuery } from '@mui/material';
+import { KeyboardArrowUpRounded } from '@mui/icons-material';
 
 import InfiniteScrollComponent from 'react-infinite-scroll-component';
 
 import { ResultCard, ResultsSpinner, SubmitCard } from './index';
-import { api, spaceout, scrollToResults, titlise } from '../utils';
+import {
+	api,
+	spaceout,
+	scrollToResults,
+	titlise,
+	ScrollTrigger,
+} from '../utils';
 import {
 	setLoadingSearch,
 	setSearchData,
@@ -29,12 +36,19 @@ const InfiniteScroll = styled(InfiniteScrollComponent)(({ theme }) => ({
 	},
 }));
 
+const BackToTop = styled(Fab)(({ theme }) => ({
+	position: 'fixed',
+	bottom: theme.spacing(2),
+	right: theme.spacing(2),
+}));
+
 const DEFAULT_OFFSET = 20;
 
 export default function Results() {
 	const dispatch = useDispatch();
 	const searchData = useSelector((state) => state.searchData);
 	const { term: rawTerm } = useParams();
+	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 	const offset = useRef(DEFAULT_OFFSET);
 
 	const term = spaceout(rawTerm);
@@ -85,6 +99,14 @@ export default function Results() {
 		}
 	}
 
+	function scrollToTop() {
+		return window.scrollTo({
+			top: 0,
+			left: 0,
+			behavior: 'smooth',
+		});
+	}
+
 	return (
 		<div style={{ width: '100%' }}>
 			<Helmet>
@@ -119,6 +141,23 @@ export default function Results() {
 			<ResultsSpinner
 				show={searchData?.results.length < searchData?.totalCount}
 			/>
+			{!window.location.href.includes('/recipe/') && (
+				<ScrollTrigger
+					onScroll="show"
+					disableHysteresis
+					transition="zoom"
+					threshold={window.innerHeight}
+				>
+					<BackToTop
+						color="secondary"
+						aria-label="scroll back to top"
+						size={mobile ? 'medium' : 'large'}
+						onClick={scrollToTop}
+					>
+						<KeyboardArrowUpRounded fontSize="large" />
+					</BackToTop>
+				</ScrollTrigger>
+			)}
 		</div>
 	);
 }
