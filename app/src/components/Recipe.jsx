@@ -401,6 +401,7 @@ export default function Recipe(props) {
 							<Button
 								variant="outlined"
 								color="inherit"
+								size="large"
 								endIcon={<OpenInNewRounded />}
 								sx={{ minWidth: 250 }}
 								onClick={() =>
