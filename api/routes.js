@@ -64,7 +64,7 @@ export default function routes(app, db) {
 			// 	.find({ $text: { $search: term } })
 			// 	.project({ score: { $meta: 'textScore' } })
 			// 	.sort({ score: { $meta: 'textScore' } })
-			// 	.limit(3) // change TODO
+			// 	.limit(20)
 			// 	.toArray();
 
 			// const totalCount = await recipes.countDocuments({ $text: { $search: term } });
