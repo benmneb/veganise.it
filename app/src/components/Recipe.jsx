@@ -403,7 +403,7 @@ export default function Recipe(props) {
 								color="inherit"
 								size="large"
 								endIcon={<OpenInNewRounded />}
-								sx={{ minWidth: 250 }}
+								sx={{ minWidth: 280 }}
 								onClick={() =>
 									window.open('https://vomad.guide?ref=veganise.it', '_blank')
 								}
