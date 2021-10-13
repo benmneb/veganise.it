@@ -56,7 +56,10 @@ const IconActions = styled('div')(({ theme }) => ({
 	},
 }));
 
-const Image = styled('div')(({ theme }) => ({
+const Image = styled('div', {
+	shouldForwardProp: (prop) => prop !== 'src',
+})(({ src, theme }) => ({
+	backgroundImage: `linear-gradient(180deg, ${theme.palette.background.default} 0%, rgba(0,0,0,0) 30%), url(${src})`,
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
@@ -95,9 +98,11 @@ const About = styled('div')(({ theme }) => ({
 	flexShrink: '1',
 }));
 
-const Stats = styled('div')(({ theme }) => ({
-	borderLeft: `1px solid ${theme.palette.grey[300]}`,
-	padding: theme.spacing(2),
+const Stats = styled('div', {
+	shouldForwardProp: (prop) => prop !== 'hasAbout',
+})(({ hasAbout, theme }) => ({
+	borderLeft: hasAbout ? `1px solid ${theme.palette.grey[300]}` : 'none',
+	padding: hasAbout ? theme.spacing(2) : 0,
 	height: 'max-content',
 	minWidth: 200,
 }));
@@ -326,13 +331,7 @@ export default function Recipe(props) {
 						</Tooltip>
 					</IconActions>
 				</Header>
-				<Image
-					onClick={() => openLightbox('image')}
-					sx={{
-						backgroundImage: (theme) =>
-							`linear-gradient(180deg, ${theme.palette.background.default} 0%, rgba(0,0,0,0) 30%), url(${recipe?.image})`,
-					}}
-				>
+				<Image onClick={() => openLightbox('image')} src={recipe?.image}>
 					{!recipe?.url.includes('sodeliciousdairyfree.com') && (
 						<svg viewBox="0 0 1440 42" style={{ width: '110%' }}>
 							<path
@@ -377,7 +376,7 @@ export default function Recipe(props) {
 								</About>
 							)}
 							{recipe?.stats && (
-								<Stats>
+								<Stats hasAbout={Boolean(recipe?.about)}>
 									{recipe.stats.map((stat) => (
 										<Typography key={stat}>{stat}</Typography>
 									))}
