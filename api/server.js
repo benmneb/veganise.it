@@ -34,5 +34,5 @@ try {
 		console.log(`✅ Server live @ ${port}\n🚀 All systems go`);
 	});
 } catch (error) {
-	console.error('❌ Server connection error\n', error);
+	console.error('❌ Server connection error:', error);
 }
