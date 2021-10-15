@@ -5,16 +5,10 @@ todo.txt
 
 # deployment
 */.netlify
-*/.vercel
 
 # yarn
 */.yarn/*
 !*/.yarn/releases
-# !*/.yarn/cache
-# !*/.yarn/patches
-# !*/.yarn/plugins
-# !*/.yarn/sdks
-# !*/.yarn/versions
 
 # dependencies
 */node_modules
