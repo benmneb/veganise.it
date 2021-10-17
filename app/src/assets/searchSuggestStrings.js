@@ -13,4 +13,6 @@ export const searchSuggestStrings = [
 	'Ribs',
 	'Cake',
 	'Pulled pork',
+	'Cupcake',
+	'Hot dog',
 ];
