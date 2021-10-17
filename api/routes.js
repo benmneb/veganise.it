@@ -48,9 +48,17 @@ export default function routes(app, db) {
 		}
 
 		const pipeline = [
-			{ $match: { $text: { $search: term } } },
-			{ $addFields: { score: { $meta: 'textScore' } } },
-			{ $sort: { score: { $meta: 'textScore' } } },
+			{
+				$search: {
+					index: 'search',
+					text: {
+						query: term,
+						path: { wildcard: '*' },
+						synonyms: 'synonyms',
+					},
+				},
+			},
+			// { $addFields: { score: { $meta: 'searchScore' } } },
 			{
 				$facet: {
 					results: [{ $limit: 20 }],
@@ -60,15 +68,6 @@ export default function routes(app, db) {
 		];
 
 		try {
-			// const results = await recipes
-			// 	.find({ $text: { $search: term } })
-			// 	.project({ score: { $meta: 'textScore' } })
-			// 	.sort({ score: { $meta: 'textScore' } })
-			// 	.limit(20)
-			// 	.toArray();
-
-			// const totalCount = await recipes.countDocuments({ $text: { $search: term } });
-
 			const response = await recipes.aggregate(pipeline).toArray();
 			const results = response[0].results;
 			const totalCount = response[0].totalCount[0]?.count || 0;
@@ -95,15 +94,23 @@ export default function routes(app, db) {
 				.json({ success: false, message: `Offset was ${offset}` });
 		}
 
-		try {
-			const results = await recipes
-				.find({ $text: { $search: term } })
-				.project({ score: { $meta: 'textScore' } })
-				.sort({ score: { $meta: 'textScore' } })
-				.skip(Number(offset))
-				.limit(20)
-				.toArray();
+		const pipeline = [
+			{
+				$search: {
+					index: 'search',
+					text: {
+						query: term,
+						path: { wildcard: '*' },
+						synonyms: 'synonyms',
+					},
+				},
+			},
+			{ $skip: Number(offset) },
+			{ $limit: 20 },
+		];
 
+		try {
+			const results = await recipes.aggregate(pipeline).toArray();
 			res.status(200).json({ success: true, results });
 		} catch ({ message }) {
 			res.status(500).json({ success: false, message });
