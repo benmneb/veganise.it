@@ -412,7 +412,9 @@ export default function Recipe(props) {
 						</Features>
 					)}
 					<Details>
-						{(recipe?.ingredients || recipe?.['before you start']) && (
+						{(recipe?.ingredients ||
+							recipe?.['before you start'] ||
+							recipe?.equipment) && (
 							<Ingredients>
 								{recipe?.['before you start'] && (
 									<>
@@ -466,6 +468,20 @@ export default function Recipe(props) {
 														))}
 													</Typography>
 												</div>
+											))}
+										</Typography>
+									</>
+								)}
+								{recipe?.equipment && (
+									<>
+										<Typography variant="h5" paragraph>
+											🍳 Equipment
+										</Typography>
+										<Typography paragraph component="ul" paddingLeft={3}>
+											{recipe?.equipment.map((item) => (
+												<Typography key={item} component="li">
+													{item}
+												</Typography>
 											))}
 										</Typography>
 									</>
