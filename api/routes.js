@@ -147,7 +147,7 @@ export default function routes(app, db) {
 		try {
 			await transporter.sendMail({
 				from: process.env.GMAIL_USER,
-				to: process.env.GMAIL_USER,
+				to: process.env.VEGNISE_IT_CONTACT,
 				subject: '🧑‍🍳 Veganise It! New Recipe Submission',
 				html: `Someone suggested: ${url}`,
 			});
@@ -170,7 +170,7 @@ export default function routes(app, db) {
 		try {
 			await transporter.sendMail({
 				from: process.env.GMAIL_USER,
-				to: process.env.GMAIL_USER,
+				to: process.env.VEGNISE_IT_CONTACT,
 				subject: '🧑‍🍳 Veganise It! New Potential Advertiser',
 				html: `Get in contact with: <a href="mailto:${email}">${email}</a>`,
 			});
