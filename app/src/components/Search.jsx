@@ -50,10 +50,7 @@ const SearchButton = styled(LoadingButton)(({ theme }) => ({
 	'&.Mui-focusVisible': {
 		border: `2px solid ${theme.palette.action.focus}`,
 	},
-	'&.Mui-disabled': {
-		backgroundColor: theme.palette.grey[400],
-	},
-	'&:active': {
+	'&.Mui-disabled, :active': {
 		backgroundColor: theme.palette.grey[400],
 	},
 }));

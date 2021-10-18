@@ -11,7 +11,7 @@ import { KeyboardArrowUpRounded } from '@mui/icons-material';
 
 import InfiniteScrollComponent from 'react-infinite-scroll-component';
 
-import { ResultCard, ResultsSpinner, SubmitCard } from './index';
+import { ResultCard, ResultsSpinner, SubmitCard, Suggestions } from './index';
 import {
 	api,
 	spaceout,
@@ -141,6 +141,7 @@ export default function Results() {
 			<ResultsSpinner
 				show={searchData?.results.length < searchData?.totalCount}
 			/>
+			{searchData?.results.length === searchData?.totalCount && <Suggestions />}
 			{!window.location.href.includes('/recipe/') && (
 				<ScrollTrigger
 					onScroll="show"

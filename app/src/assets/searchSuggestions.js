@@ -1,0 +1,26 @@
+export const searchSuggestData = [
+	['Bacon', '🥓'],
+	['Beef', '🐮'],
+	['Cheese', '🧀'],
+	['Ice cream', '🍦'],
+	['Chicken', '🍗'],
+	['Fish', '🐟'],
+	['Sausages', '🌭'],
+	['Steak', '🥩'],
+	['Muffins', '🤤'],
+	['Shawarma', '🔪'],
+	['Burger', '🍔'],
+	['Nachos', '🤤'],
+	['Doughnuts', '🍩'],
+	['Chocolate', '🍫'],
+	['Ribs', '🥓'],
+	['Big Mac', '🍔'],
+	['Cake', '🍰'],
+	['Pulled pork', '🐷'],
+	['Cupcakes', '🧁'],
+	['Hot dogs', '🌭'],
+	['Eggs', '🍳'],
+	['Pizza', '🍕'],
+];
+
+export const searchSuggestStrings = searchSuggestData.map((entry) => entry[0]);
