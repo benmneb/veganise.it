@@ -43,6 +43,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 const Svg = styled('svg')({
 	position: 'absolute',
 	bottom: '33%',
+	left: '-5%',
 	width: '110%',
 });
 

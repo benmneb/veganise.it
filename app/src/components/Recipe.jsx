@@ -333,7 +333,10 @@ export default function Recipe(props) {
 				</Header>
 				<Image onClick={() => openLightbox('image')} src={recipe?.image}>
 					{!recipe?.url.includes('sodeliciousdairyfree.com') && (
-						<svg viewBox="0 0 1440 42" style={{ width: '110%' }}>
+						<svg
+							viewBox="0 0 1440 42"
+							style={{ position: 'absolute', width: '110%', left: '-5%' }}
+						>
 							<path
 								fill="#fff"
 								d="M 1440 21.2102 L 1440 44 L 0 44 L 0 21.2102 C 120 35.0701 240 42 360 42 C 480 42 600 35.0701 720 21.2102 C 808.3278 12.4164 874.5736 6.877 918.7375 4.5921 C 972.4917 1.8109 1026.2458 0.4204 1080 0.4204 C 1200 0.4204 1320 7.3503 1440 21.2102 Z"
