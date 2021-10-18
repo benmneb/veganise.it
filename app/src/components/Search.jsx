@@ -127,10 +127,8 @@ function TypedInputs(props) {
 
 		// Blur input if on Safari macOS because Safari is the new IE.
 		if (window.safari) {
-			console.log(document.activeElement);
 			setTimeout(() => {
 				document.activeElement.blur();
-				console.log(document.activeElement);
 			}, 0);
 		}
 
