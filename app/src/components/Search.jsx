@@ -100,6 +100,11 @@ function TypedInputs(props) {
 		};
 	}, []);
 
+	// Don't autofocus search-bar (this fixes glitches in Safari and iOS).
+	useEffect(() => {
+		if (document.activeElement) document.activeElement.blur();
+	}, []);
+
 	const placeholder = useMemo(() => {
 		if (focused) {
 			typedRef.current.destroy();
