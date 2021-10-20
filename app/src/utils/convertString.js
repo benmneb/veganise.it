@@ -85,7 +85,7 @@ export function titlise(string) {
 		);
 
 	// Certain words such as initialisms or acronyms should be left uppercase
-	uppers = ['Id', 'Tv', 'Bbq', 'Kfc'];
+	uppers = ['Id', 'Tv', 'Bbq', 'Kfc', 'Blt'];
 
 	for (i = 0, j = uppers.length; i < j; i++)
 		str = str.replace(
