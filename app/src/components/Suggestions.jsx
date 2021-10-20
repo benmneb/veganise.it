@@ -31,6 +31,16 @@ const SuggestionButton = styled(LoadingButton)(({ theme }) => ({
 	borderColor: '#bdbdbd',
 }));
 
+function shuffle(array) {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
+}
+
+const shuffledSuggestions = shuffle(searchSuggestData);
+
 export default function Suggestions() {
 	const history = useHistory();
 	const [loading, setLoading] = useState(false);
@@ -48,12 +58,12 @@ export default function Suggestions() {
 	return (
 		<>
 			<Headings>
-				<Typography variant="h4" component="h3">
+				<Typography variant="h5" component="h3">
 					Popular searches:
 				</Typography>
 			</Headings>
 			<Wrapper>
-				{searchSuggestData.map((term) => (
+				{shuffledSuggestions.map((term) => (
 					<SuggestionButton
 						variant="outlined"
 						color="inherit"
