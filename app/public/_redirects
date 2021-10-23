@@ -1,1 +1,5 @@
+# To handle images from AWS S3
+/images/*  https://veganise.it/:splat  200!
+
+# To handle 404's
 /*  /index.html  200
