@@ -2,8 +2,6 @@ import { styled, IconButton, Typography, Avatar } from '@mui/material';
 
 import { Link } from 'react-router-dom';
 
-import logo from '../assets/logo-icon.png';
-
 const StyledLink = styled(Link)({
 	textDecoration: 'none',
 	color: 'inherit',
@@ -27,7 +25,7 @@ export default function AppbarLogo() {
 					sx={{ mr: 1, p: 1 }}
 				>
 					<Avatar
-						src={logo}
+						src="https://veganise.it/images/logos/logo-icon.png"
 						variant="square"
 						sx={{ width: 32, height: 32, p: 0, borderRadius: 0.5 }}
 					/>
