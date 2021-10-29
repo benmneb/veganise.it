@@ -59,7 +59,7 @@ export default function Suggestions() {
 		<>
 			<Headings>
 				<Typography variant="h5" component="h3">
-					Popular searches:
+					{searchData?.results ? 'Find vegan...' : 'Popular searches:'}
 				</Typography>
 			</Headings>
 			<Wrapper>
@@ -67,7 +67,7 @@ export default function Suggestions() {
 					<SuggestionButton
 						variant="outlined"
 						color="inherit"
-						key={term}
+						key={term[0]}
 						onClick={() => handleClick(term[0])}
 						loading={loading === term[0]}
 						loadingPosition={window.safari ? 'start' : 'center'}

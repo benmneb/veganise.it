@@ -8,7 +8,6 @@ export const searchSuggestData = [
 	['Sausages', '🌭'],
 	['Steak', '🥩'],
 	['Muffins', '🤤'],
-	['Shawarma', '🔪'],
 	['Burger', '🍔'],
 	['Nachos', '🤤'],
 	['Doughnuts', '🍩'],
