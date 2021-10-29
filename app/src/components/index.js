@@ -21,3 +21,5 @@ export { default as SearchBar } from './SearchBar';
 export { default as BottomNavBar } from './BottomNavBar';
 export { default as SubmitCard } from './SubmitCard';
 export { default as Suggestions } from './Suggestions';
+export { default as MoreMenu } from './MoreMenu';
+export { default as Report } from './Report';

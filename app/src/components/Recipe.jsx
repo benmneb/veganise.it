@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import {
 	OpenInNewRounded,
+	MoreHorizRounded,
 	CancelRounded,
 	VideoLibraryRounded,
 } from '@mui/icons-material';
@@ -26,9 +27,11 @@ import {
 	LikeIconButton,
 	LikeButton,
 	ShareMenu,
+	MoreMenu,
 	Appbar,
 	Lightbox,
 	BottomNavBar,
+	Report,
 } from './index';
 import { api, ShareIcon, titlise } from '../utils';
 import { setSearchData, showSnackbar } from '../state';
@@ -87,8 +90,8 @@ const SvgWrapper = styled('div')({
 
 const Body = styled('main', {
 	shouldForwardProp: (prop) => prop !== 'isInModal',
-})(({ isInModal }) => ({
-	maxWidth: isInModal ? 'auto' : 750,
+})(({ isInModal, theme }) => ({
+	maxWidth: isInModal ? 'auto' : theme.breakpoints.values.tablet,
 	margin: isInModal ? 0 : 'auto',
 }));
 
@@ -176,8 +179,10 @@ export default function Recipe(props) {
 	const searchData = useSelector((state) => state.searchData);
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
 	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
+	const [moreMenuAnchor, setMoreMenuAnchor] = useState(null);
 	const [recipe, setRecipe] = useState(null);
 	const [lightboxData, setLightboxData] = useState(null);
+	const [reporting, setReporting] = useState(false);
 
 	const background = location.state?.background;
 
@@ -242,12 +247,12 @@ export default function Recipe(props) {
 		}
 	}
 
-	function closeShareMenu() {
-		setShareMenuAnchor(null);
-	}
-
-	function handleViewSource() {
-		return window.open(`${recipe?.url}?ref=veganise.it`, '_blank', 'noopener');
+	function closeMenu(menu, option) {
+		if (menu === 'share') return setShareMenuAnchor(null);
+		if (menu === 'more') {
+			if (option === 'report') setReporting(true);
+			setMoreMenuAnchor(null);
+		}
 	}
 
 	function handleClose() {
@@ -307,11 +312,17 @@ export default function Recipe(props) {
 							{recipe?.title && titlise(recipe.title)}
 						</Typography>
 						<Typography variant="h6" component="h2">
-							by {recipe?.author}
+							{recipe?.author && `by ${recipe?.author}`}
 						</Typography>
 						<LikeIconButton currentLikes={recipe?.likes} />
 					</Titles>
 					<IconActions>
+						<IconButton
+							size={mobile ? 'medium' : 'large'}
+							onClick={(e) => setMoreMenuAnchor(e.currentTarget)}
+						>
+							<MoreHorizRounded />
+						</IconButton>
 						<Tooltip
 							title="Feed a friend"
 							placement={mobile ? 'left' : 'bottom'}
@@ -321,14 +332,6 @@ export default function Recipe(props) {
 								onClick={handleShare}
 							>
 								<ShareIcon />
-							</IconButton>
-						</Tooltip>
-						<Tooltip title="View source" placement={mobile ? 'left' : 'bottom'}>
-							<IconButton
-								size={mobile ? 'medium' : 'large'}
-								onClick={handleViewSource}
-							>
-								<OpenInNewRounded />
 							</IconButton>
 						</Tooltip>
 						<Tooltip
@@ -588,7 +591,18 @@ export default function Recipe(props) {
 			<ShareMenu
 				anchor={shareMenuAnchor}
 				open={Boolean(shareMenuAnchor)}
-				close={closeShareMenu}
+				close={() => closeMenu('share')}
+			/>
+			<MoreMenu
+				anchor={moreMenuAnchor}
+				open={Boolean(moreMenuAnchor)}
+				close={(option) => closeMenu('more', option)}
+				recipe={recipe}
+			/>
+			<Report
+				open={reporting}
+				close={() => setReporting(false)}
+				recipe={recipe}
 			/>
 			<Lightbox
 				open={Boolean(lightboxData)}

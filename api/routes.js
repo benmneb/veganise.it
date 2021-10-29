@@ -188,5 +188,33 @@ export default function routes(app, db) {
 		}
 	});
 
+	app.post('/report', async (req, res) => {
+		const { reason, email, recipe } = req.body;
+
+		if (!reason || !email || !recipe) {
+			return res
+				.status(500)
+				.json({
+					success: false,
+					message: `Reason was ${reason}. Email was ${email}. Recipe was ${recipe}`,
+				});
+		}
+
+		try {
+			await transporter.sendMail({
+				from: process.env.GMAIL_USER,
+				to: process.env.VEGANISE_IT_CONTACT,
+				subject: '🧑‍🍳 Veganise It! Recipe was reported',
+				html: `<p>Reason: ${reason}</p>
+				<p>Contact: <a href="mailto:${email}">${email}</a></p>
+				<p>Recipe: <pre>${JSON.stringify(recipe, null, 2)}</pre></p>`,
+			});
+			res.status(200).json({ success: true });
+		} catch ({ message }) {
+			res.status(500).json({ success: false, message });
+			console.error('While reporting recipe:', message);
+		}
+	});
+
 	return app;
 }
