@@ -50,7 +50,7 @@ const CancelButton = styled(Button)(({ theme }) => ({
 }));
 
 const options = [
-	'The image is wrong',
+	'The image is broken/wrong',
 	'The recipe is a duplicate',
 	'The details are wrong',
 	'The source link is broken',
@@ -65,6 +65,15 @@ export default function Report(props) {
 	const [reason, setReason] = useState('');
 	const [reasonError, setReasonError] = useState(null);
 	const [loading, setLoading] = useState(false);
+
+	function handleClose() {
+		setEmail('');
+		setEmailError(null);
+		setReason('');
+		setReasonError(null);
+		setLoading(false);
+		close();
+	}
 
 	async function handleSubmit() {
 		if (!reason || reason.length < 10) {
@@ -82,7 +91,7 @@ export default function Report(props) {
 				showSnackbar({ message: 'Recipe flagged for moderation. Thanks!' })
 			);
 			setLoading(false);
-			close();
+			handleClose();
 		} catch (error) {
 			dispatch(
 				showSnackbar({
@@ -112,7 +121,7 @@ export default function Report(props) {
 					<title>Report Recipe @ Veganise.it</title>
 				</Helmet>
 			)}
-			<Dialog open={open} onClose={close}>
+			<Dialog open={open} onClose={handleClose}>
 				<Root>
 					<Content>
 						<Typography variant="h3" component="h1">
@@ -156,7 +165,7 @@ export default function Report(props) {
 						>
 							Submit Report
 						</SubmitButton>
-						<CancelButton onClick={close} color="inherit" size="large">
+						<CancelButton onClick={handleClose} color="inherit" size="large">
 							🙅 Cancel
 						</CancelButton>
 					</Content>
