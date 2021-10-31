@@ -1,0 +1,87 @@
+[
+	{
+		"mappingType": "explicit",
+		"input": ["cheese"],
+		"synonyms": ["cheez", "ch'eesy", "cheese"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["chicken"],
+		"synonyms": ["chik'n", "chick free", "chickfree", "chickenless", "chick"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["turkey"],
+		"synonyms": ["turk'y", "turkey"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["sausage"],
+		"synonyms": ["saus'age", "bangers", "sausage", "frankfurter"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["eggs"],
+		"synonyms": ["e'ggs", "eggs"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["steak"],
+		"synonyms": ["stea'k", "steak"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["beef"],
+		"synonyms": ["beefless", "be'f", "beef"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["crab"],
+		"synonyms": ["crabless", "crab"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["fish"],
+		"synonyms": ["fishless", "fish"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["pork"],
+		"synonyms": ["porkless", "pork"]
+	},
+	{
+		"mappingType": "equivalent",
+		"synonyms": ["donut", "doughnut"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["barbeque", "bbq"],
+		"synonyms": ["bar-b-que", "barbeque", "bbq"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["ice cream"],
+		"synonyms": ["ice dream", "nice cream", "ice cream"]
+	},
+	{
+		"mappingType": "equivalent",
+		"synonyms": ["gluten-free", "gluten free"]
+	},
+	{
+		"mappingType": "equivalent",
+		"synonyms": ["egg", "eggs"]
+	},
+	{
+		"mappingType": "equivalent",
+		"synonyms": ["taco", "tacos"]
+	},
+	{
+		"mappingType": "equivalent",
+		"synonyms": ["biscuit", "cookie", "cookies", "biscuits"]
+	},
+	{
+		"mappingType": "explicit",
+		"input": ["bacon"],
+		"synonyms": ["bacon", "bacony"]
+	}
+]
