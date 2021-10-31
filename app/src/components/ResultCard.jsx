@@ -103,7 +103,7 @@ export default function ResultCard(props) {
 			tabIndex="0"
 		>
 			<Image
-				src={recipe.image}
+				src={recipe.image.replace('/recipes/', '/recipes/750xAUTO/')}
 				height="67%"
 				shift="bottom"
 				distance="30px"

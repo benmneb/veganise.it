@@ -6,6 +6,8 @@ import { useParams, useLocation, useHistory } from 'react-router';
 
 import { useSelector, useDispatch } from 'react-redux';
 
+import { Image } from 'mui-image';
+
 import {
 	Button,
 	DialogContent,
@@ -43,6 +45,8 @@ const Content = styled(DialogContent)({
 const Header = styled(DialogTitle)({
 	display: 'flex',
 	padding: 0,
+	position: 'relative',
+	zIndex: 1,
 });
 
 const Titles = styled('div')({
@@ -59,19 +63,28 @@ const IconActions = styled('div')(({ theme }) => ({
 	},
 }));
 
-const Image = styled('div', {
-	shouldForwardProp: (prop) => prop !== 'src',
-})(({ src, theme }) => ({
-	backgroundImage: `linear-gradient(180deg, ${theme.palette.background.default} 0%, rgba(0,0,0,0) 30%), url(${src})`,
-	backgroundRepeat: 'no-repeat',
-	backgroundPosition: 'center',
-	backgroundSize: 'cover',
+const ImageBox = styled('div')(({ theme }) => ({
 	margin: theme.spacing(-16, -3, 2),
 	height: '70vh',
 	maxHeight: 700,
 	cursor: 'zoom-in',
 	display: 'flex',
 	alignItems: 'flex-end',
+	zIndex: 0,
+	position: 'relative',
+	borderRadius: theme.spacing(2, 2, 0, 0),
+	overflow: 'hidden',
+}));
+
+const Gradient = styled('div')(({ theme }) => ({
+	position: 'absolute',
+	zIndex: 1,
+	width: '100%',
+	height: '100%',
+	backgroundImage: `linear-gradient(180deg, ${theme.palette.background.default} 0%, rgba(255,255,255,0) 30%)`,
+	backgroundRepeat: 'no-repeat',
+	backgroundPosition: 'center',
+	backgroundSize: 'cover',
 }));
 
 const SvgWrapper = styled('div')({
@@ -178,6 +191,7 @@ export default function Recipe(props) {
 	const dispatch = useDispatch();
 	const searchData = useSelector((state) => state.searchData);
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
+	const downHd = useMediaQuery((theme) => theme.breakpoints.down('hd'));
 	const [shareMenuAnchor, setShareMenuAnchor] = useState(null);
 	const [moreMenuAnchor, setMoreMenuAnchor] = useState(null);
 	const [recipe, setRecipe] = useState(null);
@@ -348,7 +362,14 @@ export default function Recipe(props) {
 						</Tooltip>
 					</IconActions>
 				</Header>
-				<Image onClick={() => openLightbox('image')} src={recipe?.image}>
+				<ImageBox onClick={() => openLightbox('image')}>
+					<Gradient />
+					<Image
+						src={recipe?.image.replace(
+							'/recipes/',
+							`/recipes/${background ? '1280' : downHd ? '2560' : '3840'}xAUTO/`
+						)}
+					/>
 					{!recipe?.url.includes('sodeliciousdairyfree.com') && (
 						<SvgWrapper>
 							<svg viewBox="0 0 1440 42">
@@ -359,7 +380,7 @@ export default function Recipe(props) {
 							</svg>
 						</SvgWrapper>
 					)}
-				</Image>
+				</ImageBox>
 				<Body isInModal={Boolean(background)}>
 					<Overview>
 						{mobile && recipe?.video && (
