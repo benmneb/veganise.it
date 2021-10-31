@@ -1,4 +1,4 @@
-import { styled, Typography } from '@mui/material/';
+import { styled, Typography, useMediaQuery } from '@mui/material/';
 
 import { ScrollTrigger } from '../utils';
 
@@ -36,14 +36,27 @@ const HGroup = styled('hgroup')(({ theme }) => ({
 	zIndex: '1',
 	padding: theme.spacing(2),
 	marginTop: theme.spacing(-4),
+	'& h1': {
+		textShadow: '0px 0px 5px #fff, 0px 0px 10px #fefefe',
+	},
+	'& h2': {
+		textShadow: '0px 0px 5px #fff',
+	},
 }));
 
+const random = Math.ceil(Math.random() * 12); // There are 12 pictures.
+
 export default function Header() {
+	const tablet = useMediaQuery((theme) => theme.breakpoints.down('tablet'));
+	const hd = useMediaQuery((theme) => theme.breakpoints.down('hd'));
+
+	const width = tablet ? '1280' : hd ? '2560' : '3840';
+
 	return (
 		<Wrapper>
 			<Gradient />
 			<Image
-				src="https://picsum.photos/720/480"
+				src={`https://veganise.it/images/heros/${width}xAUTO/${random}.jpg`}
 				position="absolute"
 				shift="bottom"
 				wrapperStyle={{ position: 'absolute' }}
