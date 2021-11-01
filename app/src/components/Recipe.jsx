@@ -371,6 +371,7 @@ export default function Recipe(props) {
 								mobile ? '750' : background ? '1280' : downHd ? '2560' : '3840'
 							}xAUTO/`
 						)}
+						style={{ zIndex: -1 }}
 					/>
 					{!recipe?.url.includes('sodeliciousdairyfree.com') && (
 						<SvgWrapper>
