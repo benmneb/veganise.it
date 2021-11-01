@@ -46,6 +46,7 @@ export default function ControlledInput(props) {
 			spellCheck="false"
 			autoCapitalize="off"
 			autoCorrect="off"
+			enterkeyhint="search"
 			{...rest}
 		/>
 	);
