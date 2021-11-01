@@ -123,18 +123,16 @@ function TypedInputs(props) {
 
 		setInputFocus(false);
 
+		// Blur input because Safari and iOS don't otherwise.
+		setTimeout(() => {
+			document.activeElement.blur();
+		}, 0);
+
 		if (term === 'submit' || term === 'advertise') {
 			return history.push({
 				pathname: `/${term}`,
 				state: { background: location },
 			});
-		}
-
-		// Blur input if on Safari macOS because Safari is the new IE.
-		if (window.safari) {
-			setTimeout(() => {
-				document.activeElement.blur();
-			}, 0);
 		}
 
 		dispatch(setLoadingSearch(true));
@@ -164,13 +162,6 @@ function TypedInputs(props) {
 
 	function handleClear() {
 		setInputValue('');
-
-		// Blur input if on Safari macOS because Safari is the new IE.
-		if (window.safari) {
-			setTimeout(() => {
-				document.activeElement.blur();
-			}, 0);
-		}
 	}
 
 	const endAdornment = (
