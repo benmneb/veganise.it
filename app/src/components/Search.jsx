@@ -78,10 +78,10 @@ function TypedInputs(props) {
 	useEffect(() => {
 		const options = {
 			strings: searchSuggestStrings,
-			typeSpeed: 130,
-			backSpeed: 50,
+			typeSpeed: 200,
+			backSpeed: 100,
 			startDelay: 300,
-			backDelay: 1500,
+			backDelay: 2000,
 			smartBackspace: false,
 			loop: true,
 			shuffle: true,
