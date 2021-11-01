@@ -41,6 +41,4 @@ Under the following terms:
 
     No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
-Note:
-
-    This is a human-readable summary of (and not a substitute for) the license.
+This is a human-readable summary of (and not a substitute for) the [license](https://creativecommons.org/licenses/by-nc/4.0/legalcode).
