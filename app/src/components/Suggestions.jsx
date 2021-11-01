@@ -59,7 +59,7 @@ export default function Suggestions() {
 		<>
 			<Headings>
 				<Typography variant="h5" component="h3">
-					{searchData?.results ? 'Find vegan...' : 'Popular searches:'}
+					Popular searches:
 				</Typography>
 			</Headings>
 			<Wrapper>
