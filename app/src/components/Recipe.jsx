@@ -367,7 +367,9 @@ export default function Recipe(props) {
 					<Image
 						src={recipe?.image.replace(
 							'/recipes/',
-							`/recipes/${background ? '1280' : downHd ? '2560' : '3840'}xAUTO/`
+							`/recipes/${
+								mobile ? '750' : background ? '1280' : downHd ? '2560' : '3840'
+							}xAUTO/`
 						)}
 					/>
 					{!recipe?.url.includes('sodeliciousdairyfree.com') && (
