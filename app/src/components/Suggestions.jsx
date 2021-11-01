@@ -29,6 +29,12 @@ const SuggestionButton = styled(LoadingButton)(({ theme }) => ({
 	fontSize: theme.typography.h4.fontSize,
 	borderRadius: theme.spacing(3),
 	borderColor: '#bdbdbd',
+	'&.Mui-focusVisible': {
+		// This is needed for Safari.
+		boxShadow:
+			'0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5)',
+		outline: 'none',
+	},
 }));
 
 function shuffle(array) {
