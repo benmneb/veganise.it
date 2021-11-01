@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { Helmet } from 'react-helmet';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -46,6 +46,7 @@ const DEFAULT_OFFSET = 20;
 
 export default function Results() {
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const searchData = useSelector((state) => state.searchData);
 	const { term: rawTerm } = useParams();
 	const mobile = useMediaQuery((theme) => theme.breakpoints.only('mobile'));
@@ -53,11 +54,11 @@ export default function Results() {
 
 	const term = spaceout(rawTerm);
 
-	// perform search based on url params
-	// this is the initial search no matter the source (main search bar, url, or appbar)
+	// Perform search based on url params.
+	// This is the initial search no matter the source (main search bar, url, or appbar).
 	useEffect(() => {
 		(async () => {
-			// reset offset for future `loadMoreOnScroll()` calls
+			// Reset offset for future `loadMoreOnScroll()` calls.
 			offset.current = DEFAULT_OFFSET;
 
 			try {
@@ -68,6 +69,7 @@ export default function Results() {
 			} catch (error) {
 				console.error('While searching:', error);
 				dispatch(setLoadingSearch(false));
+				history.replace('/');
 				dispatch(
 					showSnackbar({
 						message: 'Could not search! Try again soon.',
@@ -76,9 +78,9 @@ export default function Results() {
 				);
 			}
 		})();
-	}, [term, dispatch]);
+	}, [term, dispatch, history]);
 
-	// set searchData to null on unmount
+	// Set searchData to null on unmount.
 	useEffect(() => {
 		return () => dispatch(setSearchData(null));
 	}, [dispatch]);
