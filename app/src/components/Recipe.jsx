@@ -374,7 +374,7 @@ export default function Recipe(props) {
 						style={{ zIndex: -1 }}
 					/>
 					{!recipe?.url.includes('sodeliciousdairyfree.com') && (
-						<SvgWrapper>
+						<SvgWrapper tabIndex="-1">
 							<svg viewBox="0 0 1440 42">
 								<path
 									fill="#fff"
