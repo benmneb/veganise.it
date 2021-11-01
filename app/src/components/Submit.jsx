@@ -88,9 +88,6 @@ const SearchButton = styled(LoadingButton)(({ theme }) => ({
 		borderRadius: `0 0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px`,
 		width: '100%',
 	},
-	'&.Mui-focusVisible': {
-		border: `2px solid ${theme.palette.action.focus}`,
-	},
 	'&:active': {
 		backgroundColor: theme.palette.action.active,
 	},

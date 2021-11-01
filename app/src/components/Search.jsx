@@ -47,9 +47,6 @@ const SearchButton = styled(LoadingButton)(({ theme }) => ({
 		borderRadius: `0 0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px`,
 		width: '100%',
 	},
-	'&.Mui-focusVisible': {
-		border: `2px solid ${theme.palette.action.focus}`,
-	},
 	'&.Mui-disabled, :active': {
 		backgroundColor: theme.palette.grey[400],
 	},
@@ -74,7 +71,7 @@ function TypedInputs(props) {
 	const stringRef = useRef(null);
 	const typedRef = useRef(null);
 
-	// initialise Typed.js on load, and destroy it on unmount
+	// Initialise Typed.js on load, and destroy it on unmount.
 	useEffect(() => {
 		const options = {
 			strings: searchSuggestStrings,
@@ -118,8 +115,11 @@ function TypedInputs(props) {
 	function handleSearch() {
 		const term = inputValue.trim() || stringRef.current;
 
-		// dont perform empty search || dont perform same search twice
-		if (!term || clean(term) === searchData?.term) return;
+		// Dont perform empty search. || Dont perform same search twice.
+		if (!term || clean(term) === searchData?.term) {
+			if (loading) dispatch(setLoadingSearch(false));
+			return;
+		}
 
 		setInputFocus(false);
 
@@ -198,6 +198,7 @@ function TypedInputs(props) {
 }
 
 export default function Search() {
+	// The only reason this state exists is to disable the ScrollTrigger when it's true.
 	const [inputFocus, setInputFocus] = useState(false);
 
 	return (

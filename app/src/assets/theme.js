@@ -11,6 +11,12 @@ const pseudoStyleOverrides = {
 				'0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5)',
 			outline: 'none',
 		},
+		// This one is for Safari who doesn't support :focus-visible
+		'&.Mui-focusVisible': {
+			boxShadow:
+				'0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5)',
+			outline: 'none',
+		},
 	},
 };
 
