@@ -12,7 +12,6 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 
 import { api } from '../utils';
 import { showSnackbar } from '../state';
@@ -41,8 +40,11 @@ const Content = styled('div')(({ theme }) => ({
 	},
 }));
 
-const SubmitButton = styled(LoadingButton)(({ theme }) => ({
+const SubmitButton = styled(Button)(({ theme }) => ({
 	fontSize: theme.typography.h5.fontSize,
+	'&.Mui-disabled, :active': {
+		backgroundColor: theme.palette.grey[300],
+	},
 }));
 
 const CancelButton = styled(Button)(({ theme }) => ({
@@ -158,12 +160,12 @@ export default function Report(props) {
 						<SubmitButton
 							variant="contained"
 							size="large"
-							loading={loading}
+							disabled={loading}
 							onClick={handleSubmit}
 							disableElevation
 							sx={{ fontWeight: 'fontWeightBold' }}
 						>
-							Submit Report
+							{loading ? 'Submitting...' : 'Submit Report'}
 						</SubmitButton>
 						<CancelButton onClick={handleClose} color="inherit" size="large">
 							🙅 Cancel

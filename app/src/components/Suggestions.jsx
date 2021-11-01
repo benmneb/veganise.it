@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 import { useSelector } from 'react-redux';
 
-import { styled, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { styled, Button, Typography, CircularProgress } from '@mui/material';
+import { circularProgressClasses } from '@mui/material/CircularProgress';
 
 import { searchSuggestData } from '../assets';
 import { kebab } from '../utils';
@@ -23,12 +23,15 @@ const Headings = styled('div')(({ theme }) => ({
 	margin: theme.spacing(5, 0, 3),
 }));
 
-const SuggestionButton = styled(LoadingButton)(({ theme }) => ({
+const SuggestionButton = styled(Button)(({ theme }) => ({
 	margin: theme.spacing(1),
 	padding: theme.spacing(1, 3),
 	fontSize: theme.typography.h4.fontSize,
 	borderRadius: theme.spacing(3),
 	borderColor: '#bdbdbd',
+	'&.Mui-disabled, :active': {
+		backgroundColor: theme.palette.grey[300],
+	},
 }));
 
 function shuffle(array) {
@@ -43,10 +46,12 @@ const shuffledSuggestions = shuffle(searchSuggestData);
 
 export default function Suggestions() {
 	const history = useHistory();
+	const { term: urlTerm } = useParams();
 	const [loading, setLoading] = useState(false);
 	const searchData = useSelector((state) => state.searchData);
 
 	function handleClick(term) {
+		if (kebab(term) === urlTerm) return setLoading(false);
 		setLoading(term);
 		history.push(`/${kebab(term)}`);
 	}
@@ -69,9 +74,23 @@ export default function Suggestions() {
 						color="inherit"
 						key={term[0]}
 						onClick={() => handleClick(term[0])}
-						loading={loading === term[0]}
-						loadingPosition={window.safari ? 'start' : 'center'}
-						startIcon={term[1]}
+						disabled={loading === term[0]}
+						startIcon={
+							loading === term[0] ? (
+								<CircularProgress
+									size={25}
+									thickness={7.2}
+									color="action"
+									sx={{
+										[`& .${circularProgressClasses.circle}`]: {
+											strokeLinecap: 'round',
+										},
+									}}
+								/>
+							) : (
+								term[1]
+							)
+						}
 					>
 						<span style={{ display: 'none' }}>Vegan </span>
 						{term[0]}

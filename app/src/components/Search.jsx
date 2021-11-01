@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
 	styled,
+	Button,
 	FormControl,
 	IconButton,
 	FormGroup,
@@ -13,7 +14,6 @@ import {
 } from '@mui/material/';
 import { useFormControl } from '@mui/material/FormControl';
 import { ClearRounded } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
 
 import Typed from 'typed.js';
 
@@ -37,8 +37,9 @@ const ClearSearch = styled('div')({
 	backgroundColor: 'inherit',
 });
 
-const SearchButton = styled(LoadingButton)(({ theme }) => ({
+const SearchButton = styled(Button)(({ theme }) => ({
 	height: 80,
+	width: 224,
 	fontSize: theme.typography.h3.fontSize,
 	fontWeight: theme.typography.h3.fontWeight,
 	borderRadius: `0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0`,
@@ -48,7 +49,7 @@ const SearchButton = styled(LoadingButton)(({ theme }) => ({
 		width: '100%',
 	},
 	'&.Mui-disabled, :active': {
-		backgroundColor: theme.palette.grey[400],
+		backgroundColor: theme.palette.grey[300],
 	},
 }));
 
@@ -128,9 +129,9 @@ function TypedInputs(props) {
 			document.activeElement.blur();
 		}, 0);
 
-		if (term === 'submit' || term === 'advertise') {
+		if (clean(term) === 'submit' || clean(term) === 'advertise') {
 			return history.push({
-				pathname: `/${term}`,
+				pathname: `/${clean(term)}`,
 				state: { background: location },
 			});
 		}
@@ -188,10 +189,9 @@ function TypedInputs(props) {
 				disableElevation
 				variant="contained"
 				onClick={handleSearch}
-				loading={loading}
-				loadingIndicator="Veganising..."
+				disabled={loading}
 			>
-				Veganise It!
+				{loading ? 'Veganising...' : 'Veganise It!'}
 			</SearchButton>
 		</FormGroup>
 	);

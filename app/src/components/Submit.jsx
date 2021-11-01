@@ -7,7 +7,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { styled, Button, OutlinedInput, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 
 import { Appbar } from './index';
 import { api } from '../utils';
@@ -78,7 +77,7 @@ const SearchBox = styled(TextBox)({
 	flexShrink: 0,
 });
 
-const SearchButton = styled(LoadingButton)(({ theme }) => ({
+const SearchButton = styled(Button)(({ theme }) => ({
 	height: 80,
 	fontSize: theme.typography.h3.fontSize,
 	fontWeight: theme.typography.h3.fontWeight,
@@ -88,8 +87,8 @@ const SearchButton = styled(LoadingButton)(({ theme }) => ({
 		borderRadius: `0 0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px`,
 		width: '100%',
 	},
-	'&:active': {
-		backgroundColor: theme.palette.action.active,
+	'&.Mui-disabled, :active': {
+		backgroundColor: theme.palette.grey[300],
 	},
 }));
 
@@ -179,10 +178,9 @@ export default function Submit(props) {
 								disableElevation
 								variant="contained"
 								onClick={handleSubmit}
-								loading={loading}
-								loadingIndicator="Sending..."
+								disabled={loading}
 							>
-								Submit It!
+								{loading ? 'Sending...' : 'Submit It!'}
 							</SearchButton>
 						</SearchBox>
 					</Form>
