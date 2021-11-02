@@ -78,7 +78,7 @@ export default function AppbarSearch() {
 				<Search />
 			</SearchIconWrapper>
 			<StyledInputBase
-				placeholder="Search 5000+ vegan recipes..."
+				placeholder="Search 6000+ vegan recipes..."
 				inputProps={{ 'aria-label': 'search' }}
 				value={term}
 				onChange={(e) => setTerm(e.target.value)}
