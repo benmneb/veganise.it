@@ -42,25 +42,6 @@
 		<meta name="application-name" content="Veganise It!" />
 		<meta name="msapplication-TileColor" content="#2d89ef" />
 		<meta name="theme-color" content="#ffffff" />
-		<!-- COUNTER.DEV -->
-		<script>
-			if (
-				!sessionStorage.getItem('_swa') &&
-				document.referrer.indexOf(location.protocol + '//' + location.host) !==
-					0
-			) {
-				fetch(
-					'https://counter.dev/track?' +
-						new URLSearchParams({
-							referrer: document.referrer,
-							screen: screen.width + 'x' + screen.height,
-							user: 'vomad',
-							utcoffset: '0',
-						})
-				);
-			}
-			sessionStorage.setItem('_swa', '1');
-		</script>
 	</head>
 	<body>
 		<noscript>You need to enable JavaScript to run this app.</noscript>

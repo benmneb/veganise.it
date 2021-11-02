@@ -3283,6 +3283,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ackee-tracker@npm:^5.0.1":
+  version: 5.1.0
+  resolution: "ackee-tracker@npm:5.1.0"
+  dependencies:
+    platform: ^1.3.6
+  checksum: f472eb6fe9632eb0a4cc8a4fbdc4048fba1a1da56ecf10f4abf713bf3f69b2f39a5cddb5e3720d95df14ca263f2609fa57491788cf457dacb9502de4b6961519
+  languageName: node
+  linkType: hard
+
 "acorn-globals@npm:^6.0.0":
   version: 6.0.0
   resolution: "acorn-globals@npm:6.0.0"
@@ -11367,6 +11376,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"platform@npm:^1.3.6":
+  version: 1.3.6
+  resolution: "platform@npm:1.3.6"
+  checksum: 6f472a09c61d418c7e26c1c16d0bdc029549d512dbec6526216a1e59ec68100d07007d0097dcba69dddad883d6f2a83361b4bdfe0094a3d9a2af24158643d85e
+  languageName: node
+  linkType: hard
+
 "pnp-webpack-plugin@npm:1.6.4":
   version: 1.6.4
   resolution: "pnp-webpack-plugin@npm:1.6.4"
@@ -15291,6 +15307,17 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
+"use-ackee@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "use-ackee@npm:3.0.0"
+  dependencies:
+    ackee-tracker: ^5.0.1
+  peerDependencies:
+    react: ^17.0.0
+  checksum: ccab1f4c90bfc751d8b2aec7c158999412495c5c77cfd5f5b1514cc21a8fb08cc159b78ab844647d494cc967c626b81c3dea08f4deff6507ec4fcaaafccd6308
+  languageName: node
+  linkType: hard
+
 "use@npm:^3.1.0":
   version: 3.1.1
   resolution: "use@npm:3.1.1"
@@ -15445,6 +15472,7 @@ resolve@1.18.1:
     redux-devtools-extension: ^2.13.9
     smoothscroll-polyfill: ^0.4.4
     typed.js: ^2.0.12
+    use-ackee: ^3.0.0
     web-vitals: ^1.0.1
     workbox-background-sync: ^5.1.3
     workbox-broadcast-update: ^5.1.3
