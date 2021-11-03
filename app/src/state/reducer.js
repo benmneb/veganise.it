@@ -2,6 +2,7 @@ const initialState = {
 	searchData: null,
 	loadingSearch: false,
 	snackPack: [],
+	deferredInstallPrompt: null,
 };
 
 export function reducer(state = initialState, action) {
@@ -50,6 +51,11 @@ export function reducer(state = initialState, action) {
 			return {
 				...state,
 				snackPack: [...state.snackPack.slice(1)],
+			};
+		case 'SET_DEFERRED_INSTALL_PROMPT':
+			return {
+				...state,
+				deferredInstallPrompt: action.prompt,
 			};
 		default:
 			return state;

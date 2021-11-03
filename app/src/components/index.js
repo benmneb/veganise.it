@@ -23,3 +23,4 @@ export { default as SubmitCard } from './SubmitCard';
 export { default as Suggestions } from './Suggestions';
 export { default as MoreMenu } from './MoreMenu';
 export { default as Report } from './Report';
+export { default as Install } from './Install';

@@ -38,3 +38,10 @@ export function sliceSnackPack() {
 		type: 'SLICE_SNACKPACK',
 	};
 }
+
+export function setDeferredInstallPrompt(prompt) {
+	return {
+		type: 'SET_DEFERRED_INSTALL_PROMPT',
+		prompt,
+	};
+}

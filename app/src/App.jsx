@@ -12,6 +12,7 @@ import {
 	Modal,
 	Advertise,
 	Snackbars,
+	Install,
 } from './components';
 import { theme } from './assets';
 
@@ -52,6 +53,7 @@ export default function App() {
 			/>
 			<Route path="/submit" children={<Modal open={Boolean(background)} />} />
 			<Snackbars />
+			<Install />
 		</ThemeProvider>
 	);
 }
