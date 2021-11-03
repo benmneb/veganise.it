@@ -47,6 +47,7 @@ export default function ControlledInput(props) {
 			autoCapitalize="off"
 			autoCorrect="off"
 			enterKeyHint="search"
+			aria-label="Search vegan recipes"
 			{...rest}
 		/>
 	);
