@@ -81,7 +81,7 @@ export default function Report(props) {
 		if (!reason || reason.length < 10) {
 			return setReasonError(true);
 		}
-		if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+		if (!email || !/^([^\s@]+)@([^\s@]+).([^\s@.]{2,})$/.test(email)) {
 			return setEmailError(true);
 		}
 

@@ -1,5 +1,0 @@
-# To handle images from AWS S3 with resizer
-/images/*  http://veganise.it.s3-website-us-east-1.amazonaws.com/images/:splat  200!
-
-# To handle 404's
-/*  /index.html  200

@@ -1,0 +1,21 @@
+[build]
+  functions = "functions"
+  
+[[redirects]]
+  # To handle Heroku free teir removal
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  # To handle images from AWS S3 with resizer
+  from = "/images/*"
+  to = "http://veganise.it.s3-website-us-east-1.amazonaws.com/images/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  # To handle 404's
+  from = "/*"
+  to = "/index.html"
+  status = 200
