@@ -1,25 +1,25 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-*/.env
+.env
 todo.txt
 
 # deployment
-*/.netlify
+.netlify
 
 # yarn
-*/.yarn/*
-!*/.yarn/releases
+.yarn/*
+!.yarn/releases
 
 # dependencies
-*/node_modules
-*/.pnp
-*/.pnp.js
+node_modules
+.pnp
+.pnp.js
 
 # testing
-/coverage
+coverage
 
 # production
-*/build
+build
 
 # misc
 .DS_Store

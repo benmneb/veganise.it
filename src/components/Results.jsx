@@ -62,7 +62,7 @@ export default function Results() {
 			offset.current = DEFAULT_OFFSET;
 
 			try {
-				const response = await api.get(`/search/${term}`);
+				const response = await api.get(`/search/${encodeURIComponent(term)}`);
 				dispatch(setSearchData({ term, ...response.data }));
 				dispatch(setLoadingSearch(false));
 				scrollToResults();
@@ -87,7 +87,9 @@ export default function Results() {
 
 	async function loadMoreOnScroll() {
 		try {
-			const response = await api.get(`/search-more/${term}/${offset.current}`);
+			const response = await api.get(
+				`/search-more/${encodeURIComponent(term)}/${offset.current}`
+			);
 			offset.current += DEFAULT_OFFSET;
 			dispatch(updateSearchResultsOnScroll(response.data.results));
 		} catch (error) {
