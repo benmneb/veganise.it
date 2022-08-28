@@ -2,14 +2,14 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { useParams } from 'react-router';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { IconButton, styled, Typography } from '@mui/material';
 import { FavoriteBorderRounded, FavoriteRounded } from '@mui/icons-material';
 
-import { compliments, maxPossibleLikes } from '../assets';
-import { get, update, api } from '../utils';
-import { like } from '../state';
+import { maxPossibleLikes } from '../assets';
+import { get } from '../utils';
+import { useHandleLike } from '../hooks/useHandleLike';
 
 const Container = styled('div')({
 	display: 'flex',
@@ -25,11 +25,11 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 export default function LikeIconButton(props) {
 	const { currentLikes } = props;
 
-	const dispatch = useDispatch();
 	const { id } = useParams();
 	const [compliment, setCompliment] = useState(null);
 	const [userLikes, setUserLikes] = useState(0);
 	const searchData = useSelector((state) => state.searchData);
+	const handleClick = useHandleLike(id, userLikes, setCompliment);
 
 	const setIndexedDbLikesToLocalState = useCallback(() => {
 		get(id).then((val) => {
@@ -37,39 +37,11 @@ export default function LikeIconButton(props) {
 		});
 	}, [id]);
 
-	// sync indexDb value to local state on mount and after like from either button
+	// Sync IndexedDB value to local state on mount and after "like" from either button
 	useEffect(() => {
 		setIndexedDbLikesToLocalState();
 	}, [setIndexedDbLikesToLocalState, searchData]);
 
-	async function handleClick() {
-		if (userLikes >= maxPossibleLikes) return;
-
-		try {
-			// add to mongo for long term global storage
-			await api.post('/like', { id });
-
-			// update redux state so changes are reflected locally without a re-fetch
-			dispatch(like(id));
-
-			// add to indexedDb so they can't leave unlimited likes
-			update(id, (val) => (val || 0) + 1).catch((err) =>
-				console.error('error updating indexedDb:', err)
-			);
-
-			// set a random compliment thats not the one immediately preceeding it
-			setCompliment(
-				(prev) =>
-					compliments.filter((comp) => comp !== prev)[
-						Math.floor(Math.random() * compliments.length)
-					]
-			);
-		} catch (error) {
-			console.error(error.message);
-		}
-	}
-
-	// clear random compliment after 3 seconds
 	useEffect(() => {
 		const clearCompliment = setTimeout(() => {
 			setCompliment(null);
