@@ -2,7 +2,7 @@
   functions = "functions"
   
 [[redirects]]
-  # To handle Heroku free teir removal
+  # To handle Heroku free tier removal
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
