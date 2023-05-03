@@ -85,7 +85,7 @@ export default function ContactModal(props) {
 		setLoading(true);
 
 		try {
-			await api.post('/report', { reason: message, email });
+			await api.post('/contact', { message, email });
 			dispatch(showSnackbar({ message: 'Sent! Thanks' }));
 			setLoading(false);
 			handleClose();
