@@ -2,29 +2,29 @@ import { useEffect, useRef } from 'react';
 
 import { Helmet } from 'react-helmet';
 
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { styled, Fab, useMediaQuery } from '@mui/material';
 import { KeyboardArrowUpRounded } from '@mui/icons-material';
+import { Fab, styled, useMediaQuery } from '@mui/material';
 
 import InfiniteScrollComponent from 'react-infinite-scroll-component';
 
-import { ResultCard, ResultsSpinner, SubmitCard, Suggestions } from './index';
-import {
-	api,
-	spaceout,
-	scrollToResults,
-	titlise,
-	ScrollTrigger,
-} from '../utils';
 import {
 	setLoadingSearch,
 	setSearchData,
-	updateSearchResultsOnScroll,
 	showSnackbar,
+	updateSearchResultsOnScroll,
 } from '../state';
+import {
+	ScrollTrigger,
+	api,
+	scrollToResults,
+	spaceout,
+	titlise,
+} from '../utils';
+import { Footer, ResultCard, ResultsSpinner, SubmitCard } from './index';
 
 const InfiniteScroll = styled(InfiniteScrollComponent)(({ theme }) => ({
 	width: '100%',
@@ -145,7 +145,7 @@ export default function Results() {
 			<ResultsSpinner
 				show={searchData?.results.length < searchData?.totalCount}
 			/>
-			{searchData?.results.length === searchData?.totalCount && <Suggestions />}
+			{searchData?.results.length === searchData?.totalCount && <Footer />}
 			{!window.location.href.includes('/recipe/') && (
 				<ScrollTrigger
 					onScroll="show"

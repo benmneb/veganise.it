@@ -2,7 +2,7 @@ import { Route } from 'react-router-dom';
 
 import { styled } from '@mui/material';
 
-import { Search, Results, Header, Caption, Suggestions } from './index';
+import { Caption, Footer, Header, Results, Search } from './index';
 
 const Main = styled('main')(({ theme }) => ({
 	margin: theme.spacing(4),
@@ -19,7 +19,7 @@ export default function Home() {
 				<Search />
 				<Caption />
 				<Route exact path="/">
-					<Suggestions />
+					<Footer />
 				</Route>
 				<Route exact path="/:term">
 					<Results />
