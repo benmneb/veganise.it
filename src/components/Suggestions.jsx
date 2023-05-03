@@ -14,7 +14,7 @@ const Wrapper = styled('section')({
 	display: 'flex',
 	justifyContent: 'center',
 	flexWrap: 'wrap',
-	maxWidth: 1000,
+	maxWidth: 1100,
 	alignSelf: 'center',
 });
 
