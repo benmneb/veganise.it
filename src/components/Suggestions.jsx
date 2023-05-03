@@ -15,6 +15,7 @@ const Wrapper = styled('section')({
 	justifyContent: 'center',
 	flexWrap: 'wrap',
 	maxWidth: 1000,
+	alignSelf: 'center',
 });
 
 const Headings = styled('div')(({ theme }) => ({
