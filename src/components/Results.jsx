@@ -112,7 +112,14 @@ export default function Results() {
 	}
 
 	return (
-		<div style={{ width: '100%' }}>
+		<div
+			style={{
+				width: '100%',
+				display: 'flex',
+				justifyContent: 'center',
+				flexDirection: 'column',
+			}}
+		>
 			<Helmet>
 				<title>
 					{`Vegan ${searchData?.term ? titlise(searchData.term) : ''} Recipes @
