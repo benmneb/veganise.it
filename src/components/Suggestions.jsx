@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useHistory, useParams } from 'react-router';
 
 import { useSelector } from 'react-redux';
 
-import { styled, Button, Typography, CircularProgress } from '@mui/material';
+import { Button, CircularProgress, Typography, styled } from '@mui/material';
 import { circularProgressClasses } from '@mui/material/CircularProgress';
 
 import { searchSuggestData } from '../assets';
@@ -20,7 +20,7 @@ const Headings = styled('div')(({ theme }) => ({
 	display: 'flex',
 	flexDirection: 'column',
 	textAlign: 'center',
-	margin: theme.spacing(5, 0, 3),
+	margin: theme.spacing(7, 0, 3),
 }));
 
 const SuggestionButton = styled(Button)(({ theme }) => ({
