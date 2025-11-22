@@ -278,7 +278,10 @@ export default function Recipe(props) {
 	function openLightbox(media) {
 		if (media === 'image') {
 			return setLightboxData({
-				url: recipe?.image.replace('https://veganise.it', window.location.origin),
+				url: recipe?.image.replace(
+					'https://veganise.it',
+					window.location.origin
+				),
 				type: 'image',
 				altTag: `${recipe.title} by ${recipe.author} on Veganise It!`,
 			});
@@ -365,12 +368,20 @@ export default function Recipe(props) {
 				<ImageBox onClick={() => openLightbox('image')}>
 					<Gradient />
 					<Image
-						src={recipe?.image.replace(
-							'/recipes/',
-							`/recipes/${
-								mobile ? '750' : background ? '1280' : downHd ? '2560' : '3840'
-							}xAUTO/`
-						).replace('https://veganise.it', window.location.origin)}}
+						src={recipe?.image
+							.replace(
+								'/recipes/',
+								`/recipes/${
+									mobile
+										? '750'
+										: background
+											? '1280'
+											: downHd
+												? '2560'
+												: '3840'
+								}xAUTO/`
+							)
+							.replace('https://veganise.it', window.location.origin)}
 						style={{ zIndex: -1 }}
 					/>
 					{!recipe?.url.includes('sodeliciousdairyfree.com') && (
