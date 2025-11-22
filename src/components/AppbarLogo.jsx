@@ -25,7 +25,7 @@ export default function AppbarLogo() {
 					sx={{ mr: 1, p: 1 }}
 				>
 					<Avatar
-						src="https://veganise.it/images/logos/logo-icon.png"
+						src={`${window.location.origin}/images/logos/logo-icon.png`}
 						variant="square"
 						sx={{ width: 32, height: 32, p: 0, borderRadius: 0.5 }}
 					/>

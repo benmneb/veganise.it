@@ -56,7 +56,7 @@ export default function Header() {
 		<Wrapper>
 			<Gradient />
 			<Image
-				src={`https://veganise.it/images/heros/${width}xAUTO/${random}.jpg`}
+				src={`${window.location.origin}/images/heros/${width}xAUTO/${random}.jpg`}
 				position="absolute"
 				shift="bottom"
 				wrapperStyle={{ position: 'absolute' }}
