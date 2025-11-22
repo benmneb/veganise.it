@@ -278,7 +278,7 @@ export default function Recipe(props) {
 	function openLightbox(media) {
 		if (media === 'image') {
 			return setLightboxData({
-				url: recipe?.image.replace('https://veganise.it', window.location.origin)},
+				url: recipe?.image.replace('https://veganise.it', window.location.origin),
 				type: 'image',
 				altTag: `${recipe.title} by ${recipe.author} on Veganise It!`,
 			});
